@@ -1,0 +1,1146 @@
+﻿<Page x:Class="IWT.Admin_Pages.oldpage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.Admin_Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="oldpage">
+    <Page.Resources>
+        <SolidColorBrush x:Key="Yellowshade" Color="#FFAA33"/>
+        <SolidColorBrush x:Key="Geryshade" Color="#BBC1D1"/>
+        <Style x:Key="TabItemStyle" TargetType="TabItem">
+            <Setter Property="Background" Value="{DynamicResource Geryshade}"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="0 0 5 0"/>
+            <Setter Property="Width" Value="130"/>
+            <Setter Property="Padding" Value="10 8"/>
+            <Setter Property="FontWeight" Value="500"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Grid SnapsToDevicePixels="True">
+                            <Border CornerRadius="5"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    Margin="{TemplateBinding Margin}"/>
+                            <ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              SnapsToDevicePixels="True"
+                                              RecognizesAccessKey="True"
+                                              Margin="{TemplateBinding Padding}"
+                                              ContentSource="Header"
+                                              Focusable="False"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource Geryshade}"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource Yellowshade}"/>
+                                <Setter Property="Foreground" Value="white"/>
+                                <Setter Property="BorderThickness" Value="2"/>
+                                <Setter Property="BorderBrush" Value="red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TabControlStyle" TargetType="TabControl">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Padding" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            
+        <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabControl">
+                        <Grid>
+                            <ContentPresenter ContentSource="SelectedContent"
+                                              SnapsToDevicePixels="True"
+                                              Margin="{TemplateBinding Padding}"/>
+                        </Grid>
+                    </ControlTemplate>
+
+                </Setter.Value>
+            </Setter>
+        
+
+        </Style>
+        <Style x:Key="sandy" TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
+                            <Grid Name="TabPanel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabPanel" Property="Background" Value="#FFDE1717" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="TabPanel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <materialDesign:DialogHost
+  DialogTheme="Inherit">
+        <materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="20"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="20"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    
+    <RowDefinition Height="20"/>
+    
+                </Grid.RowDefinitions>
+                <Label Grid.Column="1" Grid.Row="1" Padding="8 5 0 0" Foreground="Gray" FontWeight="Bold">Role Name</Label>
+                <TextBox Name="Name6" Text="Admin" BorderThickness="1" BorderBrush="Black"  FontWeight="Regular" Foreground="Gray" Grid.Column="2" Grid.Row="1" Margin="8 0 0 0" Width="250" HorizontalAlignment="Left" />
+                <Label Grid.Column="1" Grid.Row="2" Padding="8 10 0 0" Foreground="Gray" FontWeight="Bold">Privileges</Label>
+                <TabControl Grid.Column="1" Grid.Row="3"  Grid.ColumnSpan="2" BorderThickness="0" materialDesign:ShadowAssist.ShadowDepth="Depth5" >
+                    <TabItem Header="General"  Height="40" Width="100" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                            </Grid.RowDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="Gray" FontWeight="Bold">Access Admin</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="0" GroupName="Mail_method" Margin="0 5 0 0" Background="Green" Foreground="Gray" FontWeight="Bold">Access Transaction</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="0" GroupName="Mail_method" Margin="0 5 0 0" Background="Green" Foreground="Gray" FontWeight="Bold">Access Master</RadioButton>
+                            <RadioButton Grid.Row="3" Grid.Column="0" GroupName="Mail_method" Margin="0 5 0 0" Background="Green" Foreground="Gray" FontWeight="Bold">Access Setting</RadioButton>
+                            <RadioButton Grid.Row="4" Grid.Column="0" GroupName="Mail_method" Margin="0 5 0 0" Background="Green" Foreground="Gray" FontWeight="Bold">Access Report</RadioButton>
+
+                            <DataGrid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="4" Name="MaterialGrid" RowHeight="40"
+Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Path='Id'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Path='Role'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="MasterAccess" Binding="{Binding Path='MasterAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="SettingAccess" Binding="{Binding Path='SettingAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Adminaccess" Binding="{Binding Path='Adminaccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="ReportAccess" Binding="{Binding Path='ReportAccess'}" IsReadOnly="True"/>
+                                    
+    <DataGridTextColumn Header="TicketDataEntryAccess" Binding="{Binding Path='TicketDataEntryAccess'}" IsReadOnly="True"/>
+    
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+
+                            <Grid Grid.Row="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Grid.Column="1" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="3" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="LeadPencil" Width="20" Height="20" HorizontalAlignment="Center" Background="RosyBrown"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Clear"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="4" Grid.Row="0" Background="#696969" Width="105" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Red"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete"/>
+                                    </Grid>
+                                </Button>
+
+                                <Button Grid.Column="5" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="ExitToApp" Width="20" Height="20" HorizontalAlignment="Center" Background="Black"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Exit"/>
+                                    </Grid>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+
+
+                    </TabItem>
+                    <TabItem Header="Settings" Width="100" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="230"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                
+    <RowDefinition Height="20"/>
+    
+                            </Grid.RowDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Enable All Hardware Setting</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Software Configuration</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Edit Hardware Profile</RadioButton>
+                            <RadioButton Grid.Row="3" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">ALPR Setting</RadioButton>
+                            <RadioButton Grid.Row="4" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">PLC Port Setting</RadioButton>
+                            <RadioButton Grid.Row="5" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Licensing Dongle Setting</RadioButton>
+                            <RadioButton Grid.Row="6" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">DB Password change access</RadioButton>
+                            <RadioButton Grid.Row="7" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">RFID Writer</RadioButton>
+                            <RadioButton Grid.Row="0" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Remote Display Setting</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Weighbridge Setting</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Biometric Setting</RadioButton>
+                            <RadioButton Grid.Row="3" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">CCTV Setting</RadioButton>
+                            <RadioButton Grid.Row="4" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Email Setting</RadioButton>
+                            <RadioButton Grid.Row="5" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">SMTP Setting</RadioButton>
+                            <RadioButton Grid.Row="6" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Summary Report access</RadioButton>
+                            <RadioButton Grid.Row="7" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">SMS Setting</RadioButton>
+                            <RadioButton Grid.Row="0" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">GSM Modem Setting</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">File Location Setting</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">RFID Port Setting</RadioButton>
+                            <RadioButton Grid.Row="3" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">PLC Enable/Disable</RadioButton>
+                            <RadioButton Grid.Row="4" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Other Setting</RadioButton>
+                            <RadioButton Grid.Row="5" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Import/Export DB</RadioButton>
+                            <RadioButton Grid.Row="6" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Send Mail access</RadioButton>
+                            <DataGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Name="MaterialGrid1" RowHeight="40"
+Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Path='Id'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Path='Role'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="MasterAccess" Binding="{Binding Path='MasterAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="SettingAccess" Binding="{Binding Path='SettingAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Adminaccess" Binding="{Binding Path='Adminaccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="ReportAccess" Binding="{Binding Path='ReportAccess'}" IsReadOnly="True"/>
+                                    
+    <DataGridTextColumn Header="TicketDataEntryAccess" Binding="{Binding Path='TicketDataEntryAccess'}" IsReadOnly="True"/>
+    
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Grid Grid.Row="9" Grid.ColumnSpan="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Grid.Column="1" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="3" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="LeadPencil" Width="20" Height="20" HorizontalAlignment="Center" Background="RosyBrown"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Clear"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="4" Grid.Row="0" Background="#696969" Width="105" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Red"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete"/>
+                                    </Grid>
+                                </Button>
+
+                                <Button Grid.Column="5" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="ExitToApp" Width="20" Height="20" HorizontalAlignment="Center" Background="Black"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Exit"/>
+                                    </Grid>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="Administration" Width="100" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="180"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                
+    <RowDefinition Height="20"/>
+    
+                            </Grid.RowDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Delete Records</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Reachus Entry</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Contacts</RadioButton>
+                            <RadioButton Grid.Row="3" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Delete Access</RadioButton>
+                            <RadioButton Grid.Row="0" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Backup Database</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Salesforce Settings</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="1" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Duplicate Ticket Printing</RadioButton>
+                            <RadioButton Grid.Row="0" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Database Migration</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">User Management</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="2" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Creation Field Creation</RadioButton>
+
+                            <DataGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Name="MaterialGrid2" RowHeight="40"
+Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Path='Id'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Path='Role'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="MasterAccess" Binding="{Binding Path='MasterAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="SettingAccess" Binding="{Binding Path='SettingAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Adminaccess" Binding="{Binding Path='Adminaccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="ReportAccess" Binding="{Binding Path='ReportAccess'}" IsReadOnly="True"/>
+                                    
+    <DataGridTextColumn Header="TicketDataEntryAccess" Binding="{Binding Path='TicketDataEntryAccess'}" IsReadOnly="True"/>
+    
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Grid Grid.Row="9" Grid.ColumnSpan="4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Grid.Column="1" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="3" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="LeadPencil" Width="20" Height="20" HorizontalAlignment="Center" Background="RosyBrown"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Clear"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="4" Grid.Row="0" Background="#696969" Width="105" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Red"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete"/>
+                                    </Grid>
+                                </Button>
+
+                                <Button Grid.Column="5" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="ExitToApp" Width="20" Height="20" HorizontalAlignment="Center" Background="Black"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Exit"/>
+                                    </Grid>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Master" Width="100" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="900"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                
+    <RowDefinition Height="20"/>
+    
+                            </Grid.RowDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Access Material Master</RadioButton>
+                            <RadioButton Grid.Row="1" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Access Supplier Master</RadioButton>
+                            <RadioButton Grid.Row="2" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Access Shift Master</RadioButton>
+                            <RadioButton Grid.Row="3" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Access Vehicle Master</RadioButton>
+                            <RadioButton Grid.Row="4" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Access RFID Master</RadioButton>
+
+
+                            <DataGrid Grid.Row="5" Grid.Column="0" Name="MaterialGrid3" RowHeight="40"
+Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Path='Id'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Path='Role'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="MasterAccess" Binding="{Binding Path='MasterAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="SettingAccess" Binding="{Binding Path='SettingAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Adminaccess" Binding="{Binding Path='Adminaccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="ReportAccess" Binding="{Binding Path='ReportAccess'}" IsReadOnly="True"/>
+                                    
+    <DataGridTextColumn Header="TicketDataEntryAccess" Binding="{Binding Path='TicketDataEntryAccess'}" IsReadOnly="True"/>
+    
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Grid Grid.Row="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Grid.Column="1" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="3" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="LeadPencil" Width="20" Height="20" HorizontalAlignment="Center" Background="RosyBrown"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Clear"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="4" Grid.Row="0" Background="#696969" Width="105" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Red"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete"/>
+                                    </Grid>
+                                </Button>
+
+                                <Button Grid.Column="5" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="ExitToApp" Width="20" Height="20" HorizontalAlignment="Center" Background="Black"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Exit"/>
+                                    </Grid>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="Transaction" Width="100" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="900"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                
+    <RowDefinition Height="20"/>
+    
+                            </Grid.RowDefinitions>
+                            <RadioButton Grid.Row="0" Grid.Column="0" GroupName="Mail_method" Margin="0 10 0 0" Background="Green" Foreground="gray" FontWeight="Bold">Close Tickets</RadioButton>
+
+
+                            <DataGrid Grid.Row="5" Grid.Column="0" Name="MaterialGrid4" RowHeight="40"
+Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" CanUserAddRows="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Path='Id'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Role" Binding="{Binding Path='Role'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="MasterAccess" Binding="{Binding Path='MasterAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="SettingAccess" Binding="{Binding Path='SettingAccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="Adminaccess" Binding="{Binding Path='Adminaccess'}" IsReadOnly="True"/>
+                                    <DataGridTextColumn Header="ReportAccess" Binding="{Binding Path='ReportAccess'}" IsReadOnly="True"/>
+                                    
+    <DataGridTextColumn Header="TicketDataEntryAccess" Binding="{Binding Path='TicketDataEntryAccess'}" IsReadOnly="True"/>
+    
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            <Grid Grid.Row="6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <Button Grid.Column="1" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="3" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="LeadPencil" Width="20" Height="20" HorizontalAlignment="Center" Background="RosyBrown"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Clear"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="4" Grid.Row="0" Background="#696969" Width="105" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Red"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete"/>
+                                    </Grid>
+                                </Button>
+
+                                <Button Grid.Column="5" Grid.Row="0" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <materialDesign:PackIcon Kind="ExitToApp" Width="20" Height="20" HorizontalAlignment="Center" Background="Black"/>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Exit"/>
+                                    </Grid>
+                                </Button>
+
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                </TabControl>
+
+            </Grid>
+        </materialDesign:DialogHost.DialogContent>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                
+    <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="auto"/>
+    
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TabControl Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Style="{DynamicResource TabControlStyle}">
+                <TabItem  Style="{DynamicResource TabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="AccountGroup"  Width="40" Height="40" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Manage Users"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="120"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <materialDesign:Card Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="white" Padding="15 15 0 16" Margin="0 10 0 0" Width="340"  HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                
+    <Label HorizontalAlignment="Left" Margin="0,14,0,0" Width="42.033">Name:</Label>
+    
+                                <materialDesign:PackIcon Kind="AccountBox" Width="40" Height="30" HorizontalAlignment="Center" Background="DarkBlue"/>
+                                <materialDesign:PackIcon Kind="Account" Grid.Row="1" Width="40" Height="30" HorizontalAlignment="Center" Background="Pink"/>
+                                <materialDesign:PackIcon Kind="Email" Grid.Row="2" Width="40" Height="30" HorizontalAlignment="Center" Background="Orange"/>
+                                
+    <Label Grid.Row="1" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Email:</Label>
+                        <Label Grid.Row="2" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Other:</Label>
+    
+                                <TextBox Name="Name" Text="ID" FontWeight="Regular" Foreground="Gray" Grid.Column="1" Grid.Row="0"  Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" />
+                                <TextBox Name="Email" Text="User Name" FontWeight="Regular" Grid.Column="1" Grid.Row="1" Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" Foreground="Gray" />
+                                <TextBox Name="Other" Text="Email" FontWeight="Regular" Grid.Column="1" Grid.Row="2" Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" Foreground="Gray" />
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card  Grid.Column="3" Grid.ColumnSpan="5" Background="white" Padding="15 15 0 16" Margin="0 10 0 0" Width="340"  HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                
+    <Label HorizontalAlignment="Left" Margin="0,14,0,0" Width="42.033">Name:</Label>
+    
+                                <materialDesign:PackIcon Kind="KeyChain" Width="40" Height="30" HorizontalAlignment="Center" Background="red"/>
+                                <materialDesign:PackIcon Kind="KeyChain" Grid.Row="1" Width="40" Height="30" HorizontalAlignment="Center" Background="red"/>
+                                <materialDesign:PackIcon Kind="FileChartOutline" Grid.Row="2" Width="40" Height="30" HorizontalAlignment="Center" Background="Orange"/>
+                                
+    <Label Grid.Row="1" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Email:</Label>
+                        <Label Grid.Row="2" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Other:</Label>
+    
+                                <TextBox Name="Name1" Text="Password" FontWeight="Regular" Foreground="Gray" Grid.Column="1" Grid.Row="0"  Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" />
+                                <TextBox Name="Email1" Text="Confirm Password" FontWeight="Regular" Grid.Column="1" Grid.Row="1" Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" Foreground="Gray" />
+                                <TextBox Name="Other1" Text="Hardware Profile" FontWeight="Regular" Grid.Column="1" Grid.Row="2" Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" Foreground="Gray" />
+                            </Grid>
+                        </materialDesign:Card>
+                        <materialDesign:Card  Grid.Column="6" Background="white" Padding="15 15 0 16" Margin="0 10 0 0" Width="340" Height="auto" HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"></ColumnDefinition>
+                                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+
+                                
+    <Label HorizontalAlignment="Left" Margin="0,14,0,0" Width="42.033">Name:</Label>
+    
+                                <materialDesign:PackIcon Kind="AccountCheckOutline" Width="40" Height="30" HorizontalAlignment="Center" Background="Pink"/>
+                                <materialDesign:PackIcon Kind="LockOpenOutline" Grid.Row="1" Width="40" Height="30" HorizontalAlignment="Center" Background="Orange"/>
+                                
+    <Label Grid.Row="1" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Email:</Label>
+                        <Label Grid.Row="2" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Other:</Label>
+    
+                                <StackPanel Grid.Column="1" Grid.Row="0" Margin="10" Width="250">
+                                    <ComboBox Foreground="Gray">
+                                        <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                                        <ComboBoxItem IsSelected="True">Role</ComboBoxItem>
+                                        <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                                    </ComboBox>
+                                </StackPanel>
+                                
+    <TextBox Name="Name2" Text="ID" FontWeight="Regular" Foreground="Gray" Grid.Column="1" Grid.Row="0"  Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" />
+    
+                                <RadioButton Grid.Row="1" Grid.Column="1" Margin="10,8,0,13" GroupName="Mail_method" Background="Green" Foreground="Gray">isLocked</RadioButton>
+                                
+    <TextBox Name="Email2" Text="User Name" FontWeight="Regular" Grid.Column="1" Grid.Row="1" Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" Foreground="Gray" />
+    
+                            </Grid>
+                        </materialDesign:Card>
+                        <Button Grid.Row="1" Grid.Column="0" Background="#696969" Width="100" ToolTip="Resource name: MaterialDesignRaisedLightButton" Margin="0 25 0 0"
+                         HorizontalAlignment="Left"
+        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                            </Grid>
+
+                        </Button>
+                        <Button Grid.Column="1" Grid.Row="1" Background="#696969" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" >
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save" HorizontalAlignment="Left" Width="45"/>
+                            </Grid>
+                        </Button>
+                        
+    <Button Grid.Column="1" Grid.Row="1" Background="#A9A9A9" Width="100" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Height="32" VerticalAlignment="Top">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="wheat"/>
+                            <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                        </Grid>
+                    </Button>
+    
+                        <Button Grid.Column="2" Grid.Row="1" Background="#696969" Width="108" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="LeadPencil" Width="20" Height="20" HorizontalAlignment="Center" Background="RosyBrown"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Edit" HorizontalAlignment="Left" Width="45"/>
+                            </Grid>
+                        </Button>
+                        
+    <Button Grid.Column="2" Grid.Row="1" Background="#A9A9A9" Width="108" Margin="0 25 0 0"
+                          HorizontalAlignment="Left">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="wheat"/>
+                            <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Update"/>
+                        </Grid>
+                    </Button>
+    
+                        <Button Grid.Column="3" Grid.Row="1" Background="#696969" Width="108" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="Green"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Update" HorizontalAlignment="Left" Width="60"/>
+                            </Grid>
+                        </Button>
+                        <Button Grid.Column="4" Grid.Row="1" Background="#696969" Width="108" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Red"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete" HorizontalAlignment="Left" Width="50"/>
+                            </Grid>
+                        </Button>
+                        <Button Grid.Column="5" Grid.Row="1" Grid.ColumnSpan="6" Background="#696969" Width="180" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="AccountCheckOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="Pink"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Roles/Privileges" HorizontalAlignment="Left" Width="115"/>
+                            </Grid>
+                        </Button>
+                    </Grid>
+                </TabItem>
+                <TabItem Style="{DynamicResource TabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="FileOutline"  Width="40" Height="40" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Ticket Data Entry"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid Background="White">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="300"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="20"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="20"/>
+                        </Grid.RowDefinitions>
+                        <materialDesign:PackIcon Kind="BatteryHigh" Grid.Column="1" Grid.Row="1" Width="20" Height="20" Background="wheat"/>
+                        
+    <TextBlock Grid.Column="0" Text="Close" HorizontalAlignment="Left" Width="45" Foreground="Black" />
+    
+                        <TextBlock Grid.Column="1" Grid.Row="1" Margin="40 0 0 0" Text="Select Field Type" Foreground="Gray"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
+                        <RadioButton Grid.Row="1" Grid.Column="2" GroupName="Mail_method" Background="Green" Foreground="Gray">Text Box</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="2" Margin="100 0 0 0" GroupName="Mail_method" Background="Green" Foreground="Gray">Dropdown List</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="3" GroupName="Mail_method" Background="Green" Foreground="Gray">Data Dependency Field</RadioButton>
+                        <RadioButton Grid.Row="1" Grid.Column="3" Margin="200 0 0 0" GroupName="Mail_method" Background="Green" Foreground="Gray">Formula Field</RadioButton>
+                        <materialDesign:PackIcon Kind="Table"  Grid.Row="2" Grid.Column="1" Margin="0 40 0 0" Width="20" Height="20" Background="wheat" />
+                        <TextBlock Grid.Column="1" Grid.Row="2" Margin="40 0 0 0" Text="Select Table"  Foreground="Gray"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
+                        <StackPanel Grid.Column="2" Grid.Row="2" Width="250" Margin="0 36 0 0">
+                            <ComboBox Foreground="Gray">
+                                <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                                <ComboBoxItem IsSelected="True">Select</ComboBoxItem>
+                                <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        
+    <TextBox Name="Name9" Text="Admin" BorderThickness="1" BorderBrush="Black"  FontWeight="Regular" Foreground="Gray" Grid.Column="2" Grid.Row="2" Margin="8 0 0 0" Width="250" Height="30"  HorizontalAlignment="Left" />
+    
+                        <Button Grid.Column="1" Grid.Row="3" Background="#696969" Width="150" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="SkipNext" Width="20" Height="20" Margin="0 0 50 0" HorizontalAlignment="Left" Background="Orange"/>
+                                <TextBlock Grid.Column="1" Margin="0 0 40 0" HorizontalAlignment="Center" Text="Next"/>
+                            </Grid>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="3" Background="#696969" Width="150" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="EyeOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="wheat"/>
+                                <TextBlock Grid.Column="1" Padding="30 0 0 0" Text="View Field"/>
+                            </Grid>
+                        </Button>
+                        <Button Grid.Column="1" Grid.Row="4" Background="#696969" Width="150" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="PlusCircleOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="RoyalBlue"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Create Master"/>
+                            </Grid>
+                        </Button>
+                        <Button Grid.Column="2" Grid.Row="4" Background="#696969" Width="150" Margin="0 25 0 0"
+                         HorizontalAlignment="Left">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <materialDesign:PackIcon Kind="DeleteOutline" Width="20" Height="20" HorizontalAlignment="Center" Background="red"/>
+                                <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete Master"/>
+                            </Grid>
+                        </Button>
+                    </Grid>
+
+                </TabItem>
+                <TabItem  Style="{DynamicResource TabItemStyle}">
+                    <TabItem.Header>
+                        <StackPanel>
+                            <materialDesign:PackIcon Kind="FileOutline"  Width="40" Height="40" HorizontalAlignment="Center"/>
+                            <TextBlock Text="Print/Delete Ticket"/>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="250"/>
+                            <ColumnDefinition Width="500"/>
+                            <ColumnDefinition Width="200"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Margin="10" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Width="300">
+                            <ComboBox Foreground="Gray">
+                                <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                                <ComboBoxItem IsSelected="True">Selection Basis</ComboBoxItem>
+                                <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Margin="10" Grid.Column="0" Grid.Row="1" Width="210" HorizontalAlignment="Left">
+                            <ComboBox Foreground="Gray">
+                                <ComboBoxItem>ComboBox Item #1</ComboBoxItem>
+                                <ComboBoxItem IsSelected="True">Select Operations</ComboBoxItem>
+                                <ComboBoxItem>ComboBox Item #3</ComboBoxItem>
+                            </ComboBox>
+                        </StackPanel>
+                        <TextBox Name="Email3" Text="Number" FontWeight="Regular" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" Margin="20" Width="250" HorizontalAlignment="Right" Foreground="Gray" />
+                        <DatePicker Grid.Column="0" Grid.Row="2" Height="25" HorizontalAlignment="Left" Margin="10" Name="datePicker1" VerticalAlignment="Top" Width="210" Foreground="Gray"/>
+                        <DatePicker Grid.Column="1" Grid.Row="2" Height="25" HorizontalAlignment="Right" Margin="10" Name="datePicker2" VerticalAlignment="Top" Width="260" Foreground="Gray"/>
+                        <Button Grid.Column="3" Grid.Row="0" Background="#696969" Margin="10" Width="100"
+                         HorizontalAlignment="Right">
+                            <TextBlock Text="Append"/>
+                        </Button>
+                        <Button Grid.Column="3" Grid.Row="1" Background="#696969" Margin="10" Width="100"
+                         HorizontalAlignment="Right">
+                            <TextBlock Text="Build"/>
+                        </Button>
+                        <Button Grid.Column="3" Grid.Row="2" Background="#696969" Margin="10" Width="100"
+                         HorizontalAlignment="Right">
+                            <TextBlock Text="Clear"/>
+                        </Button>
+
+                        <DataGrid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Name="MaterialGrid5" RowHeight="40"
+                         Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                         ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" CanUserAddRows="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Action" Binding="{Binding Path='Action'}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="TicketNumber" Binding="{Binding Path='TicketNumber'}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="VehicleNumber" Binding="{Binding Path='VehicleNumber'}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Date" Binding="{Binding Path='Date'}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Time" Binding="{Binding Path='Time'}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="EmptyWeight" Binding="{Binding Path='EmptyWeight'}" IsReadOnly="True"/>
+                                
+    <DataGridTextColumn Header="TicketDataEntryAccess" Binding="{Binding Path='TicketDataEntryAccess'}" IsReadOnly="True"/>
+    
+                            </DataGrid.Columns>
+                        </DataGrid>
+                        <Button Grid.Column="1" Grid.Row="4" Background="#696969" Margin="10" Width="100"
+                         HorizontalAlignment="Right">
+                            <TextBlock Text="Delete"/>
+                        </Button>
+                        <Button Grid.Column="1" Grid.Row="4" Background="#696969" Margin="10" Width="100"
+                         HorizontalAlignment="Center">
+                            <TextBlock Text="Print"/>
+                        </Button>
+                        
+    <TextBlock Text="Material Master2" Foreground="{DynamicResource Geryshade}"
+                               FontSize="14"
+                               FontWeight="bold"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"/>
+    
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+        </Grid>
+    </materialDesign:DialogHost>
+</Page>

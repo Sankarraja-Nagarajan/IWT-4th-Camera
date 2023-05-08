@@ -1,0 +1,358 @@
+﻿<Page x:Class="IWT.TransactionPages.FirstMulti"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.TransactionPages"
+      xmlns:lc="clr-namespace:IWT"
+      xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="FirstMulti">
+    <!---->
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="2"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <!--<RowDefinition Height="auto"></RowDefinition>-->
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Background="LightGray">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Margin="0 0 2 2">
+                <Border Height="80" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                            <Image   Source="/Assets/Icons/Transactions.png"  Height="40" ></Image>
+                            <TextBlock x:Name="EmptyLoadedLabel" Text="Empty" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FF636363"></TextBlock>
+                        </StackPanel>
+                        <ToggleButton x:Name="ToggleButton" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" 
+                                      Style="{DynamicResource MaterialDesignSwitchToggleButton}" IsChecked="False" Margin="0 0 0 25" Click="ToggleButton_Click">
+                            <ToggleButton.RenderTransform >
+                                <TransformGroup>
+                                    <RotateTransform Angle="90" />
+                                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                                </TransformGroup>
+                            </ToggleButton.RenderTransform>
+                            <materialDesign:PackIcon Kind="TruckFlatbed" RenderTransformOrigin=".5,.5">
+                                <materialDesign:PackIcon.RenderTransform>
+                                    <RotateTransform Angle="-90" />
+                                </materialDesign:PackIcon.RenderTransform>
+                            </materialDesign:PackIcon>
+                            <materialDesign:ToggleButtonAssist.OnContent>
+                                <materialDesign:PackIcon Kind="TruckOutline" RenderTransformOrigin=".5,.5">
+                                    <materialDesign:PackIcon.RenderTransform>
+                                        <RotateTransform Angle="-90" />
+                                    </materialDesign:PackIcon.RenderTransform>
+                                </materialDesign:PackIcon>
+                            </materialDesign:ToggleButtonAssist.OnContent>
+                        </ToggleButton>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="0 0 2 2">
+                <Border Height="80" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                            <Image   Source="/Assets/Icons/Weight_Bridge.png" Height="60" ></Image>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                <TextBlock x:Name="EmptyWeight1" FontSize="30" FontFamily="Segoe UI Semibold" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center">0</TextBlock>
+                                <TextBlock Margin="4 0 0 0" FontSize="14" VerticalAlignment="Bottom">kg</TextBlock>
+                            </StackPanel>
+                            <TextBlock Text="Empty Weight" VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FF636363"></TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Column="2" Margin="0 0 2 2">
+                <Border Height="80" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                            <Image Source="/Assets/Icons/Loaded_weight.png" Height="60" ></Image>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                <TextBlock x:Name="LoadedWeight" FontSize="30" FontFamily="Segoe UI Semibold" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center">0</TextBlock>
+                                <TextBlock Margin="4 0 0 0" FontSize="14" VerticalAlignment="Bottom">kg</TextBlock>
+                            </StackPanel>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FF636363">Loaded Weight</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+            <StackPanel Grid.Column="3">
+                <Border Height="80" Background="White">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                            <Image   Source="/Assets/Icons/Net_Weight.png" Height="60" ></Image>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                                <TextBlock x:Name="NetWeight1" FontSize="30" FontFamily="Segoe UI Semibold" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center">0</TextBlock>
+                                <TextBlock Margin="4 0 0 0" FontSize="14" VerticalAlignment="Bottom">kg</TextBlock>
+                            </StackPanel>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FF636363">Net Weight</TextBlock>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </StackPanel>
+        </Grid>
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <WrapPanel x:Name="dynamicWrapPanel" Background="White" Orientation="Vertical" Height="194">
+                <Border BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/eMaterial.png" Width="50"></Image>
+                        <ComboBox x:Name="NumberOfMaterials" Width="180" Margin="10 -15 10 0" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Number of Materials" 
+                                  FontSize="14" FontFamily="Segoe UI Semibold" Style="{DynamicResource MaterialDesignFloatingHintComboBox}">
+                            <ComboBoxItem>1</ComboBoxItem>
+                            <ComboBoxItem>2</ComboBoxItem>
+                            <ComboBoxItem>3</ComboBoxItem>
+                            <ComboBoxItem>4</ComboBoxItem>
+                            <ComboBoxItem>5</ComboBoxItem>
+                            <ComboBoxItem>6</ComboBoxItem>
+                            <ComboBoxItem>7</ComboBoxItem>
+                            <ComboBoxItem>8</ComboBoxItem>
+                            <ComboBoxItem>9</ComboBoxItem>
+                            <ComboBoxItem>10</ComboBoxItem>
+                            <ComboBoxItem>11</ComboBoxItem>
+                            <ComboBoxItem>12</ComboBoxItem>
+                            <ComboBoxItem>13</ComboBoxItem>
+                            <ComboBoxItem>14</ComboBoxItem>
+                            <ComboBoxItem>15</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/Vehicle_Number.png" Width="50"></Image>
+                        <TextBox PreviewTextInput="VehicleNumber_PreviewTextInput" CharacterCasing="Upper" MaxLength="10" x:Name="VehicleNumber" Tag="VehicleNumber" TextChanged="CustomFieldTextBox_TextChanged" Width="140" Margin="10 -15 10 0" 
+                                 VerticalAlignment="Center" materialDesign:HintAssist.Hint="Vehicle Number" FontSize="14" FontFamily="Segoe UI Semibold"
+                                 PreviewKeyDown="VehicleNumber_PreviewKeyDown" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                        <Button Margin="10 0 20 0" Click="Vehicle_Button_Click"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Right"
+                        Width="21" Height="21"
+                        Content="{materialDesign:PackIcon Kind=Plus, Size=20}"/>
+                    </StackPanel>
+                </Border>
+                <Border Visibility="Collapsed" x:Name="Type_Container" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/potype.png" Width="50"></Image>
+                        <ComboBox Width="200" Margin="10 -15 10 0" x:Name="Types" materialDesign:HintAssist.Hint="Type"
+                                  FontSize="14" FontFamily="Segoe UI Semibold" IsReadOnly="True" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="Collapsed" x:Name="document" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/eMaterial.png" Width="50"></Image>
+                        <TextBox Width="200" Margin="10 -15 10 0" x:Name="DocumentNumber" Tag="DocumentNumber" VerticalAlignment="Center"
+                                FontSize="14" FontFamily="Segoe UI Semibold" IsReadOnly="True" materialDesign:HintAssist.Hint="Document Number" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="Collapsed" x:Name="gatePassNumber" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/eMaterial.png" Width="50"></Image>
+                        <TextBox Width="200" Margin="10 -15 10 0" x:Name="GatePassNumber" Tag="GatePassNumber" VerticalAlignment="Center"
+                                FontSize="14" FontFamily="Segoe UI Semibold" IsReadOnly="True" materialDesign:HintAssist.Hint="Gate Pass Number" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                    </StackPanel>
+                </Border>
+
+                <Border Visibility="Collapsed" x:Name="tokenNumber" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/Token.png" Width="50"></Image>
+                        <TextBox Width="200" Margin="10 -15 10 0" x:Name="TokenNumber" Tag="TokenNumber" VerticalAlignment="Center"
+                                FontSize="14" FontFamily="Segoe UI Semibold" IsReadOnly="True" materialDesign:HintAssist.Hint="Token Number" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="LightGray" BorderThickness="1" x:Name="AutoSMS_Container" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/Mobile.png" Width="50"></Image>
+                        <TextBox Tag="AutoMobileNumber" TextChanged="CustomFieldTextBox_TextChanged" x:Name="Auto_MobileNumber" Width="180" Margin="10 -15 10 0" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Phone Number" 
+                                 FontSize="14" FontFamily="Segoe UI Semibold" PreviewTextInput="Constant_PreviewTextInput" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                    </StackPanel>
+                </Border>
+                <Border BorderBrush="LightGray" BorderThickness="1" x:Name="AutoMail_Container" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Height="60">
+                        <Image Margin="10" Source="/Assets/Icons/Email_Setting.png" Width="50"></Image>
+                        <TextBox Tag="AutoEmail" TextChanged="CustomFieldTextBox_TextChanged" x:Name="Auto_Email" Width="180" Margin="10 -15 10 0" VerticalAlignment="Center" materialDesign:HintAssist.Hint="Email" 
+                                 FontSize="14" FontFamily="Segoe UI Semibold" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                    </StackPanel>
+                </Border>
+            </WrapPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Border Height="200" Width="250" Background="Azure" Margin="0 0 10 0">
+                <Image x:Name="image1" Stretch="UniformToFill"></Image>
+            </Border>
+            <Border Height="200" Width="250" Background="Azure" Margin="0 0 10 0">
+                <Image x:Name="image2" Stretch="UniformToFill"></Image>
+            </Border>
+            <Border Height="200" Width="250" Background="Azure">
+                <Image x:Name="image3" Stretch="UniformToFill"></Image>
+            </Border>
+        </StackPanel>
+        <StackPanel Background="White" Grid.Row="4" Orientation="Horizontal">
+            <Button x:Name="WeighButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" IsDefault="True" IsEnabled="False" Click="Weigh_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/weight.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Weigh"/>
+                </Grid>
+            </Button>
+            <Button x:Name="SaveButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" IsEnabled="False" Click="Save_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                </Grid>
+            </Button>
+            <Button Click="Cancel_Button_Click" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Cancel.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Cancel"/>
+                </Grid>
+            </Button>
+        </StackPanel>
+        <!--<Popup  x:Name="TicketDialog" StaysOpen="True" IsOpen="False" 
+            AllowsTransparency="False" PopupAnimation="Slide" Placement="Center" Height="600" Width="600" Margin="20">
+            <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"></RowDefinition>
+                    <RowDefinition Height="8*"></RowDefinition>
+                    <RowDefinition Height="1*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"></ColumnDefinition>
+                    <ColumnDefinition Width="1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" Background="White" x:Name="CloseButton"
+                        Click="CloseButton_Click" >
+                    <materialDesign:PackIcon Kind="Close" Height="15"  Width="15" />
+                </Button>
+                <WindowsFormsHost Grid.Row="1" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Height="450" Margin="10" VerticalAlignment="Center" Width="550">
+                    <rv:ReportViewer x:Name="ReportViewerDemo"/>
+                </WindowsFormsHost>
+                <Grid Grid.Row="2" Grid.ColumnSpan="2"  Margin="0">
+                    <Button x:Name="PrintBtn" Content="Print" Width="120" Height="40" VerticalAlignment="Top" Click="PrintBtn_Click"/>
+                </Grid>
+            </Grid>
+        </Popup>-->
+        <lc:NonTopmostPopup  x:Name="TicketDialog" StaysOpen="True" IsOpen="False" 
+            AllowsTransparency="False" VerticalOffset="-60"
+                             PopupAnimation="Slide" Placement="Center" Height="600" Width="640">
+            <Border BorderBrush="Black" BorderThickness="1">
+                <Grid Background="White" HorizontalAlignment="Center" VerticalAlignment="Center" Height="600" Width="636">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"></RowDefinition>
+                        <RowDefinition Height="8*"></RowDefinition>
+                        <RowDefinition Height="1*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" Background="White" x:Name="CloseButton"
+                        Click="CloseButton_Click" Height="30" Width="30">
+                        <materialDesign:PackIcon Kind="Close" Height="10"  Width="10" />
+                    </Button>
+                    <WindowsFormsHost Grid.Row="1" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Height="500" Margin="10" VerticalAlignment="Center" Width="620">
+                        <rv:ReportViewer x:Name="ReportViewerDemo1"/>
+                    </WindowsFormsHost>
+                    <!--</Grid>
+                        </Border>-->
+                    <!--<Button Content="    Print" Background="Gray" HorizontalAlignment="Left" Height="Auto" Margin="498,208,0,260" Width="90" RenderTransformOrigin="0.933,0.767"/>-->
+                    <!--<Image Source="/Assets/Icons/print.png" HorizontalAlignment="Left" Height="19" Margin="454,458,0,0" VerticalAlignment="Top" Width="16" RenderTransformOrigin="7.387,-0.212"/>-->
+                    <!--408,543,0,318-->
+                    <!--<Border Background="Black" CornerRadius="10" Margin="24,-139,-14,-20">
+                            <Grid >
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>-->
+
+                    <Grid Grid.Row="2" Grid.ColumnSpan="2"  Margin="0">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <!--<Button x:Name="PrintBtn" Content="Print" Width="120" Height="40" VerticalAlignment="Top" Click="PrintBtn_Click"/>-->
+                            <Button Margin="0 10 10 10" x:Name="SMSBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SMSBtn_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/Icons/sms.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="SMS"/>
+                                </Grid>
+                            </Button>
+                            <Button Margin="0 10 10 10" x:Name="EmailBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="EmailBtn_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/Icons/Email.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Email"/>
+                                </Grid>
+                            </Button>
+                            <Button Margin="0 10 10 10" x:Name="PrintBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="PrintBtn_Click">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/Icons/print.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Print"/>
+                                </Grid>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+            </Border>
+
+        </lc:NonTopmostPopup>
+
+    </Grid>
+</Page>

@@ -1,0 +1,64 @@
+﻿<Page x:Class="IWT.Setting_Pages.Weighing"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      mc:Ignorable="d" 
+      TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Weighing">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>        
+        <materialDesign:Card Margin="0 20 0 0" Height="200" Grid.Row="0"  VerticalAlignment="Top" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth3" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30*"></RowDefinition>
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="30*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="20*"/>
+                </Grid.ColumnDefinitions>                
+                <StackPanel Grid.ColumnSpan="4" Margin="10">
+                    <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">Weigh Bridge</TextBlock>
+                    <Separator Margin="0 5"/>
+
+                </StackPanel>
+
+                <Image Grid.Row="1" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="Host" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Name="Host" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                
+                <Image Grid.Row="2" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="Port" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                <TextBox Grid.Row="2" Grid.Column="2" Name="Port" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                
+                <Button Grid.Column="3"  Grid.Row="2" Content="Launch WeighSoft" Margin="10 0 10 0" Background="#FF6C6C6C" BorderBrush="#0000" > </Button>
+            </Grid>
+        </materialDesign:Card>
+        <!--<Button Grid.Row="1" Width="100" x:Name="Weight_Launch" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Click="Weight_Launch_Click">
+            <Grid Width="50">
+                <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+            </Grid>
+        </Button>-->
+        <Button Grid.Row="1" Margin="0 10" x:Name="Weight_Launch" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="Weight_Launch_Click" HorizontalAlignment="Left" Width="140">
+            <StackPanel Orientation="Horizontal">
+                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                <TextBlock Padding="10 0 0 0" Text="Save"/>
+            </StackPanel>
+        </Button>
+    </Grid>
+    
+</Page>

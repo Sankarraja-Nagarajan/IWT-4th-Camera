@@ -1,0 +1,181 @@
+﻿<UserControl x:Class="IWT.Admin_Pages.FormulaFieldDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Admin_Pages" xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+                 xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                 d:DesignHeight="650" d:DesignWidth="900">
+    <materialDesign:DialogHost Identifier="FormulaDialogHost">
+        <Grid Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="30"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1">
+                <TextBlock Margin="0 0 0 4" FontFamily="Segoe UI Semibold" FontSize="18">Formula Designer</TextBlock>
+            </Grid>
+            <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1"></Border>
+            <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="47*"/>
+                    <ColumnDefinition Width="147*"/>
+                    <ColumnDefinition Width="599*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="0 12 0 0" FontFamily="Segoe UI Semibold" FontSize="16" Grid.ColumnSpan="4">Formula Designer Details</TextBlock>
+            </Grid>
+
+            <Grid Grid.Row="5" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="130"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="/Assets/Icons/User_name.png" Width="20"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Name</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBox x:Name="FormulaName" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Formula Name" FontWeight="Regular" Foreground="Gray" Width="280"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button Click="Formula_Template_Button_Click" BorderBrush="#FFA7A6A9"
+                              Style="{StaticResource MaterialDesignPaperLightButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Margin="0 0 10 0">Formula</TextBlock>
+                                <Image Source="/Assets/Icons/edit.png" Width="20"></Image>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="1" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="130"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="/Assets/Icons/Field_name.png" Width="20"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Field Name</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <ComboBox x:Name="FieldName" DisplayMemberPath="column_name" SelectionChanged="FieldName_SelectionChanged" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select"  Width="280">
+
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button x:Name="FieldBtn" IsEnabled="False" Click="Field_Button_Click" BorderBrush="#FFA7A6A9"
+                              Style="{StaticResource MaterialDesignPaperLightButton}">
+                            <Image Source="/Assets/Icons/Dont_know.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="2" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="130"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="/Assets/Icons/Operator.png" Width="20"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Operator</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <ComboBox x:Name="Operator" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select" SelectionChanged="Operator_SelectionChanged"  Width="280">
+
+                        </ComboBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button x:Name="OperatorBtn" IsEnabled="False" Click="Operator_Button_Click" BorderBrush="#FFA7A6A9"
+                              Style="{StaticResource MaterialDesignPaperLightButton}">
+                            <Image Source="/Assets/Icons/Dont_know.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="3" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="130"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="/Assets/Icons/Field_name.png" Width="20"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Constant</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBox x:Name="Constant" KeyUp="Constant_KeyUp" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Constant" FontWeight="Regular" Foreground="Gray" Width="280" PreviewTextInput="Constant_PreviewTextInput"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button x:Name="ConstantBtn" IsEnabled="False" Click="Constant_Button_Click" BorderBrush="#FFA7A6A9"
+                              Style="{StaticResource MaterialDesignPaperLightButton}">
+                            <Image Source="/Assets/Icons/Dont_know.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="4" Margin="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"></ColumnDefinition>
+                        <ColumnDefinition Width="150"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="130"></ColumnDefinition>
+                        <ColumnDefinition Width="20"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0" Source="/Assets/Icons/Formula.png" Width="20"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                        <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Formula</TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBox x:Name="Formula" IsReadOnly="True" Style="{StaticResource MaterialDesignOutlinedTextBox}" Height="100" VerticalScrollBarVisibility="Auto" materialDesign:HintAssist.Hint="Formula" FontWeight="Regular" Foreground="Gray" Width="280"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Button Click="Clear_Button_Click" BorderBrush="#FFA7A6A9"
+                              Style="{StaticResource MaterialDesignPaperLightButton}">
+                            <Image Source="/Assets/Icons/CLose.png"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+            <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="SaveBtn" IsDefault="True" Width="100" BorderBrush="#FF343138" Background="#FF5C5961" Click="Save_Button_Click"
+                   Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                   Content="Save">
+                </Button>
+                <Button IsCancel="True" Width="100" Margin="20 0 0 0" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                   Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                   Content="Cancel" BorderBrush="#FF343138" Background="#FF5C5961">
+                </Button>
+            </StackPanel>
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>

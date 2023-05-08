@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="IWT.FactorySetupPages.EmailSettingsDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.FactorySetupPages"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="533.759" d:DesignWidth="800">
+    <Grid Background="White" Width="800">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <TextBlock Margin="0 0 0 4" FontFamily="Segoe UI Semibold" FontSize="18">Email Settings</TextBlock>
+        </Grid>
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1"></Border>
+        <Grid Grid.Row="3" Grid.Column="1" Margin="30 30 30 0">
+            <StackPanel>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/To.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="To" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="ToMail" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/CC.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="CC" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="CCMail" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/From.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="From" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="FromMail" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Password.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Password" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <PasswordBox x:Name="Password" materialDesign:TextFieldAssist.HasClearButton="True" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Subject.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Subject" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="Subject" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Message.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Message" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="Message" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1" TextWrapping="Wrap"
+                         MaxLength="1000"
+                         IsReadOnly="False"
+                         AcceptsReturn="True"
+                             Height="80"/>
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Click="Previous_Button_Click" Content="Back" Margin="0 0 30 0"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                        Width="100" Background="#FFCE1921" BorderBrush="#FFE8212A"/>
+                <Button Click="Next_Button_Click" IsDefault="True" Content="Next"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                        Width="100" Background="#FFCE1921" BorderBrush="#FFE8212A"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,834 @@
+﻿<UserControl x:Class="IWT.Views.SummaryReports"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Views" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
+                            <Grid Name="TabPanel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabPanel" Property="Background" Value="#FFDE1717" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <!--<Setter Property="Foreground" Value="Green"/>-->
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="TabPanel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <materialDesign:DialogHost Identifier="ReportDialog">
+
+        <Grid>
+            <TabControl  BorderThickness="0" Name="ReportTabControl" materialDesign:ShadowAssist.ShadowDepth="Depth5" SelectionChanged="ReportTabControl_SelectionChanged">
+                <TabItem HorizontalAlignment="Left" x:Name="GenerateReportTabItem" Uid="1"  Height="50" Width="290" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Image Source="/Assets/Icons/Report_Icon.png" VerticalAlignment="Center" Width="40" Margin="0 0 10 0"/>
+                            <Label VerticalAlignment="Center" x:Name="GenerateReportLabel" >Generate Report</Label>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card Grid.Row="0" Height="70" VerticalAlignment="Top" Margin="0 10 0 0">
+                            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                                <StackPanel Width="250" Orientation="Horizontal">
+                                    <Image Source="/Assets/Icons/Select_Template.png" VerticalAlignment="Center" Width="40" Margin="40 0 20 0"/>
+                                    <Label VerticalAlignment="Center" Margin="0 0 20 0">Select Template</Label>
+                                </StackPanel>
+                                <ComboBox x:Name="TemplateComboBox"  Style="{DynamicResource MaterialDesignOutlinedComboBox }"
+                          Width="250" DisplayMemberPath="ReportName" SelectedValuePath="TemplateID" SelectionChanged="TemplateComboBox_SelectionChanged" />
+                                <Button Margin="30 0 0 0" x:Name="LaunchBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             HorizontalAlignment="Right" Click="LaunchBtn_Click">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/Assets/Icons/Launch_Wizard.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Launch Report Designer"/>
+                                    </Grid>
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Row="1" Height="320" Margin="0 10 0 0">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                        <RowDefinition Height="auto"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                        <ColumnDefinition Width="*"></ColumnDefinition>
+                                    </Grid.ColumnDefinitions>
+                                    <Border BorderBrush="Black" BorderThickness="1" x:Name="DateBorder" MouseLeftButtonDown="DateBorder_MouseLeftButtonDown"
+                                            IsEnabled="False">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="80">
+                                            <!--<Label>Hi</Label>-->
+                                            <!--<RadioButton x:Name="DateRadioButton1" VerticalAlignment="Center" Click="DateRadioButton1_Click"  Checked="DateRadioButton_Checked" Unchecked="DateRadioButton_Checked" />-->
+                                            <RadioButton GroupName="A" x:Name="DateRadioButton" VerticalAlignment="Center" Checked="DateRadioButton_Checked" Unchecked="DateRadioButton_Checked"
+                                                         IsEnabled="False"/>
+                                            <!--<RadioButton></RadioButton>-->
+                                            <Image Source="/Assets/Icons/calendar_80.png" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="-15 0 0 0"/>
+                                            <TextBlock x:Name="FromDateTextBlock" VerticalAlignment="Center">From Date</TextBlock>
+                                            <DatePicker x:Name="FromDatePicker" materialDesign:HintAssist.Hint="From Date" Style="{DynamicResource MaterialDesignOutlinedDatePicker}"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Foreground="Gray" Visibility="Collapsed" Margin="-15 0 0 0"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="80">
+                                            <Image Source="/Assets/Icons/calendar_80.png" HorizontalAlignment="Right" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="ToDateTextBlock" VerticalAlignment="Center">To Date</TextBlock>
+                                            <DatePicker x:Name="ToDatePicker" materialDesign:HintAssist.Hint="From Date" Style="{DynamicResource MaterialDesignOutlinedDatePicker}"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Foreground="Gray" Visibility="Collapsed" Margin="-15 0 0 0"/>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" x:Name="RangeBorder">
+                                        <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="80">
+                                            <RadioButton GroupName="B" Margin="10 0 0 0" x:Name="RangeRadioButton" VerticalAlignment="Center" Checked="RangeRadioButton_Checked" Unchecked="RangeRadioButton_Checked"
+                                                         IsEnabled="False"/>
+                                            <!--<Image Source="/Assets/Icons/calendar_80.png" HorizontalAlignment="Right" VerticalAlignment="Center" />-->
+                                            <TextBlock x:Name="RangeTextBlock" VerticalAlignment="Center" Margin="30 0 0 0">Pick A Range</TextBlock>
+                                            <ComboBox Margin="26 0 0 0" x:Name="RangeComboBox" VerticalAlignment="Center" Width="200" Style="{DynamicResource MaterialDesignOutlinedComboBox}"
+                                                  Visibility="Collapsed" materialDesign:HintAssist.Hint="Select Range" SelectionChanged="RangeComboBox_SelectionChanged">
+                                            </ComboBox>
+                                            <!--<DatePicker x:Name="FromDatePicker" materialDesign:HintAssist.Hint="From Date" Style="{DynamicResource MaterialDesignOutlinedDatePicker}"
+                                      HorizontalAlignment="Left" VerticalAlignment="Center" Width="250" Foreground="Gray" Visibility="Collapsed"/>-->
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="0" BorderBrush="Black" BorderThickness="1" x:Name="TransactionBorder">
+                                        <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="70">
+                                            <Image Source="/Assets/Icons/Transaction.png" Width="46" Height="64" VerticalAlignment="Center" Margin="0 0 10 0"/>
+
+                                            <ComboBox x:Name="TransactionTypeComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" 
+                                                  materialDesign:HintAssist.Hint="Transaction Type" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"
+                                                  DisplayMemberPath="Description" SelectedValuePath="TransactionType" SelectionChanged="TransactionTypeComboBox_SelectionChanged">
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="1" BorderBrush="Black" BorderThickness="1" x:Name="MaterialBorder">
+                                        <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="70">
+                                            <Image Source="/Assets/Icons/material.png" Width="46" Height="64" VerticalAlignment="Center" Margin="0 0 10 0"/>
+
+                                            <ComboBox x:Name="MaterialComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" HorizontalAlignment="Left" 
+                                                  materialDesign:HintAssist.Hint="Material" VerticalAlignment="Center" Width="200" DisplayMemberPath="MaterialName" SelectedValuePath="MaterialName"
+                                                  SelectionChanged="MaterialComboBox_SelectionChanged">
+
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="1" Grid.Column="2" BorderBrush="Black" BorderThickness="1" x:Name="SupplierBorder">
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="70">
+                                            <Image Source="/Assets/Icons/supplier.png" Width="46" Height="64" VerticalAlignment="Center" Margin="0 0 10 0"/>
+
+                                            <ComboBox x:Name="SupplierComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" HorizontalAlignment="Left" 
+                                                  materialDesign:HintAssist.Hint="Supplier" VerticalAlignment="Center" Width="200" DisplayMemberPath="SupplierName" SelectedValuePath="SupplierName"
+                                                  SelectionChanged="SupplierComboBox_SelectionChanged">
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="2" Grid.Column="0" BorderBrush="Black" BorderThickness="1" x:Name="ShiftBorder">
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="70">
+                                            <Image Source="/Assets/Icons/Shift_80.png" Width="46" Height="64" VerticalAlignment="Center" Margin="0 0 10 0"/>
+
+                                            <ComboBox x:Name="ShiftComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" HorizontalAlignment="Left" 
+                                                  materialDesign:HintAssist.Hint="Shift" VerticalAlignment="Center" Width="200" DisplayMemberPath="ShiftName" SelectedValuePath="ShiftName"
+                                                  SelectionChanged="ShiftComboBox_SelectionChanged">
+                                            </ComboBox>
+                                        </StackPanel>
+                                    </Border>
+                                    <Border Grid.Row="2" Grid.Column="1" BorderBrush="Black" BorderThickness="1" x:Name="VehicleBorder">
+                                        <StackPanel Grid.Row="1" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="70">
+                                            <Image Source="/Assets/Icons/vehicle_master.png" Width="46" Height="64" VerticalAlignment="Center" Margin="0 0 10 0"/>
+
+                                            <TextBox x:Name="TruckNoText" Style="{DynamicResource MaterialDesignOutlinedTextBox}" HorizontalAlignment="Left" 
+                                                  materialDesign:HintAssist.Hint="Truck No" VerticalAlignment="Center" Width="200">
+                                            </TextBox>
+                                        </StackPanel>
+                                    </Border>
+                                    <ScrollViewer Grid.Row="1" Grid.RowSpan="3" Grid.Column="0" Grid.ColumnSpan="3" x:Name="dynamicWrapPanelContainer"
+                                                  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Visibility="Collapsed">
+                                        <WrapPanel x:Name="dynamicWrapPanel" Background="White" 
+                                           Orientation="Vertical" Height="200" Visibility="Collapsed"/>
+                                    </ScrollViewer>
+                                </Grid>
+
+                            </ScrollViewer>
+                        </materialDesign:Card>
+                        <!--<StackPanel Grid.Row="1" Height="390"></StackPanel>-->
+                        <materialDesign:Card Grid.Row="2" Height="70" VerticalAlignment="Top" Margin="0 10 0 0">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                    <RadioButton VerticalAlignment="Center" x:Name="GroupbyRadioBtn" Checked="GroupbyRadioBtn_Checked" Unchecked="GroupbyRadioBtn_Checked" Margin="10 0"
+                                                 IsEnabled="False"/>
+                                    <Label VerticalAlignment="Center" Margin="0 0 10 0">Group by</Label>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="/Assets/Icons/Grouping.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <Label VerticalAlignment="Center" Margin="10 0">L1</Label>
+                                    <ComboBox x:Name="GroupCondtion1" Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="150"
+                                              materialDesign:HintAssist.Hint="Select" SelectionChanged="GroupCondtion1_SelectionChanged"
+                                              DisplayMemberPath="FieldName" SelectedValuePath="FieldName" Visibility="Collapsed"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="/Assets/Icons/Grouping.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <Label VerticalAlignment="Center" Margin="10 0">L2</Label>
+                                    <ComboBox x:Name="GroupCondtion2" Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="150"
+                                              materialDesign:HintAssist.Hint="Select" SelectionChanged="GroupCondtion2_SelectionChanged"
+                                              DisplayMemberPath="FieldName" SelectedValuePath="FieldName" Visibility="Collapsed" IsEnabled="False"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Image Source="/Assets/Icons/Grouping.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <Label VerticalAlignment="Center" Margin="10 0">L2</Label>
+                                    <ComboBox x:Name="GroupCondtion3" Style="{StaticResource MaterialDesignOutlinedComboBox}" Width="150"
+                                              materialDesign:HintAssist.Hint="Select" SelectionChanged="GroupCondtion3_SelectionChanged"
+                                              DisplayMemberPath="FieldName" SelectedValuePath="FieldName" Visibility="Collapsed" IsEnabled="False"/>
+                                </StackPanel>
+                            </Grid>
+
+                        </materialDesign:Card>
+                        <materialDesign:Card Grid.Row="3" Height="60" VerticalAlignment="Top" Margin="0 10 0 0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <Button Grid.Column="2" Grid.Row="2" Margin="10" x:Name="GenerateBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             HorizontalAlignment="Right" Width="120" IsEnabled="False" Click="GenerateBtn_Click">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/Assets/Icons/Generate.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Generate"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="2" Margin="10" x:Name="SaveCriteriaBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             HorizontalAlignment="Right" Width="145" IsEnabled="False">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save Criteria"/>
+                                    </Grid>
+                                </Button>
+                                <Button Grid.Column="2" Grid.Row="2" Margin="10" x:Name="CancelBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             HorizontalAlignment="Right" Width="110" Click="CancelBtn_Click">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="auto"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Image Source="/Assets/Icons/Cancel.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Cancel"/>
+                                    </Grid>
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:Card>
+                    </Grid>
+
+                </TabItem>
+                <TabItem x:Name="SavedTemplateTabItem" Uid="2" Height="50" Width="290" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Image Source="/Assets/Icons/Saved_Templates_801.png" VerticalAlignment="Center" Width="65" Margin="0 0 10 0" Height="62"/>
+                            <Label x:Name="SavedTemplateLabel" VerticalAlignment="Center">Saved Template</Label>
+                        </StackPanel>
+                    </TabItem.Header>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"></RowDefinition>
+                            <RowDefinition Height="2*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <materialDesign:Card Height="480" VerticalAlignment="Top" Margin="10">
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <DataGrid Name="SavedTemplateGrid" DataContext="{Binding}" ColumnWidth="*" Margin="10" CanUserAddRows="false" AutoGenerateColumns="False" HeadersVisibility="None">
+                                        <DataGrid.Columns>
+                                            <!--<DataGridTextColumn Header="Report Name"  Binding="{Binding ReportName}" Width="*" />-->
+                                            <DataGridTemplateColumn Header="Report Name" Width="*">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding ReportName}"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <!--<DataGridTemplateColumn Width="70" Header="Action">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <Image MouseLeftButtonDown="Delete_MouseLeftButtonDown" Source="/Assets/Icons/cancel.png" Style="{DynamicResource CursorHand}" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>-->
+
+                                            <DataGridTemplateColumn Width="120" Header="Action2">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <!--<materialDesign:PackIcon Kind="Edit" Foreground="#673ab7" Height="25" Width="25" Padding="20 10"
+                                                                   Style="{StaticResource CursorHand}" PreviewMouseLeftButtonDown="EditTemplate_Click"/>-->
+                                                        <!--<Button Content="edit" Click="EditTemplate_Click" CommandParameter="{Binding}"></Button>-->
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <!--<Button Content="edit" Click="EditTemplate_Click"></Button>-->
+                                                            <Button Height="30" Width="30" Style="{StaticResource MaterialDesignIconButton}" 
+                                                                    Click="EditTemplate_Click" CommandParameter="{Binding}">
+                                                                <materialDesign:PackIcon Kind="Edit"/>
+                                                            </Button>
+                                                            <Button Height="30" Width="30" Style="{StaticResource MaterialDesignIconButton}" Margin="20 0 0 0"
+                                                                    Click="DeleteTemplate_Click" CommandParameter="{Binding}">
+                                                                <materialDesign:PackIcon Kind="Delete"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+
+                                            <!--<DataGridTemplateColumn Width="100" Header="Action2">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel>
+                                                            <Button Height="30" Width="30" Style="{StaticResource MaterialDesignIconButton}" >
+                                                                <materialDesign:PackIcon Kind="Edit"/>
+                                                            </Button>
+                                                            -->
+                                            <!--<Image MouseLeftButtonDown="Delete_MouseLeftButtonDown" Source="/Assets/Icons/cancel.png" Style="{DynamicResource CursorHand}" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>-->
+                                            <!--
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>-->
+
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </ScrollViewer>
+                                <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 10" x:Name="PaginatorPanel">
+                                    <TextBlock Text="Item per page" Padding="10 0" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="PaginatorComboBox" Width="50" VerticalAlignment="Center" Margin="10 0"
+             SelectedValue="{Binding SelectedRecord,UpdateSourceTrigger=PropertyChanged}">
+
+                                    </ComboBox>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="FirstPage" ToolTip="First page" Click="FirstPage_Click"
+                    IsEnabled="{Binding IsFirstEnable}">
+                                        <materialDesign:PackIcon Kind="PageFirst"/>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="PreviousPage" ToolTip="Previous page" Click="PreviousPage_Click"
+                    IsEnabled="{Binding IsPreviousEnable}">
+                                        <materialDesign:PackIcon Kind="ChevronLeft"/>
+                                    </Button>
+                                    <!--<TextBlock Text="{Binding NumberOfPages}"/>-->
+                                    <TextBlock Padding="10 0" VerticalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} of {1}">
+                                                <Binding Path="CurrentPage"/>
+                                                <Binding Path="NumberOfPages"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="NextPage" ToolTip="Next page" Click="NextPage_Click"
+                    IsEnabled="{Binding IsNextEnable}">
+                                        <materialDesign:PackIcon Kind="ChevronRight"/>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="LastPage" ToolTip="Last page" Click="LastPage_Click"
+                    IsEnabled="{Binding IsLastEnable}">
+                                        <materialDesign:PackIcon Kind="PageLast"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+
+
+                        <StackPanel Grid.Row="1">
+                            <materialDesign:Card Height="60" VerticalAlignment="Top" Margin="10 0 10 10">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <Button  Margin="10" x:Name="CreateTemplateBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                                         Click="CreateTemplateBtn_Click"  HorizontalAlignment="Center" Width="200">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Icons/new.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                            <TextBlock Padding="10 0 0 0" Text="Create New Template"/>
+                                        </StackPanel>
+                                    </Button>
+                                    <Button  Margin="10" x:Name="CreateCaptionBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                                         Click="CreateCaptionBtn_Click" HorizontalAlignment="Center" Width="200">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="/Assets/Icons/new.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                            <TextBlock Padding="10 0 0 0" Text="Create New Caption"/>
+                                        </StackPanel>
+                                    </Button>
+                                </StackPanel>
+                            </materialDesign:Card>
+                        </StackPanel>
+                    </Grid>
+
+                </TabItem>
+                <!--<TabItem x:Name="SavedCriteriaTabItem" Uid="3"  Height="50" Width="290" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                    <TabItem.Header>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                            <Image Source="/Assets/Icons/Saved_Reports.png" VerticalAlignment="Center" Width="39" Height="29"  Margin="0 0 10 0"/>
+                            <Label x:Name="SavedCriteriaLabel" VerticalAlignment="Center">Saved Criteria</Label>
+                        </StackPanel>
+                    </TabItem.Header>
+                </TabItem>-->
+            </TabControl>
+
+            <!--<Grid.RowDefinitions>
+            <RowDefinition Height="350*">
+
+            </RowDefinition>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <materialDesign:Card Grid.Row="0" Height="350"  VerticalAlignment="Top" Background="White" materialDesign:ShadowAssist.ShadowDepth="Depth3" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*"/>
+                    <RowDefinition Height="360*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Margin="10">
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="400"/>
+                        -->
+            <!--<RowDefinition Height="40"/>-->
+            <!--
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="70*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            -->
+            <!--<RowDefinition Height="50"/>-->
+            <!--
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        -->
+            <!--<materialDesign:PackIcon Kind="MailboxOpenOutline" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="0"/>-->
+            <!--
+                        <Image Source="/Assets/Icons/Saved_Templates_801.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="70"
+                                                 Height="70" Grid.Row="0"/>
+                        <Image Source="/Assets/Icons/Report.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40"
+                                                 Height="40" Grid.Row="1"/>
+                        <Image Source="/Assets/Icons/Report.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40"
+                                                 Height="40" Grid.Row="2"/>
+                        <Image Source="/Assets/Icons/Report.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40"
+                                                 Height="40" Grid.Row="3"/>
+                        <Image Source="/Assets/Icons/Report.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="40"
+                                                 Height="40" Grid.Row="4"/>
+                    </Grid>
+                    -->
+            <!--<Grid Grid.Row="1" Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="120*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel HorizontalAlignment="Center" Grid.Column="0">
+                            -->
+            <!--<Label Grid.Column="0" Grid.Row="1" FontWeight="Bold">Male or female?</Label>-->
+            <!--
+                            <RadioButton GroupName="Mail_method">SMTP</RadioButton>
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" Grid.Column="1">
+
+                            <RadioButton GroupName="Mail_method">Send Grid</RadioButton>
+                        </StackPanel>
+                    </Grid>-->
+            <!--
+                    <Grid Grid.Column="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="70*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            -->
+            <!--<RowDefinition Height="50"/>-->
+            <!--
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        -->
+            <!--<TextBox Grid.Row="0" Grid.Column="2" Name="To"  Margin="10" Padding="5,4,0,4" BorderBrush="#89BBABAB"  CaretBrush="#FF6C6C6C" BorderThickness="1"/>-->
+            <!--
+                        <TextBox Grid.Row="0" Grid.Column="2" Name="CompanyName" BorderThickness="1" Margin="10" Padding="5,4,0,4" BorderBrush="#89BBABAB"  CaretBrush="#FF6C6C6C"/>
+                        <TextBox Grid.Row="1" Grid.Column="2" Name="ReportTime" BorderThickness="1" Margin="10" Padding="5,4,0,4" BorderBrush="#89BBABAB"  CaretBrush="#FF6C6C6C"/>
+                        <TextBox Grid.Row="2" Grid.Column="2" Name="Company_footer" BorderThickness="1" Margin="10" Padding="5,4,0,4" BorderBrush="#89BBABAB"  CaretBrush="#FF6C6C6C"/>
+                        
+                        <Grid Margin="10" Grid.Row="4" Grid.Column="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="15*"/>
+                                <ColumnDefinition Width="70*"/>
+                            </Grid.ColumnDefinitions>
+                            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" DockPanel.Dock="Top" Margin="0,0,0,0" >
+                                <Button Name="btnOpenFile" Click="btnOpenFile_Click" HorizontalAlignment="Center" VerticalAlignment="Center">Open file</Button>
+                            </WrapPanel>
+                            <TextBox Grid.Column="1" Name="File_name" BorderThickness="1"  Padding="5,4,0,4" BorderBrush="#89BBABAB"  CaretBrush="#FF6C6C6C"/>
+
+                        </Grid>
+                        <TextBox Grid.Row="3" Grid.Column="2" Name="Address" BorderThickness="1" Margin="10" Padding="5,4,0,4" BorderBrush="#89BBABAB" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible"
+                         TextWrapping="Wrap"
+                         MaxLength="1000"
+                         IsReadOnly="False"
+                         AcceptsReturn="True"  CaretBrush="#FF6C6C6C"/>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"/>
+                            <ColumnDefinition Width="30*"/>
+                            <ColumnDefinition Width="70*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            -->
+            <!--<RowDefinition Height="50"/>-->
+            <!--
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="50"/>
+                        </Grid.RowDefinitions>
+                        -->
+            <!--<TextBlock Text="To" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1"/>-->
+            <!--
+                        <TextBlock Text="Company Name" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="0"/>
+                        <TextBlock Text="Report Time" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="1" Margin="-25,0,0,0"/>
+                        <TextBlock Text="Company Footer" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="2" Margin="0"/>
+                        <TextBlock Text="Phone No/Address" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="3" Margin="15,0,0,0"/>
+                        <TextBlock Text="Upload Logo" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="4" Margin="-20,0,0,0"/>
+                    </Grid>
+
+                </Grid>
+            </Grid>
+
+        </materialDesign:Card>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="70*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Grid.Row="1" Width="100" x:Name="SummarySave" Background="#FF6C6C6C" BorderBrush="#0000" Click="SummarySave_Click">
+                <Grid Width="50">
+                    <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                    <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Column="1" Grid.Row="1" x:Name="DeleteSummary" Width="100" Background="#FF6C6C6C" BorderBrush="#0000" Click="DeleteSummary_Click">
+                <Grid Width="50">
+                    <Image Source="/Assets/Icons/Cancel.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                    <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Delete"></TextBlock>
+                </Grid>
+            </Button>
+        </Grid>
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Summary Report" VerticalAlignment="Center" FontSize="18" Margin="10" FontWeight="Medium"></TextBlock>
+            <Line Stretch="Fill" Stroke="#FF898989" X2="1" Margin="10 0 10 0" />
+        </StackPanel>-->
+
+
+
+        </Grid>
+    </materialDesign:DialogHost>
+
+    <!--<Grid>
+        <Grid >
+
+
+            <WrapPanel Margin="10,10,-304,-140" >
+
+                <TabControl Style="{DynamicResource TabControlStyle}" x:Name="Tabcontrol" Height="616" Margin="0,92,0,-379" Width="1088">
+
+                    <TabItem  Style="{DynamicResource TabItemStyle}" x:Name="Material" Margin="0" Height="78" VerticalAlignment="Top" HorizontalAlignment="Left" Width="374" BorderBrush="#FFACACAC">
+                        <TabItem.Header>
+                            <StackPanel >
+                                <Grid Width="309">
+                                    <Image Source="/Assets/Icons/Report_Icon.png" Width="80" Height="40" RenderTransformOrigin="-2.325,0.825" Margin="-24,0,200,0" />
+
+                                    <TextBlock Text="Generate Reports" RenderTransformOrigin="0.531,1.649" Margin="92,10,27,10" FontSize="15"/>
+                                </Grid>
+                            </StackPanel>
+                        </TabItem.Header>
+
+                        <Grid >
+                            <materialDesign:Card HorizontalAlignment="Left" VerticalAlignment="Top" Height="51" Width="1080" Margin="0,6,0,0">
+                                <Image Source="/Assets/Icons/Select_Template.png" Grid.Row="2" Width="40" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="-1.925,0.433" Margin="62,10,978,21"/>
+
+                            </materialDesign:Card>
+                            <TextBlock TextWrapping="Wrap" Text="Selected Template" Margin="130,0,784,488" Height="20" FontSize="15"/>
+                            <ComboBox Margin="424,21,415,488" x:Name="Template" SelectionChanged="Template_SelectionChanged"/>
+                            <Grid>
+                                <Button Content="Launch Report" Background="Gray" Height="Auto" Margin="820,11,117,488"/>
+                                <Image Source="/Assets/Icons/Launch-Wizard .png" Width="24" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="-1.925,0.433" Margin="823,20,238,502" />
+
+                            </Grid>
+
+                            <Grid x:Name="showGrid" Visibility="Collapsed">
+                                <materialDesign:Card Content="" Margin="0,62,712,245"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="415*"/>
+                                        <ColumnDefinition Width="126*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/Icons/calendar_80.png" Width="120" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,56,710,394" RenderTransformOrigin="0.544,0.633"/>
+                                    <TextBox x:Name="tbSettingText" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap"  Width="231" FontSize="15" Margin="125,82,0,424" />
+                                </Grid>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/Transaction.png" Width="46" Height="64" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,123,984,342" RenderTransformOrigin="-24.711,-1.647"/>
+                                    <Label Content="Transaction Type" HorizontalAlignment="Left" Margin="120,123,0,0" FontSize="15" VerticalAlignment="Top" Width="142" Height="29" RenderTransformOrigin="0.482,-0.087"/>
+
+                                    <ComboBox x:Name="ComboBoxZone" ItemsSource="{Binding}"  HorizontalAlignment="Left" Margin="120,157,0,0" VerticalAlignment="Top" Width="234" Height="25" SelectionChanged="ComboBoxZone_SelectionChanged">
+                                        <ComboBoxItem  x:Name="single" Content="Single"/>
+                                        <ComboBoxItem  x:Name="First" Content="First"/>
+                                        <ComboBoxItem  x:Name="Second" Content="Second"/>
+                                        <ComboBoxItem  x:Name="Multi" Content="Multi"/>
+                                    </ComboBox>
+                                </Grid>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/ShiftEdge.png" Width="38" Height="35" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,200,991,278" RenderTransformOrigin="0.259,0.25"/>
+                                    <Label Content="Shift" HorizontalAlignment="Left" Margin="131,205,0,0" VerticalAlignment="Top" FontSize="15" Width="99" Height="23"/>
+                                    <ComboBox x:Name="ComboBoxZone1" HorizontalAlignment="Left" Margin="131,233,0,0" VerticalAlignment="Top" Width="227" Height="20" RenderTransformOrigin="0.718,1.318" SelectionChanged="ComboBoxZone1_SelectionChanged"/>
+
+                                </Grid>
+                                <materialDesign:Card Content="" Margin="373,62,356,245"/>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/calendar_80.png"  Width="80" Height="80" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,57,601,392" RenderTransformOrigin="0.736,0.5"/>
+                                    <TextBox x:Name="text1" HorizontalAlignment="Left" Height="24" TextWrapping="Wrap"  Width="231" FontSize="15" Margin="486,84,0,422"/>
+                                </Grid>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/Material_COde_old.png" Width="35" Height="43" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,140,623,346" RenderTransformOrigin="0.544,0.633"/>
+                                    <Label Content="Material" HorizontalAlignment="Left" Margin="511,123,0,0" VerticalAlignment="Top" Width="110" Height="28" FontSize="15"/>
+                                    <ComboBox x:Name="ComboBoxZone2" HorizontalAlignment="Left" Margin="511,151,0,0" VerticalAlignment="Top" Width="203" Height="27" RenderTransformOrigin="0.65,1.458" SelectionChanged="ComboBoxZone2_SelectionChanged"/>
+
+                                </Grid>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/VechicleEdge.png" Width="40" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,206,623,293" RenderTransformOrigin="0.544,0.633"/>
+                                    <Label Content="Vechicle" HorizontalAlignment="Left" Margin="514,199,0,0" VerticalAlignment="Top" Width="110" Height="28" FontSize="15"/>
+                                    <ComboBox x:Name="ComboBoxZone3" HorizontalAlignment="Left" Margin="514,232,0,0" VerticalAlignment="Top" Width="199" Height="22" SelectionChanged="ComboBoxZone3_SelectionChanged"/>
+
+                                </Grid>
+                                <materialDesign:Card Content="" Margin="731,62,0,332"/>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/off.png" Width="18" Height="16" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,86,276,429" RenderTransformOrigin="0.533,-1.55"/>
+
+                                    <TextBlock HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="Pick a Range" FontSize="15" VerticalAlignment="Top" Width="125" Margin="857,70,0,0"/>
+                                    <ComboBox x:Name="Range" HorizontalAlignment="Left" Margin="857,77,0,0" VerticalAlignment="Top" Width="215" SelectionChanged="Range_SelectionChanged">
+
+                                        <ComboBoxItem  x:Name="week" Content="Week"/>
+                                        <ComboBoxItem  x:Name="month" Content="Month"/>
+                                        <ComboBoxItem  x:Name="quater" Content="Quater"/>
+                                        <ComboBoxItem  x:Name="year" Content="Year"/>
+                                    </ComboBox>
+                                </Grid>
+                                <Grid>
+                                    <Image Source="/Assets/Icons/supplier12.png" Width="39" Height="42" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,136,264,353" RenderTransformOrigin="1,0.1"/>
+                                    <Label Content="Supplier" HorizontalAlignment="Left" FontSize="15" Margin="857,119,0,0" VerticalAlignment="Top" Width="110" Height="32"/>
+                                    <ComboBox x:Name="ComboBoxZone4" HorizontalAlignment="Left" Margin="857,156,0,0" VerticalAlignment="Top" Width="215" Height="22" SelectionChanged="ComboBoxZone4_SelectionChanged"/>
+
+                                </Grid>
+
+
+                                <materialDesign:Card Content="" Margin="0,313,20,156"/>
+                                <Grid Margin="10,277,-10,46">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="250*"/>
+                                        <ColumnDefinition Width="111*"/>
+                                    </Grid.ColumnDefinitions>
+                                    -->
+    <!--<Image Source="/Assets/Icons/off.png" Height="21" VerticalAlignment="Center" Margin="38,55,1011,132" RenderTransformOrigin="0.533,-1.55"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="28" TextWrapping="Wrap" FontSize="15" Text="Group By" VerticalAlignment="Top" Width="112" Margin="118,55,0,0"/>-->
+    <!--
+                                    <Image Source="/Assets/Icons/Grouping.png" Width="27" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,46,385.5,133" RenderTransformOrigin="0.533,-1.55"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" Text="L1" FontSize="15"  VerticalAlignment="Top" Width="58" Margin="407,51,0,0" RenderTransformOrigin="1.034,6.65"/>
+
+
+                                    <ComboBox  x:Name="cbo"  Width="120" Margin="429,51,200.5,136" RenderTransformOrigin="-0.013,0.643" SelectionChanged="ComboBox_SelectionChanged"/>
+                                    <Image Source="/Assets/Icons/Grouping.png" Width="27" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,50,143.5,129" RenderTransformOrigin="0.533,-1.55"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="L2" FontSize="15" VerticalAlignment="Top" Width="21" Margin="619,55,0,0" RenderTransformOrigin="-0.952,1.457"/>
+                                    <Image Source="/Assets/Icons/Grouping.png" Width="27" Height="28" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,48,252,131" RenderTransformOrigin="0.533,-1.55" Grid.Column="1"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="16" TextWrapping="Wrap" Text="L3" FontSize="15" VerticalAlignment="Top" Width="21" Margin="119.5,50,0,0" RenderTransformOrigin="0.765,0.1" Grid.Column="1"/>
+                                    <ComboBox HorizontalAlignment="Left" Margin="645,51,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="ComboBox_SelectionChanged_1" x:Name="l2" Grid.ColumnSpan="2"/>
+                                    <ComboBox x:Name="comboBox2" HorizontalAlignment="Left" Margin="160.5,51,0,0" VerticalAlignment="Top" Width="120" Grid.Column="1"/>
+                                    <RadioButton Content=" GroupBy" HorizontalAlignment="Left" Margin="56,58,0,0" VerticalAlignment="Top" Name="GroupBy" Checked="RadioButton_Checked"/>
+                                </Grid>
+                                <Grid Margin="0,12,0,-5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="251*"/>
+                                        <ColumnDefinition Width="290*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Content="      Generate" Height="Auto" Margin="10,395,352,89" Background="Gray" RenderTransformOrigin="0.504,0.741" Click="Button_Click" x:Name="button">
+
+                                    </Button>
+                                    <Image Source="/Assets/Icons/Generate.png" Width="24" Height="29" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,407,451,0" RenderTransformOrigin="0.533,-1.55"/>
+                                    -->
+    <!--<Popup x:Name="popup" StaysOpen="True" IsOpen="{Binding IsChecked, ElementName=PCheckBox}"  PlacementTarget="{Binding RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"
+            AllowsTransparency="False" PopupAnimation="Slide" Height="600" Width="600" Placement="Center" Grid.ColumnSpan="2">
+
+
+                                        <DataGrid Name="gridEmployees" ItemsSource="{Binding}" Margin="-294,-130,314,562" Background="Gray"/>
+                                       
+
+
+                                    </Popup>-->
+    <!--
+
+
+                                    <Button Content="  Save Creteria" Height="Auto" Margin="185,399,177.801,89" Background="LightGray"/>
+                                    <Image Source="/Assets/Icons/Save.png" Width="18" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,405,291.801,95" RenderTransformOrigin="0.533,-1.55"/>
+                                    <Button Content="   Cancel" Height="Auto" Margin="359,398,30.801,90" Background="Gray"/>
+                                    <Image Source="/Assets/Icons/Cancel.png" Width="14" Height="25" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0,404,114.801,96" RenderTransformOrigin="0.533,-1.55"/>
+
+
+
+
+
+
+                                </Grid>
+
+                                <TextBlock HorizontalAlignment="Left" Height="0" Margin="581,429,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="5"/>
+                            </Grid>
+                            <Grid Visibility="Collapsed">
+                                <Canvas Height="319" Margin="0" Width="517"
+                                Name="canContainer" Background="GreenYellow">
+                                    <Button Content="Button" Canvas.Left="53" Canvas.Top="148" Width="75" Click="button_Click"/>
+                                </Canvas>
+                            </Grid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem IsSelected="True" Style="{DynamicResource TabItemStyle}" x:Name="Supplier" Margin="-1,0,-93,2" RenderTransformOrigin="0.253,0.518">
+                        <TabItem.Header >
+                            <StackPanel>
+                                <Grid Width="250">
+                                    <Image Source="/Assets/Icons/Saved_Templates_801.png" Height="70" Width="80" RenderTransformOrigin="1.621,-1.317" Margin="0,5,170,-5" VerticalAlignment="Top"/>
+                                    <TextBlock Margin="83,28,53,0" Text="Saved Template" FontSize="15"/>
+                                </Grid>
+                            </StackPanel>
+                        </TabItem.Header>
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="317*"/>
+                                <ColumnDefinition Width="765*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <materialDesign:Card HorizontalAlignment="Left" VerticalAlignment="Top" Height="51" Width="1080" Margin="0,6,0,0" Grid.ColumnSpan="2">
+                                <Image Source="/Assets/Icons/Select_Template.png" Grid.Row="2" Width="40" Height="36" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="-1.925,0.433" Margin="62,5,978,10"/>
+
+                            </materialDesign:Card>
+
+
+                            <TextBlock TextWrapping="Wrap" Text="Selected Template" Margin="133,13,16,473" FontSize="15" RenderTransformOrigin="0.56,1.3"/>
+                            <Border Name="cmb1Border" BorderThickness="1" Grid.ColumnSpan="2">
+                                <ComboBox Margin="424,21,415,488" x:Name="Template1" SelectionChanged="Template_SelectionChanged_1"/>
+                            </Border>
+
+                            -->
+    <!--<ComboBox Margin="424,21,415,488" x:Name="Template1" SelectionChanged="Template_SelectionChanged_1"/>-->
+    <!--
+                            <Grid Grid.ColumnSpan="2">
+                                <Button Content="Launch Report" Background="Gray" Height="Auto" Margin="820,11,117,488"/>
+                                <Image Source="/Assets/Icons/Launch-Wizard .png" Width="24" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center" RenderTransformOrigin="-1.925,0.433" Margin="823,20,238,502" />
+
+                            </Grid>
+
+                            <Button Content="Create Template" Height="Auto" Margin="37,257,38,231" Click="Button_Click_1" Background="gray"/>
+                            <Button Content="Create Caption" Height="Auto" Margin="42,257,499,231"  Background="gray" Grid.Column="1" RenderTransformOrigin="0.438,-0.857" Click="Button_Click_2"/>
+                            <ListView HorizontalAlignment="Left" Height="150" Margin="52,86,0,0" VerticalAlignment="Top" Width="1006"  ItemsSource="{Binding}" Name="TemplateList" Grid.ColumnSpan="2" >
+
+
+
+                            </ListView>
+
+                        </Grid>
+
+
+
+                    </TabItem>
+
+                    <TabItem  Style="{DynamicResource TabItemStyle}" x:Name="Shift" Margin="90,0,-94,2" HorizontalAlignment="Left" Width="362">
+                        <TabItem.Header>
+                            <StackPanel>
+                                <Grid Width="234">
+                                    <Image Source="/Assets/Icons/Saved_Reports.png" Width="60" Height="35"  RenderTransformOrigin="1.621,-1.317" Margin="-26,10,173,10" />
+                                    <TextBlock Text="Saved Template" Height="28" FontSize="15" Margin="72,16,41,16" RenderTransformOrigin="0.47,0.832"/>
+                                </Grid>
+                            </StackPanel>
+                        </TabItem.Header>
+
+                    </TabItem>
+
+
+
+
+
+
+                </TabControl>
+
+                <Grid>
+
+                    <Button  Uid="1" x:Name="NAme"   Margin="-1080,4,932,255" Height="82" Background="Orange" BorderBrush="Red" BorderThickness="2" Click="Weighing_Click" VerticalAlignment="Center"  >
+
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Height="79">
+                            <Image Source="/Assets/Icons/Report_Icon.png" Width="120" Height="60" VerticalAlignment="Center" />
+                            <TextBlock HorizontalAlignment="Center"  Foreground="White" FontSize="12" Text="Summary Reports"/>
+                        </StackPanel>
+
+                    </Button>
+
+                </Grid>
+            </WrapPanel>
+
+        </Grid>
+
+    </Grid>-->
+
+</UserControl>

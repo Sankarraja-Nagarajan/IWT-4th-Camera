@@ -1,0 +1,81 @@
+﻿<Page x:Class="IWT.Setting_Pages.DB_Page"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="DB_Page">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <materialDesign:Card Grid.Row="0" Height="180"  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                <Grid Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="60"/>
+                        <ColumnDefinition Width="200"/>
+                        <ColumnDefinition Width="350"/>
+
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+
+                    </Grid.RowDefinitions>
+                    <Image Source="/Assets/Icons/Table_temp.png" Grid.Row="0"  VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                    </Image>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="Old DB Password" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                    <!--<TextBox Grid.Row="0" Grid.Column="2" Name="OldPassword" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Old DB Password ">
+                        <TextBox.Text>
+                            <Binding Path="OldPassword"  UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validations:RequiredValidationRule FieldName="Old Password"
+                                          ValidatesOnTargetUpdated="True" xmlns:validations="clr-namespace:IWT.Validators"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>-->
+                    <PasswordBox Grid.Row="0" Grid.Column="2" Name="OldPassword" Padding="10" Style="{StaticResource MaterialDesignOutlinedPasswordBox}" 
+                                 materialDesign:HintAssist.Hint="Old DB Password" VerticalAlignment="Center"/>
+
+                    <Image Source="/Assets/Icons/Table_temp.png" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30" Margin="0 30 0 0">
+
+                    </Image>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="New DB Password" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Center" Margin="0 30 0 0">
+                        
+                    </TextBlock>
+
+                    <PasswordBox Grid.Row="1" Grid.Column="2" Name="NewPassword" Padding="10" Style="{StaticResource MaterialDesignOutlinedPasswordBox}" 
+                                 materialDesign:HintAssist.Hint="New DB Password" VerticalAlignment="Center" Margin="0 30 0 0"/>
+
+
+                    <!--<TextBox Grid.Row="1" Grid.Column="2" Name="NewPassword" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" materialDesign:HintAssist.Hint="New DB Password" Margin="5 30 5 5">
+                        <TextBox.Text>
+                            <Binding Path="NewPassword"  UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <validations:RequiredValidationRule FieldName="New Password"
+                                          ValidatesOnTargetUpdated="True" xmlns:validations="clr-namespace:IWT.Validators"/>
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>-->
+
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+        <Button Margin="0 10" Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000"
+                x:Name="SaveBtn" Click="SaveBtn_Click">
+            <Grid Width="50">
+                <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+            </Grid>
+        </Button>
+    </Grid>
+</Page>

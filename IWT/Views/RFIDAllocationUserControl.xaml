@@ -1,0 +1,241 @@
+﻿<UserControl x:Class="IWT.Views.RFIDAllocationUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+             mc:Ignorable="d" 
+             d:DesignHeight="950" d:DesignWidth="1200">  
+    <Grid Margin="10" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="3">
+            <Label Margin="5 2 0 0" Height="25" Content="Gate Entry" FontSize="14" FontWeight="Bold"/>
+        </StackPanel>
+
+
+        <ScrollViewer Margin="12 0 0 0" Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <WrapPanel x:Name="dynamicWrapPanel" Orientation="Vertical" Height="360">
+                <Border x:Name="sapType" BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/sap.png" Width="50"></Image>
+                        <ComboBox Width="280" Margin="10 0" x:Name="SAPType" SelectionChanged="SAPComboBox_SelectionChanged" materialDesign:HintAssist.Hint="SAP Types"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/Vehicle_Number.png" Width="50"></Image>
+                        <TextBox  Width="240" Margin="10 0" x:Name="VehicleNumber" Tag="VehicleNumber" TextChanged="CustomFieldTextBox_TextChanged" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="Vehicle Number" FontSize="16" FontFamily="Segoe UI Semibold" IsReadOnly="True" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                        <Button Margin="10 0 20 0" x:Name="SelectVehicleBtn"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Right"
+                        Width="21" Height="21"
+                        Content="{materialDesign:PackIcon Kind=Plus, Size=20}" Click="SelectVehicleBtn_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="TypeField" BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/potype.png" Width="40"></Image>
+                        <ComboBox Width="280" Margin="10 0" x:Name="Types" SelectionChanged="TypesComboBox_SelectionChanged" materialDesign:HintAssist.Hint="Type"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}"/>
+                    </StackPanel>
+                </Border>
+
+                <!--<Border x:Name="document" BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/eMaterial.png" Width="40"></Image>
+                        <ComboBox Width="280" Margin="10 0" x:Name="DocumentNumber" DropDownOpened="DocumentNumberOnDropDownOpened" SelectionChanged="DocumentNumberComboBox_SelectionChanged" materialDesign:HintAssist.Hint="Document Number"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Border>-->
+
+                <Border x:Name="document" BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/eMaterial.png" Width="40"></Image>
+                        <TextBox Width="290" Margin="10 0" x:Name="DocumentNumber" Tag="DocumentNumber" VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Document Number" FontSize="16" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontFamily="Segoe UI Semibold"></TextBox>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="gatePassNumber" BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/eMaterial.png" Width="40"></Image>
+                        <TextBox Width="290" Margin="10 0" x:Name="GatePassNumber" Tag="GatePassNumber" VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Gate Pass Number" FontSize="16" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontFamily="Segoe UI Semibold"></TextBox>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="tokenNumber" BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/Token.png" Width="40"></Image>
+                        <TextBox Width="290" Margin="10 0" x:Name="TokenNumber" Tag="TokenNumber" VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Token Number" FontSize="16" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontFamily="Segoe UI Semibold"></TextBox>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/trans.png" Width="40"></Image>
+                        <ComboBox Width="280" Margin="10 0" x:Name="TransactionType" SelectionChanged="TransactionType_SelectionChanged" materialDesign:HintAssist.Hint="Transaction type"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="15" Source="/Assets/Icons/loadStatus.png" Width="40"></Image>
+                        <ComboBox Width="280" Margin="10 0" x:Name="LoadStatus" materialDesign:HintAssist.Hint="Load status"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/TareWeight.png" Width="40"></Image>
+                        <TextBox IsEnabled="False" Width="290" Margin="10 0" x:Name="DefaultTareWeight" Tag="DefaultTareWeight" VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="Tare Weight" FontSize="16" FontFamily="Segoe UI Semibold" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="noOfMaterial" BorderBrush="LightGray" BorderThickness="1" Width="400" Visibility="Collapsed">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/eMaterial.png" Width="40"></Image>
+                        <TextBox IsEnabled="False" Width="250" Margin="10 0" x:Name="NoOfMaterial" Tag="NoOfMaterial" VerticalAlignment="Center"
+                                materialDesign:HintAssist.Hint="No Of Material" FontSize="16" Style="{DynamicResource MaterialDesignFloatingHintTextBox}" FontFamily="Segoe UI Semibold"></TextBox>
+                        <Button Margin="10 0 2 0" x:Name="NoOfMaterialBtn" Click="NoOfMaterialBtn_Click"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Right" Content="View" Foreground="White" />
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="materialField" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10 " Source="/Assets/Icons/eMaterial.png" Width="40"></Image>
+                        <TextBox Width="250" Margin="10 0" x:Name="MaterialName" Tag="MaterialName" TextChanged="CustomFieldTextBox_TextChanged" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="Material Code/Name" FontSize="16" FontFamily="Segoe UI Semibold" IsReadOnly="True" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                        <Button Margin="10 0 20 0" x:Name="SelectMaterialBtn"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Right"
+                        Width="21" Height="21" 
+                        Content="{materialDesign:PackIcon Kind=Plus, Size=20}"
+                                Click="SelectMaterialBtn_Click"/>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="supplierField" BorderBrush="LightGray" BorderThickness="1">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/supplierImage.png" Width="40"></Image>
+                        <TextBox Width="250" Margin="10 0" x:Name="SupplierName" Tag="SupplierName" TextChanged="CustomFieldTextBox_TextChanged" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="Supplier Code/Name" FontSize="16" FontFamily="Segoe UI Semibold" IsReadOnly="True" Style="{DynamicResource MaterialDesignFloatingHintTextBox}"></TextBox>
+                        <Button Margin="10 0 20 0" x:Name="SelectSupplierBtn"
+                        Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                        VerticalAlignment="Center" HorizontalAlignment="Right"
+                        Width="21" Height="21"
+                        Content="{materialDesign:PackIcon Kind=Plus, Size=20}"
+                                Click="SelectSupplier_Click"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/allocate.png" Width="40"></Image>
+                        <ComboBox Width="290" Margin="10 0" x:Name="RFIDAllocationType" materialDesign:HintAssist.Hint="Allocation type"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="5" Source="/Assets/Icons/clock-new.png" Width="50"></Image>
+                        <DatePicker Width="290" Margin="10 0" Name="ExpiryDate" materialDesign:HintAssist.Hint="Expiry date" 
+                                     VerticalAlignment="Center" FontSize="16" FontFamily="Segoe UI Semibold" Style="{DynamicResource MaterialDesignFloatingHintDatePicker}"/>
+                    </StackPanel>
+                </Border>
+
+                <Border BorderBrush="LightGray" BorderThickness="1" Width="400">
+                    <StackPanel Orientation="Horizontal" Height="70">
+                        <Image Margin="10" Source="/Assets/Icons/rfidNo.png" Width="40"></Image>
+                        <!--<TextBox Width="140" Margin="10 0" x:Name="RFIDNo" Tag="RFIDNo" TextChanged="CustomFieldTextBox_TextChanged" PreviewTextInput="VehicleNumber_PreviewTextInput" VerticalAlignment="Center" 
+                                 materialDesign:HintAssist.Hint="RFID No" FontSize="14" FontFamily="Segoe UI Semibold" PreviewKeyDown="VehicleNumber_PreviewKeyDown"></TextBox>
+                        <Button Margin="10 0 20 0" x:Name="SelectRFIDBtn"
+                           Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                           Width="21" Height="21"
+                           Content="{materialDesign:PackIcon Kind=Plus, Size=20}" Click="SelectRFIDBtn_Click"/>-->
+                        <ComboBox Width="280" Margin="10 0" x:Name="RFIDNo" materialDesign:HintAssist.Hint="RFID Tag"
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                    </StackPanel>
+                </Border>
+
+            </WrapPanel>
+        </ScrollViewer>
+        <StackPanel Margin="12 0 0 0" Grid.Row="2" Orientation="Horizontal">
+            <Button x:Name="NewButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" IsDefault="True" Click="New_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Reset.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Clear"/>
+                </Grid>
+            </Button>
+            <Button x:Name="SaveButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" Click="Save_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                </Grid>
+            </Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="3" Margin="3">
+            <Label Margin="7 0 0 0" Height="25" Content="Recent Transactions" FontSize="14" FontWeight="Bold"/>
+        </StackPanel>
+
+
+        <!--<ScrollViewer x:Name="TableContainer" Grid.Row="4" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">-->
+            <DataGrid Grid.Row="4" Name="MaterialGrid5" Height="174"
+                         Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                         ColumnWidth="150" AutoGenerateColumns="False" CanUserAddRows="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Allocation Id" Binding="{Binding Path=AllocationId}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Ticket No" Binding="{Binding Path=TicketNo}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="RFID Tag" Binding="{Binding Path=RFIDTag}" IsReadOnly="True" Width="220"/>
+                    <DataGridTextColumn Header="Vehicle No" Binding="{Binding Path=VehicleNumber}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Transaction Type" Binding="{Binding Path=TransMode}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="SAP Based" Binding="{Binding Path=IsSapBased}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Document Number" Binding="{Binding Path=DocNumber}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="GatePass Number" Binding="{Binding Path=GatePassNumber}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Token Number" Binding="{Binding Path=TokenNumber}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Material Code" Binding="{Binding Path=MaterialCode}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Material Name" Width="200" Binding="{Binding Path=MaterialName}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Supplier Code" Binding="{Binding Path=SupplierCode}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Supplier Name" Binding="{Binding Path=SupplierName}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Expiry Date" Binding="{Binding Path=ExpiryDate}" IsReadOnly="True" Width="180"/>
+                    <!--<DataGridTextColumn Header="Tare Weight" Binding="{Binding Path=TareWeight}" IsReadOnly="True"/>-->
+                    <DataGridTextColumn Header="LoadStatus" Binding="{Binding Path=IsLoaded}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Type" Binding="{Binding Path=TransType}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Allocation Type" Binding="{Binding Path=AllocationType}" IsReadOnly="True" Width="200"/>
+                    <DataGridTextColumn Header="No Of Material" Binding="{Binding Path=NoOfMaterial}" IsReadOnly="True"/>
+                    <DataGridTextColumn Header="Created Date" Binding="{Binding Path=CreatedOn}" IsReadOnly="True" Width="220"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        <!--</ScrollViewer>-->
+    </Grid>
+</UserControl>

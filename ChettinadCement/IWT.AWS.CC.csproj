@@ -1,0 +1,1452 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86.v8-xfa.props" Condition="Exists('..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86.v8-xfa.props')" />
+  <Import Project="..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props" Condition="Exists('..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{952B17E3-2C3B-447C-A93D-79266F889165}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>IWT.AWS</RootNamespace>
+    <AssemblyName>IWT.AWS</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>false</MapFileExtensions>
+    <TargetCulture>en-IN</TargetCulture>
+    <ProductName>IWT-2.0</ProductName>
+    <PublisherName>Exalca</PublisherName>
+    <ApplicationRevision>90</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>DFE97CBCBB5999081EDF12E059FBD8418FDA8110</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>IWT_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>favicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.9\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.3.3.11, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.3.3\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.3, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13.3\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="MarkupConverter, Version=0.0.0.0, Culture=neutral, PublicKeyToken=275ae570975796c6, processorArchitecture=MSIL">
+      <HintPath>..\packages\MarkupConverter.1.0.6\lib\net45\MarkupConverter.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignColors, Version=2.0.4.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignColors.2.0.4\lib\net452\MaterialDesignColors.dll</HintPath>
+    </Reference>
+    <Reference Include="MaterialDesignThemes.Wpf, Version=4.3.0.3, Culture=neutral, PublicKeyToken=df2a72020bd7962a, processorArchitecture=MSIL">
+      <HintPath>..\packages\MaterialDesignThemes.4.3.0\lib\net452\MaterialDesignThemes.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=1.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.1.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.SqlClient, Version=3.0.0.0, Culture=neutral, PublicKeyToken=23ec7fc2d6eaa4a5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Data.SqlClient.3.0.0\lib\net461\Microsoft.Data.SqlClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Tools.Sql.BatchParser, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.Data.Tools.Sql.BatchParser.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client, Version=4.35.0.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.4.35.0\lib\net461\Microsoft.Identity.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Identity.Client.Extensions.Msal, Version=2.18.4.0, Culture=neutral, PublicKeyToken=0a613f4dd989e8ae, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Identity.Client.Extensions.Msal.2.18.4\lib\net45\Microsoft.Identity.Client.Extensions.Msal.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.JsonWebTokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.JsonWebTokens.6.8.0\lib\net461\Microsoft.IdentityModel.JsonWebTokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.6.8.0\lib\net461\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.6.8.0\lib\net461\Microsoft.IdentityModel.Protocols.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Protocols.OpenIdConnect.6.8.0\lib\net461\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.8.0\lib\net461\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1449.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1449.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1449.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1449.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1449.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Assessment, Version=1.100.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Assessment.1.0.305\lib\net462\Microsoft.SqlServer.Assessment.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Assessment.Types, Version=1.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Assessment.Authoring.1.0.282\lib\net462\Microsoft.SqlServer.Assessment.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Dmf, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Dmf.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Dmf.Common, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Dmf.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Assessment, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.Assessment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Collector, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.Collector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.CollectorEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.CollectorEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.HadrData, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.HadrData.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.HadrModel, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.HadrModel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.RegisteredServers, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.RegisteredServers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.SqlScriptPublish, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.SqlScriptPublish.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.XEvent, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.XEvent.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.XEventDbScoped, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.XEventDbScoped.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.XEventDbScopedEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.XEventDbScopedEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.XEventEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Management.XEventEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.PolicyEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.PolicyEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.RegSvrEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.RegSvrEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ServiceBrokerEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.ServiceBrokerEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Smo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo.Notebook, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.Smo.Notebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SmoExtended, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.SmoExtended.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlClrProvider, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.SqlClrProvider.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlWmiManagement, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.SqlWmiManagement.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.WmiEnum, Version=16.200.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.SqlServer.SqlManagementObjects.161.47008.0\lib\net462\Microsoft.SqlServer.WmiEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Xaml.Behaviors, Version=1.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Xaml.Behaviors.Wpf.1.1.39\lib\net45\Microsoft.Xaml.Behaviors.dll</HintPath>
+    </Reference>
+    <Reference Include="MjpegProcessor, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MJPEG-Decoder.1.2\lib\net35\MjpegProcessor.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Notification.Wpf, Version=6.1.0.5, Culture=neutral, PublicKeyToken=1acac493089262b5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Notification.Wpf.6.1.0.5\lib\net48\Notification.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.5.6.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.5.6\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Ookii.Dialogs.Wpf, Version=5.0.0.0, Culture=neutral, PublicKeyToken=66aa232afad40158, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ookii.Dialogs.Wpf.5.0.1\lib\net462\Ookii.Dialogs.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Osklib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d2505f532da25346, processorArchitecture=MSIL">
+      <HintPath>..\packages\Osklib.1.6.0\lib\net471\Osklib.dll</HintPath>
+    </Reference>
+    <Reference Include="Osklib.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=d2505f532da25346, processorArchitecture=MSIL">
+      <HintPath>..\packages\Osklib.Wpf.1.6.0\lib\net47\Osklib.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfiumViewer, Version=2.13.0.0, Culture=neutral, PublicKeyToken=91e4789cfb0609e0, processorArchitecture=MSIL">
+      <HintPath>..\packages\PdfiumViewer.2.13.0.0\lib\net20\PdfiumViewer.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PdfSharp.Charting, Version=1.50.5147.0, Culture=neutral, PublicKeyToken=f94615aa0424f9eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\PDFsharp.1.50.5147\lib\net20\PdfSharp.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="RawPrint, Version=0.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RawPrint.0.5.0\lib\net40\RawPrint.dll</HintPath>
+    </Reference>
+    <Reference Include="ReachFramework" />
+    <Reference Include="SendGrid, Version=9.28.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
+      <HintPath>..\packages\SendGrid.9.28.0\lib\net452\SendGrid.dll</HintPath>
+    </Reference>
+    <Reference Include="StarkbankEcdsa, Version=1.0.0.0, Culture=neutral, PublicKeyToken=b2e6337a5d77bfbc, processorArchitecture=MSIL">
+      <HintPath>..\packages\starkbank-ecdsa.1.3.3\lib\net452\StarkbankEcdsa.dll</HintPath>
+    </Reference>
+    <Reference Include="SuperSimpleTcp, Version=2.6.0.8, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SuperSimpleTcp.2.6.0.8\lib\net48\SuperSimpleTcp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.ConfigurationManager, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Configuration.ConfigurationManager.4.7.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.5.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.7.0\lib\net46\System.Diagnostics.DiagnosticSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.DirectoryServices.Protocols" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.8.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.6.8.0\lib\net461\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.8\lib\net40\System.Linq.Dynamic.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management" />
+    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory.Data, Version=1.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.Data.1.0.2\lib\net461\System.Memory.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Reactive, Version=4.4.0.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.4.4.1\lib\net46\System.Reactive.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Core, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Core.4.4.1\lib\net46\System.Reactive.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Interfaces, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Interfaces.4.4.1\lib\net46\System.Reactive.Interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Linq, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Linq.4.4.1\lib\net46\System.Reactive.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.PlatformServices, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.PlatformServices.4.4.1\lib\net46\System.Reactive.PlatformServices.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reactive.Windows.Threading, Version=3.0.3000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reactive.Windows.Threading.4.4.1\lib\net46\System.Reactive.Windows.Threading.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.5.0.0\lib\net45\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.ProtectedData, Version=4.0.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.ProtectedData.4.5.0\lib\net461\System.Security.Cryptography.ProtectedData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Permissions, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Permissions.4.7.0\lib\net461\System.Security.Permissions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Speech" />
+    <Reference Include="System.Text.Encodings.Web, Version=4.0.5.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encodings.Web.4.7.2\lib\net461\System.Text.Encodings.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Text.Json, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Json.4.6.0\lib\net461\System.Text.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="ToastNotifications, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.2.5.1\lib\net40\ToastNotifications.dll</HintPath>
+    </Reference>
+    <Reference Include="ToastNotifications.Messages, Version=2.5.1.0, Culture=neutral, PublicKeyToken=e89d9d7314a7c797, processorArchitecture=MSIL">
+      <HintPath>..\packages\ToastNotifications.Messages.2.5.1\lib\net40\ToastNotifications.Messages.dll</HintPath>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="Admin_Pages\ControlStatusDialog.xaml.cs">
+      <DependentUpon>ControlStatusDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\FormulaFieldDialog.xaml.cs">
+      <DependentUpon>FormulaFieldDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\FormulaTemplateDialog.xaml.cs">
+      <DependentUpon>FormulaTemplateDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\HardwareProfile.xaml.cs">
+      <DependentUpon>HardwareProfile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\InsertTextFieldDialog.xaml.cs">
+      <DependentUpon>InsertTextFieldDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\ManageUser.xaml.cs">
+      <DependentUpon>ManageUser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\oldpage.xaml.cs">
+      <DependentUpon>oldpage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\PrintDeleteTicket.xaml.cs">
+      <DependentUpon>PrintDeleteTicket.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\ReTriggerMailSMS.xaml.cs">
+      <DependentUpon>ReTriggerMailSMS.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\Role.xaml.cs">
+      <DependentUpon>Role.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\SAPSync.xaml.cs">
+      <DependentUpon>SAPSync.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\TableFieldsDialog.xaml.cs">
+      <DependentUpon>TableFieldsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\TicketDataEntry.xaml.cs">
+      <DependentUpon>TicketDataEntry.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\viewer.xaml.cs">
+      <DependentUpon>viewer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Admin_Pages\ViewFieldDialog.xaml.cs">
+      <DependentUpon>ViewFieldDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardPages\ChangePasswordDialog.xaml.cs">
+      <DependentUpon>ChangePasswordDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DashboardWindow.xaml.cs">
+      <DependentUpon>DashboardWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DBCall\AdminDBCall.cs" />
+    <Compile Include="DBCall\Authentication.cs" />
+    <Compile Include="DBCall\DashboardDBCall.cs" />
+    <Compile Include="DBCall\MasterDBCall.cs" />
+    <Compile Include="DBCall\Setting_DBCall.cs" />
+    <Compile Include="DBCall\Transaction_DBCall.cs" />
+    <Compile Include="DefaultKeyboardHost.xaml.cs">
+      <DependentUpon>DefaultKeyboardHost.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\CCTVSettingsDialog.xaml.cs">
+      <DependentUpon>CCTVSettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\DataBaseDetailsDialog.xaml.cs">
+      <DependentUpon>DataBaseDetailsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\EmailSettingsDialog.xaml.cs">
+      <DependentUpon>EmailSettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\FileLocationDialog.xaml.cs">
+      <DependentUpon>FileLocationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\OtherSettingsDialog.xaml.cs">
+      <DependentUpon>OtherSettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\SoftwareConfigureDialog.xaml.cs">
+      <DependentUpon>SoftwareConfigureDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\SystemConfigureDialog.xaml.cs">
+      <DependentUpon>SystemConfigureDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FactorySetupPages\WeighBridgeDialog.xaml.cs">
+      <DependentUpon>WeighBridgeDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Keyboard\TouchScreenKeyboard.cs" />
+    <Compile Include="LogInWindow.xaml.cs">
+      <DependentUpon>LogInWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AWSTransaction.cs" />
+    <Compile Include="Models\ChangePassword.cs" />
+    <Compile Include="Models\CommonCls.cs" />
+    <Compile Include="Models\Master.cs" />
+    <Compile Include="Models\StoreManagement.cs" />
+    <Compile Include="Models\TicketDataEntry.cs" />
+    <Compile Include="Models\Transaction.cs" />
+    <Compile Include="NonTopmostPopup.cs" />
+    <Compile Include="ReportDesignerWindow.xaml.cs">
+      <DependentUpon>ReportDesignerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.cs" />
+    <Compile Include="Saved Template\CreateCaption.xaml.cs">
+      <DependentUpon>CreateCaption.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Saved Template\CreateTemplate.xaml.cs">
+      <DependentUpon>CreateTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Saved Template\DynamicReport.xaml.cs">
+      <DependentUpon>DynamicReport.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\AWS_setting.xaml.cs">
+      <DependentUpon>AWS_setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Camera_setting.xaml.cs">
+      <DependentUpon>Camera_setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\DB_Page.xaml.cs">
+      <DependentUpon>DB_Page.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Email.xaml.cs">
+      <DependentUpon>Email.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Email_Design.xaml.cs">
+      <DependentUpon>Email_Design.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Export_Import.xaml.cs">
+      <DependentUpon>Export_Import.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\File_location.xaml.cs">
+      <DependentUpon>File_location.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Hardware_profile.xaml.cs">
+      <DependentUpon>Hardware_profile.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Other_setting.xaml.cs">
+      <DependentUpon>Other_setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Setting_Screen.xaml.cs">
+      <DependentUpon>Setting_Screen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\SMS_Design.xaml.cs">
+      <DependentUpon>SMS_Design.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\SMS_setting.xaml.cs">
+      <DependentUpon>SMS_setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\SMTP_setting.xaml.cs">
+      <DependentUpon>SMTP_setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Software.xaml.cs">
+      <DependentUpon>Software.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Summary_Report.xaml.cs">
+      <DependentUpon>Summary_Report.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Setting_Pages\Weighing.xaml.cs">
+      <DependentUpon>Weighing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Shared\CommonFunction.cs" />
+    <Compile Include="Shared\CustomNotificationWPF.cs" />
+    <Compile Include="Shared\HtmlCssParser.cs" />
+    <Compile Include="Shared\HtmlFromXamlConverter.cs" />
+    <Compile Include="Shared\HtmlLexicalAnalyzer.cs" />
+    <Compile Include="Shared\HtmlParser.cs" />
+    <Compile Include="Shared\HtmlRichTextBoxBehavior.cs" />
+    <Compile Include="Shared\HtmlSchema.cs" />
+    <Compile Include="Shared\HtmlTokenType.cs" />
+    <Compile Include="Shared\HtmlToXamlConverter.cs" />
+    <Compile Include="Shared\ListToDataTableConvertor.cs" />
+    <Compile Include="Shared\MarkupConverter.cs" />
+    <Compile Include="Shared\RawPrinterHelper.cs" />
+    <Compile Include="Shared\ReportPrint.cs" />
+    <Compile Include="Shared\RtfToHtmlConverter.cs" />
+    <Compile Include="StartUpManager.cs" />
+    <Compile Include="TransactionPages\Addmaterial.xaml.cs">
+      <DependentUpon>Addmaterial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\Addsupplier.xaml.cs">
+      <DependentUpon>Addsupplier.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\Addvehicledialog.xaml.cs">
+      <DependentUpon>Addvehicledialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\FirstMulti.xaml.cs">
+      <DependentUpon>FirstMulti.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\FirstTransaction.xaml.cs">
+      <DependentUpon>FirstTransaction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\FirstVehicle.xaml.cs">
+      <DependentUpon>FirstVehicle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\NoOfCopiesDialog.xaml.cs">
+      <DependentUpon>NoOfCopiesDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\PendingTicket.xaml.cs">
+      <DependentUpon>PendingTicket.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\PendingVehicleDialog.xaml.cs">
+      <DependentUpon>PendingVehicleDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\ReportView.xaml.cs">
+      <DependentUpon>ReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\SecondMulti.xaml.cs">
+      <DependentUpon>SecondMulti.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\SecondTransaction.xaml.cs">
+      <DependentUpon>SecondTransaction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\SingleTransaction.xaml.cs">
+      <DependentUpon>SingleTransaction.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\TemplateSelectionDialog.xaml.cs">
+      <DependentUpon>TemplateSelectionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionPages\WeighmentHistoryDialog.xaml.cs">
+      <DependentUpon>WeighmentHistoryDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControlMenuItem.xaml.cs">
+      <DependentUpon>UserControlMenuItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Validators\RequiredValidator.cs" />
+    <Compile Include="ViewModel\AnotherCommandImplementation.cs" />
+    <Compile Include="ViewModel\ChangePasswordViewModel.cs" />
+    <Compile Include="ViewModel\FormulaFieldDialogViewModel.cs" />
+    <Compile Include="ViewModel\InsertTextFieldViewModel.cs" />
+    <Compile Include="ViewModel\ItemMenu.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
+    <Compile Include="ViewModel\Material.cs" />
+    <Compile Include="ViewModel\PaginationViewModel.cs" />
+    <Compile Include="ViewModel\SubItem.cs" />
+    <Compile Include="ViewModel\TicketDataEntryViewModel.cs" />
+    <Compile Include="ViewModel\ToastViewModel.cs" />
+    <Compile Include="ViewModel\ValidatorViewModel.cs" />
+    <Compile Include="ViewModel\ViewBaseModel.cs" />
+    <Compile Include="ViewModel\ViewFieldDialogViewModel.cs" />
+    <Compile Include="ViewModel\ViewPendingTickets.cs" />
+    <Compile Include="ViewModel\ViewTemplate.cs" />
+    <Compile Include="ViewModel\Viewvehicle.cs" />
+    <Compile Include="Views\Admin.xaml.cs">
+      <DependentUpon>Admin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ConfirmationDialog.xaml.cs">
+      <DependentUpon>ConfirmationDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard.xaml.cs">
+      <DependentUpon>Dashboard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dashboard1.xaml.cs">
+      <DependentUpon>Dashboard1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GateExitControl.xaml.cs">
+      <DependentUpon>GateExitControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManageMaterialDialog.xaml.cs">
+      <DependentUpon>ManageMaterialDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Master.xaml.cs">
+      <DependentUpon>Master.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MaterialMastereUserControl.xaml.cs">
+      <DependentUpon>MaterialMastereUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PreviewTransactionDialog.xaml.cs">
+      <DependentUpon>PreviewTransactionDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PrintAndDeleteTicketControl.xaml.cs">
+      <DependentUpon>PrintAndDeleteTicketControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RFIDAllocationUserControl.xaml.cs">
+      <DependentUpon>RFIDAllocationUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RFIDAllocationUserTableControl.xaml.cs">
+      <DependentUpon>RFIDAllocationUserTableControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RFIDTagMasterControl.xaml.cs">
+      <DependentUpon>RFIDTagMasterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShiftMasterUserControl.xaml.cs">
+      <DependentUpon>ShiftMasterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\StoreModule.xaml.cs">
+      <DependentUpon>StoreModule.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SummaryReports.xaml.cs">
+      <DependentUpon>SummaryReports.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SupplierMasterUserControl.xaml.cs">
+      <DependentUpon>SupplierMasterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SystemConfiguration.xaml.cs">
+      <DependentUpon>SystemConfiguration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControlCustomers.xaml.cs">
+      <DependentUpon>UserControlCustomers.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControlCustomMaster.xaml.cs">
+      <DependentUpon>UserControlCustomMaster.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserControlProviders.xaml.cs">
+      <DependentUpon>UserControlProviders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\VehicleMasterUserControl.xaml.cs">
+      <DependentUpon>VehicleMasterUserControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WeighmentProcess.cs" />
+    <Compile Include="WriteLog.cs" />
+    <Page Include="Admin_Pages\ControlStatusDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\FormulaFieldDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\FormulaTemplateDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\HardwareProfile.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\InsertTextFieldDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\ManageUser.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\oldpage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\PrintDeleteTicket.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\ReTriggerMailSMS.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\Role.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\SAPSync.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\TableFieldsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Admin_Pages\TicketDataEntry.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\viewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\ViewFieldDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DashboardPages\ChangePasswordDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DashboardWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DefaultKeyboardHost.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\CCTVSettingsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\DataBaseDetailsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\EmailSettingsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\FileLocationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\OtherSettingsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\SoftwareConfigureDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\SystemConfigureDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FactorySetupPages\WeighBridgeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LogInWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="ReportDesignerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Saved Template\CreateCaption.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Saved Template\CreateTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Saved Template\DynamicReport.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting_Pages\AWS_setting.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting_Pages\Camera_setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\DB_Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Email.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Email_Design.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting_Pages\Export_Import.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\File_location.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Hardware_profile.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Other_setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Setting_Screen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\SMS_Design.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting_Pages\SMS_setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\SMTP_setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Software.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Summary_Report.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Setting_Pages\Weighing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\Addmaterial.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionPages\Addsupplier.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionPages\Addvehicledialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionPages\FirstMulti.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionPages\FirstTransaction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\NoOfCopiesDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\PendingTicket.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\PendingVehicleDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\FirstVehicle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionPages\ReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\SecondMulti.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TransactionPages\SecondTransaction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\SingleTransaction.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\TemplateSelectionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TransactionPages\WeighmentHistoryDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControlMenuItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Admin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ConfirmationDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dashboard1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GateExitControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManageMaterialDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Master.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MaterialMastereUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PreviewTransactionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PrintAndDeleteTicketControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RFIDAllocationUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RFIDAllocationUserTableControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RFIDTagMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShiftMasterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StoreModule.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SummaryReports.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SupplierMasterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SystemConfiguration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControlCustomers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControlCustomMaster.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserControlProviders.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\VehicleMasterUserControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="TransactionPages\MultiTransaction.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="TransactionPages\Transaction.rdl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Resource Include="Images\download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Duplicate.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <None Include="IWT_TemporaryKey.pfx" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="favicon.ico" />
+    <Resource Include="Assets\Icons\allocate.png" />
+    <Resource Include="Assets\Icons\databaseIcon.png" />
+    <Resource Include="Assets\Icons\databaseImage.png" />
+    <Resource Include="Assets\Icons\gateEntry.png" />
+    <Resource Include="Assets\Icons\gateEntryIcon.png" />
+    <Resource Include="Assets\Icons\gateExit.png" />
+    <Resource Include="Assets\Icons\gateExitIcon.png" />
+    <Resource Include="Assets\Icons\grade.png" />
+    <Resource Include="Assets\Icons\loadStatus.png" />
+    <Resource Include="Assets\Icons\plant.png" />
+    <Resource Include="Assets\Icons\potype.png" />
+    <Resource Include="Assets\Icons\Reset.png" />
+    <Resource Include="Assets\Icons\RFID.png" />
+    <Resource Include="Assets\Icons\rfidIcon.png" />
+    <Resource Include="Assets\Icons\rfidImage.png" />
+    <Resource Include="Assets\Icons\rfidNo.png" />
+    <Resource Include="Assets\Icons\sap.png" />
+    <Resource Include="Assets\Icons\supplierImage.png" />
+    <Resource Include="Assets\Icons\trans.png" />
+    <Resource Include="Assets\Icons\Token.png" />
+    <Resource Include="Assets\Icons\manage-material.png" />
+    <Resource Include="Assets\Icons\SearchIcon.png" />
+    <Resource Include="Assets\Icons\AutoLogin.png" />
+    <Resource Include="Assets\Icons\AWSSystem.png" />
+    <Resource Include="Assets\Icons\Name.png" />
+    <Resource Include="Assets\Icons\SystemConfig.png" />
+    <Resource Include="Assets\Icons\SystemConfigIcon.png" />
+    <Resource Include="Assets\Icons\VPS.png" />
+    <Resource Include="Assets\Icons\pending.png" />
+    <Resource Include="Assets\Icons\print1.png" />
+    <Content Include="RichTextWebsite\quill.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RichTextWebsite\quill.snow.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="RichTextWebsite\RichText.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Transaction.ico" />
+    <Resource Include="Assets\Icons\Add_Material.png" />
+    <Resource Include="Assets\Icons\Add_Supplier.png" />
+    <Resource Include="Assets\Icons\admin.png" />
+    <Resource Include="Assets\Icons\adminIcon.png" />
+    <Resource Include="Assets\Icons\Axies_Count.png" />
+    <Resource Include="Assets\Icons\calendar_80.png" />
+    <Resource Include="Assets\Icons\Camera_Caapture.png" />
+    <Resource Include="Assets\Icons\Camera_Stream.png" />
+    <Resource Include="Assets\Icons\Cancel.png" />
+    <Resource Include="Assets\Icons\Caption_icon.png" />
+    <Resource Include="Assets\Icons\CC.png" />
+    <Resource Include="Assets\Icons\CCTV.png" />
+    <Resource Include="Assets\Icons\Change-Password.png" />
+    <Resource Include="Assets\Icons\Checked _80.png" />
+    <Resource Include="Assets\Icons\Checked.png" />
+    <Resource Include="Assets\Icons\clock-new.png" />
+    <Resource Include="Assets\Icons\clock.png" />
+    <Resource Include="Assets\Icons\CLose.png" />
+    <Resource Include="Assets\Icons\Close_Transaction.png" />
+    <Resource Include="Assets\Icons\Custom_Field.png" />
+    <Resource Include="Assets\Icons\Database_Password.png" />
+    <Resource Include="Assets\Icons\default-thumb.png" />
+    <Resource Include="Assets\Icons\Default.png" />
+    <Resource Include="Assets\Icons\Dont_know.png" />
+    <Resource Include="Assets\Icons\Download DOC.png" />
+    <Resource Include="Assets\Icons\Download zip.png" />
+    <Resource Include="Assets\Icons\Download-DOC.png" />
+    <Resource Include="Assets\Icons\Download-zip.png" />
+    <Resource Include="Assets\Icons\Download_Excel.png" />
+    <Resource Include="Assets\Icons\Download_PDF.png" />
+    <Resource Include="Assets\Icons\Driver.png" />
+    <Resource Include="Assets\Icons\Driver_text_field.png" />
+    <Resource Include="Assets\Icons\edit.png" />
+    <Resource Include="Assets\Icons\Email.png" />
+    <Resource Include="Assets\Icons\Email1.png" />
+    <Resource Include="Assets\Icons\EmailforReport.png" />
+    <Resource Include="Assets\Icons\Email_Setting.png" />
+    <Resource Include="Assets\Icons\eMaterial.png" />
+    <Resource Include="Assets\Icons\Empty_Weight.png" />
+    <Resource Include="Assets\Icons\eshift master.png" />
+    <Resource Include="Assets\Icons\essae_logo.png" />
+    <Resource Include="Assets\Icons\esupplier.png" />
+    <Resource Include="Assets\Icons\Field_name.png" />
+    <Resource Include="Assets\Icons\File_Path.png" />
+    <Resource Include="Assets\Icons\First_Trans.png" />
+    <Resource Include="Assets\Icons\First_transaction.png" />
+    <Resource Include="Assets\Icons\Five.png" />
+    <Resource Include="Assets\Icons\Formula.png" />
+    <Resource Include="Assets\Icons\Four.png" />
+    <Resource Include="Assets\Icons\Frist_Axle.png" />
+    <Resource Include="Assets\Icons\Frist_Axle1.png" />
+    <Resource Include="Assets\Icons\Frist_Multi.png" />
+    <Resource Include="Assets\Icons\Frist_Multi1.png" />
+    <Resource Include="Assets\Icons\From.png" />
+    <Resource Include="Assets\Icons\Generate.png" />
+    <Resource Include="Assets\Icons\Grouping.png" />
+    <Resource Include="Assets\Icons\Grouping_80.png" />
+    <Resource Include="Assets\Icons\Hardware Profile.png" />
+    <Resource Include="Assets\Icons\Hardware Profile1.png" />
+    <Resource Include="Assets\Icons\Hardware_Configue.png" />
+    <Resource Include="Assets\Icons\Home_screen.png" />
+    <Resource Include="Assets\Icons\Host.png" />
+    <Resource Include="Assets\Icons\ID.png" />
+    <Resource Include="Assets\Icons\ID1.png" />
+    <Resource Include="Assets\Icons\Import_Export.png" />
+    <Resource Include="Assets\Icons\Key.png" />
+    <Resource Include="Assets\Icons\Key1.png" />
+    <Resource Include="Assets\Icons\Launch-Wizard .png" />
+    <Resource Include="Assets\Icons\Launch_Wizard.png" />
+    <Resource Include="Assets\Icons\Loaded.png" />
+    <Resource Include="Assets\Icons\Loaded_1.png" />
+    <Resource Include="Assets\Icons\Loaded_Weight.png" />
+    <Resource Include="Assets\Icons\Locked.png" />
+    <Resource Include="Assets\Icons\Locked1.png" />
+    <Resource Include="Assets\Icons\loginEssae.png" />
+    <Resource Include="Assets\Icons\loginkey.png" />
+    <Resource Include="Assets\Icons\Manage_U.png" />
+    <Resource Include="Assets\Icons\Manage_User.png" />
+    <Resource Include="Assets\Icons\Manage_User1.png" />
+    <Resource Include="Assets\Icons\Master.png" />
+    <Resource Include="Assets\Icons\Masters.png" />
+    <Resource Include="Assets\Icons\MastersIcon.png" />
+    <Resource Include="Assets\Icons\material.png" />
+    <Resource Include="Assets\Icons\MaterialEdge.png" />
+    <Resource Include="Assets\Icons\Material_80.png" />
+    <Resource Include="Assets\Icons\Material_code.png" />
+    <Resource Include="Assets\Icons\Material_COde1.png" />
+    <Resource Include="Assets\Icons\Material_COde_old.png" />
+    <Resource Include="Assets\Icons\Material_Name.png" />
+    <Resource Include="Assets\Icons\Message.png" />
+    <Resource Include="Assets\Icons\Mobile.png" />
+    <Resource Include="Assets\Icons\Net_Weight.png" />
+    <Resource Include="Assets\Icons\new.png" />
+    <Resource Include="Assets\Icons\next_icon.png" />
+    <Resource Include="Assets\Icons\No_of_Axles.png" />
+    <Resource Include="Assets\Icons\No_of_Axles1.png" />
+    <Resource Include="Assets\Icons\No_of_Copies.png" />
+    <Resource Include="Assets\Icons\no_preview.png" />
+    <Resource Include="Assets\Icons\no_preview2.png" />
+    <Resource Include="Assets\Icons\off.png" />
+    <Resource Include="Assets\Icons\Off_80.png" />
+    <Resource Include="Assets\Icons\on.png" />
+    <Resource Include="Assets\Icons\one.png" />
+    <Resource Include="Assets\Icons\On_80.png" />
+    <Resource Include="Assets\Icons\Operator.png" />
+    <Resource Include="Assets\Icons\Others.png" />
+    <Resource Include="Assets\Icons\pacewisdom_logo.png" />
+    <Resource Include="Assets\Icons\Paid User.png" />
+    <Resource Include="Assets\Icons\Password.png" />
+    <Resource Include="Assets\Icons\pendingticket.jpg" />
+    <Resource Include="Assets\Icons\person.png" />
+    <Resource Include="Assets\Icons\Port.png" />
+    <Resource Include="Assets\Icons\power.png" />
+    <Resource Include="Assets\Icons\print.png" />
+    <Resource Include="Assets\Icons\Repo.png" />
+    <Resource Include="Assets\Icons\Report.png" />
+    <Resource Include="Assets\Icons\Reports.png" />
+    <Resource Include="Assets\Icons\ReportsIcon.png" />
+    <Resource Include="Assets\Icons\Report_Icon.png" />
+    <Resource Include="Assets\Icons\role.png" />
+    <Resource Include="Assets\Icons\role1.png" />
+    <Resource Include="Assets\Icons\Roles.png" />
+    <Resource Include="Assets\Icons\clipart.png" />
+    <Content Include="Assets\Icons\Rolling.svg" />
+    <Resource Include="Assets\Icons\Save.png" />
+    <Resource Include="Assets\Icons\saveCaption.jpg" />
+    <Resource Include="Assets\Icons\Saved_Reports.png" />
+    <Resource Include="Assets\Icons\Saved_Templates_801.png" />
+    <Resource Include="Assets\Icons\Search.png" />
+    <Resource Include="Assets\Icons\Second_Axle.png" />
+    <Resource Include="Assets\Icons\Second_Axle1.png" />
+    <Resource Include="Assets\Icons\Second_multi.png" />
+    <Resource Include="Assets\Icons\Second_multi1.png" />
+    <Resource Include="Assets\Icons\Second_Trans.png" />
+    <Resource Include="Assets\Icons\Second_Trans1.png" />
+    <Resource Include="Assets\Icons\Select_Template.png" />
+    <Resource Include="Assets\Icons\Setting.png" />
+    <Resource Include="Assets\Icons\Settings.png" />
+    <Resource Include="Assets\Icons\SettingsIcon.png" />
+    <Resource Include="Assets\Icons\seven_up.png" />
+    <Resource Include="Assets\Icons\ShiftEdge.png" />
+    <Resource Include="Assets\Icons\Shift_80.png" />
+    <Resource Include="Assets\Icons\shift_master.png" />
+    <Resource Include="Assets\Icons\shift_master_new.png" />
+    <Resource Include="Assets\Icons\Single_Axle.png" />
+    <Resource Include="Assets\Icons\Single_Axle1.png" />
+    <Resource Include="Assets\Icons\six_down.png" />
+    <Resource Include="Assets\Icons\sms.png" />
+    <Resource Include="Assets\Icons\SMS_Setting.png" />
+    <Resource Include="Assets\Icons\Software_Configue.png" />
+    <Resource Include="Assets\Icons\Sort.png" />
+    <Content Include="Assets\Icons\Spinner.svg" />
+    <Resource Include="Assets\Icons\Standard_Report.png" />
+    <Resource Include="Assets\Icons\Subject.png" />
+    <Resource Include="Assets\Icons\supplier.png" />
+    <Resource Include="Assets\Icons\supplier12.png" />
+    <Resource Include="Assets\Icons\SupplierEdge.png" />
+    <Resource Include="Assets\Icons\Supplier_80.png" />
+    <Resource Include="Assets\Icons\Supplier_COde.png" />
+    <Resource Include="Assets\Icons\Supplier_Code1.png" />
+    <Resource Include="Assets\Icons\Supplier_COde_old.png" />
+    <Resource Include="Assets\Icons\Supplier_Name.png" />
+    <Resource Include="Assets\Icons\Supplier_new.png" />
+    <Resource Include="Assets\Icons\Table.png" />
+    <Resource Include="Assets\Icons\tableName.png" />
+    <Resource Include="Assets\Icons\Table_temp.png" />
+    <Resource Include="Assets\Icons\tare.png" />
+    <Resource Include="Assets\Icons\TareWeight.png" />
+    <Resource Include="Assets\Icons\Three.png" />
+    <Resource Include="Assets\Icons\Ticket_data.png" />
+    <Resource Include="Assets\Icons\To.png" />
+    <Resource Include="Assets\Icons\Transaction.png" />
+    <Resource Include="Assets\Icons\Transactions.png" />
+    <Resource Include="Assets\Icons\Transcation.png" />
+    <Resource Include="Assets\Icons\Two.png" />
+    <Resource Include="Assets\Icons\Unchecked _80.png" />
+    <Resource Include="Assets\Icons\Unchecked.png" />
+    <Resource Include="Assets\Icons\Unloading.png" />
+    <Resource Include="Assets\Icons\Unloading1.png" />
+    <Resource Include="Assets\Icons\Update.png" />
+    <Resource Include="Assets\Icons\upload.png" />
+    <Resource Include="Assets\Icons\Transaction.ico" />
+    <Content Include="Assets\Icons\user.svg" />
+    <Resource Include="Assets\Icons\User_name.png" />
+    <Resource Include="Assets\Icons\User_name1.png" />
+    <Resource Include="Assets\Icons\VechicleEdge.png" />
+    <Resource Include="Assets\Icons\Vechicle_80.png" />
+    <Resource Include="Assets\Icons\Vector Smart Object4.png" />
+    <Resource Include="Assets\Icons\vehicle_master.png" />
+    <Resource Include="Assets\Icons\Vehicle_Number.png" />
+    <Resource Include="Assets\Icons\view_fields.png" />
+    <Resource Include="Assets\Icons\weight.png" />
+    <Resource Include="Assets\Icons\Weight_Bridge.png" />
+    <Resource Include="Assets\Icons\Width.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.8">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.8 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AWS.Communication\AWS.Communication.csproj">
+      <Project>{e9cab856-4380-4d8c-a9ea-dec0474367cd}</Project>
+      <Name>AWS.Communication</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TcpClientService\TcpClientService.csproj">
+      <Project>{C12DBAEA-3601-4038-8878-559CCB43B8BD}</Project>
+      <Name>TcpClientService</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <!--<ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>-->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MaterialDesignThemes.4.3.0\build\MaterialDesignThemes.targets'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.Data.SqlClient.SNI.3.0.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Data.SqlClient.SNI.3.0.0\build\net46\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PdfiumViewer.Native.x86_64.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86_64.v8-xfa.props'))" />
+    <Error Condition="!Exists('..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86.v8-xfa.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PdfiumViewer.Native.x86.v8-xfa.2018.4.8.256\build\PdfiumViewer.Native.x86.v8-xfa.props'))" />
+  </Target>
+  <Import Project="..\packages\Microsoft.Data.SqlClient.SNI.3.0.0\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\packages\Microsoft.Data.SqlClient.SNI.3.0.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
+</Project>

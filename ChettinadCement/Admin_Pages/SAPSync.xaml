@@ -1,0 +1,296 @@
+﻿<Page x:Class="IWT.Admin_Pages.SAPSync"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.Admin_Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="SAPSync">
+    <Page.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
+                            <Grid Name="TabPanel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabPanel" Property="Background" Value="#FFDE1717" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="TabPanel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <TabControl BorderThickness="0" materialDesign:ShadowAssist.ShadowDepth="Depth5" Name="Tabcontrol" SelectionChanged="Tabcontrol_SelectionChanged" >
+            <TabControl.Template>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0"/>
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <WrapPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                        <Border x:Name="contentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="1"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </TabControl.Template>
+            <TabItem Header="SAP Sync" Uid="1" Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <materialDesign:Card Margin="16" VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                    <Grid x:Name="mainGrid" Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <DatePicker Margin="8 0" Grid.Column="0" x:Name="FromDateValue" materialDesign:HintAssist.Hint="Date"
+                            Width="180" Foreground="Gray"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}" Padding="7"/>
+                            <DatePicker Margin="8 0" Grid.Column="1" x:Name="ToDateValue" materialDesign:HintAssist.Hint="To"
+                            Width="180" Foreground="Gray"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}" Padding="7"/>
+                            <Button Grid.Column="2" Margin="8" Grid.Row="0" Background="#696969" Width="80" x:Name="ReloadButton" Click="ReloadButton_Click">Refresh</Button>
+                            <Button Grid.Column="4" Margin="8" Grid.Row="0" Background="#FF1AB72B" Width="80" x:Name="SyncButton" Click="SyncButton_Click">Sync</Button>
+                        </Grid>
+
+                        <materialDesign:Card Grid.Row="1" Margin="10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="360"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <!--<ScrollViewer x:Name="TableContainer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">-->
+                                    <DataGrid Name="MaterialGrid5" HorizontalScrollBarVisibility="Auto"
+                         Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                         ColumnWidth="150" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="DataGrid_SelectionChanged">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="60">
+                                                <DataGridTemplateColumn.Header>
+                                                    <CheckBox x:Name="HeaderCheckbox" Checked="HeaderCheckbox_Checked" Unchecked="HeaderCheckbox_Checked"/>
+                                                </DataGridTemplateColumn.Header>
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Checked="ColumnCheckBox_Checked" Unchecked="ColumnCheckBox_Checked" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="TicketNo" Binding="{Binding Path=TransId}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Transaction" Binding="{Binding Path=TransType}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="State" Binding="{Binding Path=Trans}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Completed Transactions" Binding="{Binding Path=CompletedTrans}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Interface" Binding="{Binding Path=Type}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Payload" Binding="{Binding Path=Payload}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Response" Binding="{Binding Path=Response}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="NoOfRetry" Binding="{Binding Path=NoOfRetry}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Date" Binding="{Binding Path=Date}" IsReadOnly="True" Width="180"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                <!--</ScrollViewer>-->
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 10">
+                                    <TextBlock Text="Item per page" Padding="10 0" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="PaginatorComboBox" Width="50" VerticalAlignment="Center" Margin="10 0" SelectionChanged="PaginatorComboBox_SelectionChanged">
+                                    </ComboBox>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="FirstPage" ToolTip="First page" Click="FirstPage_Click"
+                    IsEnabled="{Binding IsFirstEnable}">
+                                        <materialDesign:PackIcon Kind="PageFirst"/>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="PreviousPage" ToolTip="Previous page" Click="PreviousPage_Click"
+                    IsEnabled="{Binding IsPreviousEnable}">
+                                        <materialDesign:PackIcon Kind="ChevronLeft"/>
+                                    </Button>
+                                    <!--<TextBlock Text="{Binding NumberOfPages}"/>-->
+                                    <TextBlock Padding="10 0" VerticalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} of {1}">
+                                                <Binding Path="CurrentPage"/>
+                                                <Binding Path="NumberOfPages"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="NextPage" ToolTip="Next page" Click="NextPage_Click"
+                    IsEnabled="{Binding IsNextEnable}">
+                                        <materialDesign:PackIcon Kind="ChevronRight"/>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="LastPage" ToolTip="Last page" Click="LastPage_Click"
+                    IsEnabled="{Binding IsLastEnable}">
+                                        <materialDesign:PackIcon Kind="PageLast"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+            <TabItem Header="Gate Passes" Uid="2" Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <materialDesign:Card Margin="16" VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                    <Grid x:Name="gatepassContainer" Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <DatePicker Margin="8 0" Grid.Column="0" x:Name="gpFromDate" materialDesign:HintAssist.Hint="Date"
+                            Width="180" Foreground="Gray"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}" Padding="7"/>
+                            <DatePicker Margin="8 0" Grid.Column="1" x:Name="gpToDate" materialDesign:HintAssist.Hint="To"
+                            Width="180" Foreground="Gray"
+                            Style="{StaticResource MaterialDesignOutlinedDatePicker}" Padding="7"/>
+                            <Button Grid.Column="2" Margin="8" Grid.Row="0" Background="#696969" Width="80" x:Name="gpReload" Click="gpReload_Click">Refresh</Button>
+                            <Button Grid.Column="4" x:Name="closeGpBtn" Click="closeGpBtn_Click" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" IsEnabled="false">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/Icons/Cancel.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Close"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+
+                        <materialDesign:Card Grid.Row="1" Margin="10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="360"></RowDefinition>
+                                    <RowDefinition Height="auto"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <!--<ScrollViewer x:Name="TableContainer1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">-->
+                                    <DataGrid x:Name="GatePassGrid"
+                         Background="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
+                         ColumnWidth="150" AutoGenerateColumns="False" CanUserAddRows="False" SelectionChanged="DataGrid_SelectionChanged1">
+                                        <DataGrid.Columns>
+                                            <DataGridTemplateColumn Width="60">                                                
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <CheckBox Checked="ColumnCheckBox_Checked1" Unchecked="ColumnCheckBox_Checked1" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                            <DataGridTextColumn Header="Token No" Binding="{Binding Path=TokenNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Vehicle No" Binding="{Binding Path=VehicleNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="InOut" Binding="{Binding Path=InOut}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Inward Type" Binding="{Binding Path=InwardType}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Outward Type" Binding="{Binding Path=OutwardType}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Plant" Binding="{Binding Path=Plant}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Material No" Binding="{Binding Path=MaterialNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Gatepass No" Binding="{Binding Path=GatePassNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="PO No" Binding="{Binding Path=PoNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="PO Item No" Binding="{Binding Path=PoItemNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="SO No" Binding="{Binding Path=SoNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="SO Item No" Binding="{Binding Path=SoItemNumber}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Status" Binding="{Binding Path=Status}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Created On" Binding="{Binding Path=CreatedOn}" IsReadOnly="True" Width="180"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                <!--</ScrollViewer>-->
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 10">
+                                    <TextBlock Text="Item per page" Padding="10 0" VerticalAlignment="Center"/>
+                                    <ComboBox x:Name="gpPaginatorComboBox" Width="50" VerticalAlignment="Center" Margin="10 0" SelectionChanged="gpPaginatorComboBox_SelectionChanged">
+                                    </ComboBox>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="gpFirstPage" ToolTip="First page" Click="gpFirstPage_Click"
+                    IsEnabled="{Binding IsFirstEnable}">
+                                        <materialDesign:PackIcon Kind="PageFirst"/>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="gpPreviousPage" ToolTip="Previous page" Click="gpPreviousPage_Click"
+                    IsEnabled="{Binding IsPreviousEnable}">
+                                        <materialDesign:PackIcon Kind="ChevronLeft"/>
+                                    </Button>
+                                    <!--<TextBlock Text="{Binding NumberOfPages}"/>-->
+                                    <TextBlock Padding="10 0" VerticalAlignment="Center">
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{} {0} of {1}">
+                                                <Binding Path="CurrentPage"/>
+                                                <Binding Path="NumberOfPages"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="gpNextPage" ToolTip="Next page" Click="gpNextPage_Click"
+                    IsEnabled="{Binding IsNextEnable}">
+                                        <materialDesign:PackIcon Kind="ChevronRight"/>
+                                    </Button>
+                                    <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="gpLastPage" ToolTip="Last page" Click="gpLastPage_Click"
+                    IsEnabled="{Binding IsLastEnable}">
+                                        <materialDesign:PackIcon Kind="PageLast"/>
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>

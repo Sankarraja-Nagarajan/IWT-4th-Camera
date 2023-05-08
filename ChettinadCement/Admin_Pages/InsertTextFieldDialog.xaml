@@ -1,0 +1,207 @@
+﻿<UserControl x:Class="IWT.Admin_Pages.InsertTextFieldDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Admin_Pages"
+             mc:Ignorable="d" 
+             d:DesignHeight="800.276" d:DesignWidth="794.107"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="1" Grid.Column="1" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" MaxHeight="500">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0" BorderBrush="Gray" BorderThickness="1" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/tableName.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Table Name</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Name="FieldTableName" materialDesign:HintAssist.Hint="Table Name" FontWeight="Regular" Foreground="Gray" Width="320" IsEnabled="False" Text="{Binding TableName}"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" BorderBrush="Gray" BorderThickness="1" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/Custom_Field.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Field Name</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Name="FieldName" materialDesign:HintAssist.Hint="Field Name" FontWeight="Regular" Foreground="Gray"  Width="320" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="2" BorderBrush="Gray" BorderThickness="1" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/Custom_Field.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Field Type</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ComboBox Style="{StaticResource MaterialDesignOutlinedComboBox}" Name="CustomFieldType" materialDesign:HintAssist.Hint="Select"  Width="320" ItemsSource="{Binding FieldTypes}" DisplayMemberPath="DisplayType" SelectionChanged="CustomFieldType_SelectionChanged">
+
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border x:Name="FieldSizeContainer" Grid.Row="3" BorderBrush="Gray" BorderThickness="1" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/Custom_Field.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Field Size</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Name="FieldSize" materialDesign:HintAssist.Hint="Field Size" FontWeight="Regular" Foreground="Gray"  Width="320" PreviewTextInput="FieldSize_PreviewTextInput"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="4" BorderBrush="Gray" BorderThickness="1" Padding="12">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/Custom_Field.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Field Caption</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBox Style="{StaticResource MaterialDesignOutlinedTextBox}" Name="FieldCaption" materialDesign:HintAssist.Hint="Field Caption" FontWeight="Regular" Foreground="Gray"  Width="320" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="5" BorderBrush="Gray" BorderThickness="1" Padding="12" Visibility="{Binding IsDropdown}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/tableName.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Selection Table</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ComboBox x:Name="selctionTableCombobox" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select"  Width="320" ItemsSource="{Binding TableList}" DisplayMemberPath="TableName" SelectedValue="SelectionTable" SelectedValuePath="TableName" SelectionChanged="selectionTable_SelectionChanged">
+
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="6" BorderBrush="Gray" BorderThickness="1" Padding="12" Visibility="{Binding IsDropdown}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/Custom_Field.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Selection Field</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ComboBox x:Name="selectionFieldCombobox" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select"  Width="320"  ItemsSource="{Binding TabelColumns}" DisplayMemberPath="column_name">
+
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="7" BorderBrush="Gray" BorderThickness="1" Padding="12" Visibility="{Binding IsDataDependency}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"></ColumnDefinition>
+                            <ColumnDefinition Width="180"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Icons/Custom_Field.png" Width="40"/>
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left">
+                            <TextBlock Margin="30 0 0 0" Foreground="#FF211F1F" FontSize="14" FontWeight="Normal" FontFamily="Segoe UI Semibold">Selection Based On</TextBlock>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <ComboBox x:Name="SelectionBasis" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Select"  Width="320"  ItemsSource="{Binding TabelColumns}" DisplayMemberPath="column_name">
+
+                            </ComboBox>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="8" BorderBrush="Gray" BorderThickness="1" Padding="12" Visibility="{Binding IsMandatoryField}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="20"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton Grid.Column="0" Content="Mandatory" FontSize="14" FontFamily="Segoe UI Semibold" Margin="40,0,0,0" Name="IsMandatory"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </ScrollViewer>
+        
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button IsDefault="True" Width="100" BorderBrush="#FF343138" Background="#FF5C5961" Click="Insert_Button_Click"
+                   Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                   Content="Insert">
+            </Button>
+            <Button IsCancel="True" Width="100" Margin="20 0 0 0" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                   Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                   Content="Cancel" BorderBrush="#FF343138" Background="#FF5C5961">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

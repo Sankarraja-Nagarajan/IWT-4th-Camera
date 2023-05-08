@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="quill.snow.css">
+
+</head>
+<body>
+    <div id="editor">
+    </div>
+
+    <script src="quill.js"></script>
+
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+    </script>
+    <script>
+        function getText() {
+            return this.quill.root.innerHTML;
+        //    return document.getElementById('editor').innerHTML;
+        }
+        function setText(msg) {
+            this.quill.root.innerHTML = msg;
+            return this.quill.root.innerHTML;
+        }
+    </script>
+</body>
+</html>

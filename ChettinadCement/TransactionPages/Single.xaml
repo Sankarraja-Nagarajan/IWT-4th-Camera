@@ -1,0 +1,347 @@
+﻿<Page x:Class="IWT.TransactionPages.Single"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:IWT.TransactionPages" 
+      xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="800"
+      Title="Single">
+    <Page.Resources>
+        <Style TargetType="ToggleButton">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Button Height="15" Width="15"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid  Height="400">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="85*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30*"/>
+            <!--<RowDefinition Height="100*"/>
+            <RowDefinition Height="30"/>-->
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="30*"/>
+            </Grid.ColumnDefinitions>
+            <materialDesign:Card Grid.Column="0" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="4" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="167"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                        <Image   Source="/Assets/Icons/Transactions.png"  Height="40" ></Image>
+                        <TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                    <ToggleButton Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center"
+                          Style="{DynamicResource MaterialDesignSwitchToggleButton}" IsHitTestVisible="False" IsTabStop="False" IsChecked="True" Margin="0 0 0 15">
+                        
+                        <ToggleButton.RenderTransform >
+                            <RotateTransform
+                                Angle="90" />
+                        </ToggleButton.RenderTransform>
+                        <materialDesign:PackIcon
+                                                 Kind="TruckFlatbed"
+                            RenderTransformOrigin=".5,.5">
+                            <materialDesign:PackIcon.RenderTransform>
+                                <RotateTransform
+                                Angle="-90" />
+                            </materialDesign:PackIcon.RenderTransform>
+                        </materialDesign:PackIcon>
+                        <materialDesign:ToggleButtonAssist.OnContent>
+                            <materialDesign:PackIcon
+                              Kind="TruckOutline" RenderTransformOrigin=".5,.5">
+                                <materialDesign:PackIcon.RenderTransform>
+                                    <RotateTransform
+                                Angle="-90" />
+                                </materialDesign:PackIcon.RenderTransform>
+                            </materialDesign:PackIcon>
+                        </materialDesign:ToggleButtonAssist.OnContent>
+
+                    </ToggleButton>
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Column="1" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="4" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                        <Image   Source="/Assets/Icons/Weight_Bridge.png"  Height="60" ></Image>
+                        <!--<TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <!--<TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
+                        <TextBlock x:Name="empty_weight" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Text="Tare Weight" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Column="2" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                        <Image   Source="/Assets/Icons/Weight_Bridge.png"  Height="60" ></Image>
+                        <!--<TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="0000" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <!--<TextBlock Text="Kg" VerticalAlignment="Top" HorizontalAlignment="Right"></TextBlock>-->
+                        <TextBlock Text="Loaded Weight" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Column="3" materialDesign:ShadowAssist.ShadowDepth="Depth4" Margin="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                        <Image   Source="/Assets/Icons/Weight_Bridge.png"  Height="60" ></Image>
+                        <TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Column="4" materialDesign:ShadowAssist.ShadowDepth="Depth2" Margin="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" VerticalAlignment="Center" >
+                        <Image   Source="/Assets/Icons/Net_Weight.png"  Height="60" ></Image>
+                        <!--<TextBlock Text="Loaded" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock Text="0000" FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+                        <TextBlock Text="Net Weight" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+
+                    </StackPanel>
+
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <materialDesign:Card Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Background="white" Padding="15 15 0 16" Width="310"  HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <!--<Label HorizontalAlignment="Left" Margin="0,14,0,0" Width="42.033">Name:</Label>-->
+                    <!--<materialDesign:PackIcon Kind="PaletteSwatch" Width="40" Height="30" HorizontalAlignment="Center" Background="wheat"/>-->
+                    <Image Source="/Assets/Icons/Vehicle_Number.png" Grid.Row="0" Width="40" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+
+                    <!--<materialDesign:PackIcon Kind="PaletteSwatch" Grid.Row="1" Width="40" Height="30" HorizontalAlignment="Center" Background="wheat"/>-->
+                    <Image Source="/Assets/Icons/eMaterial.png" Grid.Row="1" Width="40" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+
+                    <!--<materialDesign:PackIcon Kind="PaletteSwatch" Grid.Row="2" Width="40" Height="30" HorizontalAlignment="Center" Background="wheat"/>-->
+                    <Image Source="/Assets/Icons/eSupplier.png" Grid.Row="2" Width="40" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <Button Grid.Row="0" Grid.Column="3"
+                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                     VerticalAlignment="Center" HorizontalAlignment="Right"
+                     Width="21" Height="21"  Margin="0 0 5 0"
+                     Content="{materialDesign:PackIcon Kind=Plus, Size=20}" Click="Button_Click1"/>
+                    <Button Grid.Row="1" Grid.Column="3"
+                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                     VerticalAlignment="Center" HorizontalAlignment="Right"
+                     Width="21" Height="21"  Margin="0 0 5 0"
+                     Content="{materialDesign:PackIcon Kind=Plus, Size=20}" Click="Button_Click2"  />
+                    <!--<Image Source="/Assets/Icons/new.png" Grid.Row="1" Grid.Column="3" Margin="8" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" ></Image>-->
+                    <Button Grid.Row="2" Grid.Column="3"
+                     Style="{StaticResource MaterialDesignFloatingActionMiniAccentButton}"
+                     VerticalAlignment="Center" HorizontalAlignment="Right"
+                     Width="21" Height="21"  Margin="0 0 5 0"
+                     Content="{materialDesign:PackIcon Kind=Plus, Size=20}" Click="Button_Click3"/>
+                    <!--<Image Source="/Assets/Icons/new.png" Grid.Row="2" Grid.Column="3" Margin="8" Width="20" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right"></Image>-->
+                    <!--<Label Grid.Row="1" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Email:</Label>
+                        <Label Grid.Row="2" HorizontalAlignment="Left" Margin="0,14,0,0" Width="40.097">Other:</Label>-->
+                    <TextBox x:Name="vehicle" materialDesign:HintAssist.Hint="Vehicle Number" FontWeight="Regular" Foreground="Gray" Grid.Column="1" Grid.Row="0"  Margin="10,8,0,13" Width="200" HorizontalAlignment="Left" />
+                    <TextBox x:Name="code2" materialDesign:HintAssist.Hint="Material Code/Name" FontWeight="Regular" Foreground="Gray" Grid.Column="1" Grid.Row="1"  Margin="10,8,0,13" Width="200" HorizontalAlignment="Left" />
+                    <!--<TextBox Name="Expiry" materialDesign:HintAssist.Hint="Tare Weight/Expiry" FontWeight="Regular" Grid.Column="1" Grid.Row="1" Margin="10,8,0,13" Width="250" HorizontalAlignment="Left" Foreground="Gray" />-->
+                    <TextBox  x:Name="supplier1" materialDesign:HintAssist.Hint="Supplier Code/Name" FontWeight="Regular" Grid.Column="1" Grid.Row="2" Margin="10,8,0,13" Width="200" HorizontalAlignment="Left" Foreground="Gray" />
+                </Grid>
+            </materialDesign:Card>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <!--<materialDesign:Card Background="white"  Padding="5 5 0 6"  Width="315" Height="150" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        --><!--<Image Source="/Assets/Icons/Control Panel-bro.png" Grid.ColumnSpan="2"  Grid.Row="0" Grid.Column="1" Width="150" Height="650" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>--><!--
+                        <Image Source="/Assets/Icons/Camera_Stream.png" Width="50" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="125 0 0 0"></Image>
+
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card Background="white"  Padding="5 5 0 6" Margin="20 0 20 0" Width="315" Height="150" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        --><!--<Image Source="/Assets/Icons/Control Panel-bro.png" Grid.ColumnSpan="2"  Width="150" Height="650" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>--><!--
+                        <Image Source="/Assets/Icons/Camera_Stream.png" Width="50" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="125 0 0 0"></Image>
+
+
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card Background="white"  Padding="5 5 0 6"  Width="315" Height="150" HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        --><!--<Image Source="/Assets/Icons/Control Panel-bro.png" Grid.ColumnSpan="2"  Width="150" Height="650" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>--><!--
+                        <Image Source="/Assets/Icons/Camera_Stream.png" Width="50" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="125 0 0 0"></Image>
+
+
+                    </Grid>
+                </materialDesign:Card>-->
+            </StackPanel>
+            <!--<materialDesign:Card Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Background="white"  Padding="5 5 0 6"  Width="315" Height="150" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="1" Grid.Column="3" Grid.ColumnSpan="2" Background="white"  Padding="5 5 0 6"  Width="315" Height="150" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                </Grid>
+            </materialDesign:Card>
+            <materialDesign:Card Grid.Row="1" Grid.Column="6" Grid.ColumnSpan="6" Background="white"  Padding="5 5 0 6"  Width="315" Height="150" HorizontalAlignment="Left">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                </Grid>
+            </materialDesign:Card>-->
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <Button Grid.Column="0" Grid.Row="2" Background="#A9A9A9" Width="120" Margin="0 25 0 0"
+                         HorizontalAlignment="Left" Name="MaterialSaveButton" Click="MaterialSaveButton_Click" IsEnabled="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="wheat"/>-->
+                        <Image Source="/Assets/Icons/weight.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+
+                        <TextBlock Name="MaterialSaveButtonText" Grid.Column="1" Padding="10 0 0 0" Text="Weigh"/>
+                    </Grid>
+                </Button>
+                <Button Grid.Column="1" Grid.Row="2" Background="#A9A9A9" Width="108" Margin="4 25 0 0"
+                          HorizontalAlignment="Left" Click="Button_Click" x:Name="SaveButton" IsEnabled="False">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="wheat"/>-->
+                        <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+
+                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                    </Grid>
+                </Button>
+                <Popup  x:Name="popup" StaysOpen="True" IsOpen="False" 
+            AllowsTransparency="False" PopupAnimation="Slide" Placement="Top" Height="600" Width="600" Margin="20">
+
+                    <Grid Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="1*"></RowDefinition>
+                            <RowDefinition Height="8*"></RowDefinition>
+                            <RowDefinition Height="1*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="10*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}" Background="White" x:Name="CloseButton"
+                        Click="CloseButton_Click" >
+                            <materialDesign:PackIcon Kind="Close" Height="15"  Width="15" />
+                        </Button>
+                        <WindowsFormsHost Grid.Row="1" Grid.ColumnSpan="2"  HorizontalAlignment="Center" Height="450" Margin="10" VerticalAlignment="Center" Width="550">
+                            <rv:ReportViewer x:Name="ReportViewerDemo"/>
+                        </WindowsFormsHost>
+                        <Grid Grid.Row="2" Grid.ColumnSpan="2"  Margin="0">
+                            <Button x:Name="PrintBtn" Content="Print" Width="120" Height="40" VerticalAlignment="Top" Click="PrintBtn_Click"/>
+                        </Grid>
+                    </Grid>
+
+                </Popup>
+
+                <Button Grid.Column="2" Grid.Row="2" Background="#A9A9A9" Width="108" Margin="4 25 0 0"
+                          HorizontalAlignment="Left">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <!--<materialDesign:PackIcon Kind="PaletteSwatch" Width="20" Height="20" HorizontalAlignment="Center" Background="wheat"/>-->
+                        <Image Source="/Assets/Icons/Cancel.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+
+                        <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Cancel"/>
+                    </Grid>
+                </Button>
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+</Page>

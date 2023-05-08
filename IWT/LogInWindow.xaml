@@ -1,0 +1,112 @@
+﻿<Window x:Class="IWT.LogInWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IWT"
+        xmlns:k="clr-namespace:IWT.Keyboard"
+        xmlns:validations="clr-namespace:IWT.Validators"
+        mc:Ignorable="d"
+        Icon="/Assets/Icons/loginEssae.png"
+        Title="IWT"
+        WindowState="Maximized"
+        Height="584" Width="897"
+       ResizeMode="NoResize" WindowStyle="None">
+    <!--ResizeMode="NoResize" WindowStyle="None"-->
+    <Window.Resources>
+
+    </Window.Resources>
+    <materialDesign:DialogHost Identifier="LoginDialogHost">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Grid.Column="1" MinWidth="200" MinHeight="200">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition Height="70"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Image Source="/Assets/Icons/loginEssae.png" Width="100"/>
+                </Grid>
+                <Grid Grid.Row="2" HorizontalAlignment="Center">
+                    <TextBlock x:Name="LiveDateTime" FontSize="14"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="4" HorizontalAlignment="Center">
+                    <TextBlock x:Name="Version" FontSize="14" FontWeight="Normal" Foreground="#FF0C0101"></TextBlock>
+                </Grid>
+                <Grid Grid.Row="6" Background="#2f3030">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="12"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Foreground="White" Margin="0,30,0,14" TextAlignment="Center" FontSize="16" FontWeight="Normal">Login</TextBlock>
+                            <TextBox x:Name="username" Margin="0,16" Width="400" InputScope="Default"
+                            Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                            materialDesign:HintAssist.Hint="User Name" materialDesign:HintAssist.IsFloating="False"
+                            BorderBrush="#89F9F9F9" Foreground="White" SelectionBrush="White" CaretBrush="White" OpacityMask="White" FontSize="14" Background="#0F000000">
+                                <!--<TextBox.Text  k:TouchScreenKeyboard.TouchScreenKeyboard="true">
+                                <Binding
+      Path="Name"
+      UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.ValidationRules>
+                                        <validations:RequiredValidationRule FieldName="User name"
+          ValidatesOnTargetUpdated="True" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>-->
+                            </TextBox>
+                            <PasswordBox x:Name="password" Margin="0,16,0,20" Width="400"
+                            Style="{StaticResource MaterialDesignOutlinedPasswordBox}" materialDesign:HintAssist.IsFloating="False"
+                            VerticalAlignment="Top"
+                            materialDesign:HintAssist.Hint="Password" BorderBrush="#89F9F9F9" Foreground="White" CaretBrush="White" FontSize="14" />
+                        </StackPanel>
+                    </Grid>
+                    <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0,8,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="16"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0">
+                            <Button
+                            IsDefault="True"
+                          Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                          Width="100"
+                          Content="Login" Background="#FFCE1921" BorderBrush="#FFE8212A" Click="Login_Button_Click" />
+                        </Grid>
+                        <Grid Grid.Column="2">
+                            <Button
+                              Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                              Width="110"
+                              Content="Shut Down" BorderBrush="#FF343138" Background="#FF5C5961" Click="Shutdown_Button_Click" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="8" Margin="0,20,0,0">
+                    <materialDesign:Snackbar
+                        x:Name="snackbar"
+                        MessageQueue="{materialDesign:MessageQueue}"/>
+                </Grid>
+            </Grid>
+        </Grid>
+    </materialDesign:DialogHost>
+</Window>

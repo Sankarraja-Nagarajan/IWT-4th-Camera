@@ -1,0 +1,510 @@
+﻿<Page x:Class="IWT.Setting_Pages.Other_setting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Other_setting">
+    <Page.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
+                            <Grid Name="TabPanel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabPanel" Property="Background" Value="#FFDE1717" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="TabPanel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TabControl  BorderThickness="0" materialDesign:ShadowAssist.ShadowDepth="Depth5" Name="Tabcontrol" SelectionChanged="TabControl_SelectionChanged" >
+            <TabControl.Template>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0"/>
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <WrapPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                        <Border x:Name="contentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="1"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </TabControl.Template>
+            <TabItem Header="Other Setting" Uid="1"  Height="40" Width="260" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="10"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="20 20 20 10">
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="SMS_alert" Checked="SMS_alert_Changed" Unchecked="SMS_alert_Changed"
+                                          Margin="0,0,30,0"
+                                          Content="SMS Alerts" />
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Dos_print"
+                                          Margin="0,0,30,0"
+                                          Content="Dos Print" />
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_print" Checked="Auto_print_Changed" Unchecked="Auto_print_Changed"
+                                          Margin="0,0,30,0"
+                                          Content="Auto Print" />
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_mail" Checked="Auto_mail_Changed" Unchecked="Auto_mail_Changed"
+                                          Margin="0,0,30,0"
+                                          Content="Auto Mail" />
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_Print_Preview"
+                                          Margin="0,0,30,0"
+                                          Content="Auto Print Preview"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="20">
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_ft_sms" IsEnabled="False"
+                                          Margin="0,0,30,0"
+                                          Content="Auto First Transaction SMS"/>
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_ft_print" IsEnabled="False"
+                                          Margin="0,0,30,0"
+                                          Content="Auto First Transaction Print"/>
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_ft_mail" IsEnabled="False"
+                                          Margin="0,0,30,0"
+                                          Content="Auto First Transaction Mail"/>
+                            <CheckBox FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"
+                                          x:Name="Auto_copies"
+                                          Margin="0,0,30,0"
+                                          Content="Auto Copies"/>
+                        </StackPanel>
+                        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20 10 20 10">
+                            <TextBlock FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" VerticalAlignment="Center" Text="No of Copies:" Margin="0,0,20,0"></TextBlock>
+                            <TextBox Padding="10" VerticalAlignment="Center" Width="250" Height="40" BorderThickness="1" x:Name="Copies" BorderBrush="#FFA0A0A0" Foreground="Black"></TextBox>
+                        </StackPanel>
+                        <!--<StackPanel Grid.Row="3" Orientation="Horizontal" Margin="20 10 20 10">
+                            <TextBlock FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" VerticalAlignment="Center" Text="SystemID:" Margin="0,0,20,0"></TextBlock>
+                            <TextBox Padding="10" VerticalAlignment="Center" Width="250" Height="40" BorderThickness="1" x:Name="SystemID" BorderBrush="#FFA0A0A0" Foreground="Black"></TextBox>
+                        </StackPanel>-->
+                        <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="20 10 20 10" Visibility="Collapsed">
+                            <TextBlock FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" VerticalAlignment="Center" Text="Base URL:" Margin="0,0,20,0"></TextBlock>
+                            <TextBox Padding="10" VerticalAlignment="Center" Width="250" Height="40" BorderThickness="1" x:Name="BaseURL" BorderBrush="#FFA0A0A0" Foreground="Black"></TextBox>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+                <!--<Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="30*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="10">
+                        <materialDesign:Card Grid.Row="0" Height="250"  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="80"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+                                <WrapPanel Grid.Row="0" Margin="10" Height="70">
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          x:Name="SMS_alert"
+                                          Margin="0,0,30,8"
+                                          Content="SMS Alerts" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Dos_print"
+                                          Margin="0,0,30,8"
+                                          Content="Dos Print" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Auto_print"
+                                          Margin="0,0,30,8"
+                                          Content="Auto Print" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Auto_mail"
+                                          Margin="0,0,30,8"
+                                          Content="Auto Mail" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Auto_ft_sms"
+                                          Margin="0,0,30,8"
+                                          Content="Auto First Transaction SMS" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Auto_ft_print"
+                                          Margin="0,0,30,8"
+                                          Content="Auto First Transaction Print" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Auto_ft_mail"
+                                          Margin="0,0,30,8"
+                                          Content="Auto First Transaction Mail" />
+                                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                                          x:Name="Auto_copies"
+                                          Margin="0,0,30,8"
+                                          Content="Auto Copies" />
+                                </WrapPanel>
+                                <WrapPanel Grid.Row="1" Margin="20,5,5,5">
+                                    <TextBlock Text="No of Copies:" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox Width="200" BorderThickness="1" Name="Copies" BorderBrush="#FFA0A0A0"></TextBox>
+                                </WrapPanel>
+                                <WrapPanel Grid.Row="2" Margin="20,5,5,5">
+                                    <TextBlock Text="System ID:" Margin="0,0,10,0"></TextBlock>
+                                    <TextBox Width="200" BorderThickness="1" Name="Tare_weight" BorderBrush="#FFA0A0A0"></TextBox>
+                                </WrapPanel>
+                                <WrapPanel Grid.Row="3" Margin="20,5,5,5">
+                                    <TextBlock Text="Base URL:" Margin="0,0,10,0" Foreground="Black"></TextBlock>
+                                    <TextBox Width="200" BorderThickness="1" Name="Base_URL" BorderBrush="#FFA0A0A0"></TextBox>
+                                </WrapPanel>
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                    -->
+                <!--<Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Margin="25,0,0,0" >
+                        <Grid Width="50">
+                            <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                        </Grid>
+                    </Button>-->
+                <!--
+                </Grid>-->
+            </TabItem>
+            <TabItem Header="Ticket Configure" Uid="2" Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="30*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="10">
+                        <materialDesign:Card Grid.Row="0" Height="180"  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                            <Grid Margin="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="20*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="70*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="/Assets/Icons/Table_temp.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Ticket Number Start Value" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Name="Ticket" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+
+                                <Image Grid.Row="1" Source="/Assets/Icons/clock.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="Ticket Expiry days" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" Name="ExpiryDays" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"
+                                         PreviewTextInput="ExpiryDays_PreviewTextInput"/>
+
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                    <!--<Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Margin="25,0,0,0" >
+                        <Grid Width="50">
+                            <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                        </Grid>
+                    </Button>-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="Stable Weight Configure" Uid="3"  Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="220"/>
+                        <RowDefinition Height="30*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="10">
+                        <materialDesign:Card Grid.Row="0" Height="200"  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth3" >
+                            <Grid Margin="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="10*"/>
+                                    <ColumnDefinition Width="30*"/>
+                                    <ColumnDefinition Width="70*"/>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                    <RowDefinition Height="50"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="/Assets/Icons/Table_temp.png"  VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Stable Weight Count Value" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Name="Stable_weight" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                                <Image Grid.Row="1" Source="/Assets/Icons/Table_temp.png"  VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="Min Weight Count Value" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" Name="Min_weight" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                                <Image Grid.Row="2" Source="/Assets/Icons/Table_temp.png"  VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="Stable PLC Count Value" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                <TextBox Grid.Row="2" Grid.Column="2" Name="Stable_PLC" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                    <!--<Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Margin="25,0,0,0" >
+                        <Grid Width="50">
+                            <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                        </Grid>
+                    </Button>-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="GSM Setting" Uid="4"  Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="170"/>
+                        <RowDefinition Height="30*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="10">
+                        <materialDesign:Card Grid.Row="0" Height="130"  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                            <Grid Margin="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="350"/>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10*"/>
+                                    <RowDefinition Height="10*"/>
+
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="/Assets/Icons/Table_temp.png"  VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Device Name" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Name="Device_name" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+
+                                <Image Grid.Row="1" Source="/Assets/Icons/Table_temp.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="Port Number" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" Name="Port_number" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                    <!--<Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Margin="25,0,0,0" >
+                        <Grid Width="50">
+                            <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                        </Grid>
+                    </Button>-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="CCID Config" Uid="5"  Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="170"/>
+                        <RowDefinition Height="30*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" Margin="10">
+                        <materialDesign:Card Grid.Row="0" Height="130"  VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                            <Grid Margin="20">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="350"/>
+
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="10*"/>
+                                    <RowDefinition Height="10*"/>
+
+                                </Grid.RowDefinitions>
+                                <Image Grid.Row="0" Source="/Assets/Icons/Table_temp.png"  VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="Device Name" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                                <TextBox Grid.Row="0" Grid.Column="2" Name="Device_name1" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+
+                                <Image Grid.Row="1" Source="/Assets/Icons/Table_temp.png" VerticalAlignment="Center" HorizontalAlignment="Center" Height="30">
+
+                                </Image>
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="Port Number" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+                                <TextBox Grid.Row="1" Grid.Column="2" Name="Port_number1" Margin="5" BorderBrush="#89B4A7A7" Background="White" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+
+                            </Grid>
+                        </materialDesign:Card>
+                    </Grid>
+                    <!--<Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Margin="25,0,0,0" >
+                        <Grid Width="50">
+                            <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                            <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                        </Grid>
+                    </Button>-->
+                </Grid>
+            </TabItem>
+            <TabItem Header="ERP Location" Uid="6"  Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <materialDesign:Card Margin="0 20 0 0" Height="240" VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                            <ColumnDefinition Width="3*"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <CheckBox Margin="10" Name="IsEnabled" Grid.ColumnSpan="4">Enable</CheckBox>
+
+                        <Image Source="/Assets/Icons/File_Path.png" HorizontalAlignment="Left" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="1" Margin="7 10"/>
+                        <TextBlock Text="ERP File Path" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="1"/>
+                        <TextBox Grid.Row="1" Grid.Column="2" x:Name="ERPFilePath" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                        <Button Grid.Row="1" Name="btnOpenFile" Grid.Column="3" Margin="20 0" Click="btnOpenFile_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Select folder</Button>
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="4">
+                            <CheckBox Margin="10" Name="IsXML" Grid.ColumnSpan="4">XML</CheckBox>
+                            <CheckBox Margin="10" Name="IsCSV" Grid.ColumnSpan="4">CSV</CheckBox>
+                        </StackPanel>
+                        <Button Grid.Row="3" Width="100" HorizontalAlignment="Stretch" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000"
+                                x:Name="SaveERPBtn" Click="SaveERPBtn_Click">
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                                <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                            </StackPanel>-->
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                <TextBlock Padding="10 0 0 0" Text="Save"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+            <TabItem Header="Cloud App Config" Uid="7"  Height="40" Width="200" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <materialDesign:Card Margin="0 20 0 0" Height="260" VerticalAlignment="Top"  HorizontalAlignment="Stretch" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                            <ColumnDefinition Width="auto"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="auto"></RowDefinition>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <CheckBox Margin="10 10 10 20" x:Name="IsCloudAppEnabled" Grid.ColumnSpan="4">Cloud App</CheckBox>
+
+                        <TextBlock Margin="10 0 20 0" Grid.Row="1" Text="System ID" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" x:Name="SystemId" Width="300" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                        <TextBlock Margin="10 10 20 0" Grid.Row="2" Text="WeighBridge ID" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                        <TextBox Margin="0 10 0 0" Grid.Row="2" Grid.Column="1" x:Name="WeighBridgeID" Width="300" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                        <TextBlock Margin="10 10 20 0" Grid.Row="3" Text="Base URL" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                        <TextBox Margin="0 10 0 0" Grid.Row="3" Grid.Column="1" x:Name="BaseURI" Width="300" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                        <Button Grid.Row="4" Width="100" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Background="#FF6C6C6C" BorderBrush="#0000"
+                                x:Name="SaveCloudAppBtn" Click="SaveCloudAppBtn_Click">
+                            <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                                <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                            </StackPanel>-->
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                <TextBlock Padding="10 0 0 0" Text="Save"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+
+        </TabControl>
+        <Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" Margin="25,0,0,0" x:Name="Other_settingSave" Click="Other_settingSave_Click" >
+            <Grid Width="50">
+                <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+            </Grid>
+        </Button>
+    </Grid>
+</Page>

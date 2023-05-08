@@ -1,0 +1,227 @@
+﻿<UserControl x:Class="IWT.Views.ManageMaterialDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1000">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="380"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <StackPanel HorizontalAlignment="Stretch" Margin="10">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                <Label Margin="0 10 0 10" HorizontalAlignment="Left" FontWeight="Bold" FontSize="14">Store Management -</Label>
+                <Label Margin="0 10 0 10" HorizontalAlignment="Left" FontWeight="Bold" FontSize="14" x:Name="vehicleNumber">VehicleNumber</Label>
+            </StackPanel>
+            <Separator/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="16"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="16"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="1" Margin="10 0 0 0" x:Name="MaterialMasterContainer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" FontSize="13">Material Master</Label>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                        <Border BorderBrush="#CDCDCD" BorderThickness="1">
+                            <DataGrid x:Name="MaterialMasterDataGrid" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="MaterialMasterDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Code" Binding="{Binding MaterialCode}" Width="150" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding MaterialName}" Width="180" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" x:Name="MaterialMasterActionsContainer">
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="MaterialSelect" Source="/Assets/Icons/Three.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="MaterialSelect_MouseLeftButtonDown"/>
+                    </Border>
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="MaterialUnselect" Source="/Assets/Icons/Four.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="MaterialUnselect_MouseLeftButtonDown"/>
+                    </Border>
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="MaterialClear" Source="/Assets/Icons/Five.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="MaterialClear_MouseLeftButtonDown"/>
+                    </Border>
+                </StackPanel>
+
+                <Grid Grid.Column="3" Margin="10 0 0 0" x:Name="SelectedMaterialsContainer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" FontSize="13">Selected Materials</Label>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                        <Border BorderBrush="#CDCDCD" BorderThickness="1" Margin="5">
+                            <DataGrid x:Name="SelectedMaterialsDataGrid" ColumnWidth="*" ItemsSource="{Binding}" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="SelectedMaterialsDataGrid_SelectionChanged">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>                                            
+                                            <DataTrigger Binding="{Binding Closed}" Value="False">
+                                                <Setter Property="Background" Value="#ffffff"></Setter>
+                                            </DataTrigger>                                            
+                                            <DataTrigger Binding="{Binding Closed}" Value="True">                                                
+                                                <Setter Property="Background" Value="GreenYellow"></Setter>
+                                            </DataTrigger>                                            
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>                                
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Code" Binding="{Binding MaterialCode}" Width="150" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding MaterialName}" Width="180" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+
+                <StackPanel Grid.Column="4" VerticalAlignment="Center" x:Name="OrderMaterialContainer">
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="MaterialUp" Source="/Assets/Icons/seven_up.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="MaterialUp_MouseLeftButtonDown"/>
+                    </Border>
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="MaterialDown" Source="/Assets/Icons/six_down.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="MaterialDown_MouseLeftButtonDown"/>
+                    </Border>
+                </StackPanel>
+
+                <Grid Grid.Column="5" Margin="10 0 0 0" x:Name="SupplierMasterContainer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" FontSize="13">Suppplier Master</Label>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                        <Border BorderBrush="#CDCDCD" BorderThickness="1">
+                            <DataGrid x:Name="SupplierMasterDataGrid" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="SupplierMasterDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Code" Binding="{Binding SupplierCode}" Width="150" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding SupplierName}" Width="180" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+
+                <StackPanel Grid.Column="6" VerticalAlignment="Center" x:Name="SupplierMasterActionsContainer">
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="SupplierSelect" Source="/Assets/Icons/Three.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="SupplierSelect_MouseLeftButtonDown"/>
+                    </Border>
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="SupplierUnselect" Source="/Assets/Icons/Four.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="SupplierUnselect_MouseLeftButtonDown"/>
+                    </Border>
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="SupplierClear" Source="/Assets/Icons/Five.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="SupplierClear_MouseLeftButtonDown"/>
+                    </Border>
+                </StackPanel>
+
+                <Grid Grid.Column="7" Margin="10 0 0 0" x:Name="SelectedSuppliersContainer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" FontSize="13">Selected Suppliers</Label>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                        <Border BorderBrush="#CDCDCD" BorderThickness="1" Margin="5">
+                            <DataGrid x:Name="SelectedSuppliersDataGrid" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True" SelectionChanged="SelectedSuppliersDataGrid_SelectionChanged">
+                                <DataGrid.RowStyle>
+                                    <Style TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Closed}" Value="False">
+                                                <Setter Property="Background" Value="#ffffff"></Setter>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Closed}" Value="True">
+                                                <Setter Property="Background" Value="GreenYellow"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Code" Binding="{Binding SupplierCode}" Width="150" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding SupplierName}" Width="180" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+
+                <StackPanel Grid.Column="8" VerticalAlignment="Center" x:Name="OrderSupplierContainer">
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="SupplierUp" Source="/Assets/Icons/seven_up.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="SupplierUp_MouseLeftButtonDown"/>
+                    </Border>
+                    <Border Height="40" Width="40" Padding="5" BorderBrush="#CDCDCD" BorderThickness="1" Cursor="Hand">
+                        <Image x:Name="SupplierDown" Source="/Assets/Icons/six_down.png" VerticalAlignment="Top" HorizontalAlignment="Center"
+                           MouseLeftButtonDown="SupplierDown_MouseLeftButtonDown"/>
+                    </Border>
+                </StackPanel>
+
+                <Grid Grid.Column="9" Margin="10 0 0 0" x:Name="SapItemNumberContainer">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label HorizontalAlignment="Center" FontSize="13">Item Number</Label>
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Visible">
+                        <Border BorderBrush="#CDCDCD" BorderThickness="1" Margin="5">
+                            <DataGrid x:Name="SapItemNumberDataGrid" ColumnWidth="*" AutoGenerateColumns="False" IsReadOnly="True">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Item No" Binding="{Binding ItemNo}" Width="150" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <!--</ScrollViewer>-->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
+            <Button Margin="10" x:Name="CloseBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                              HorizontalAlignment="Center" Width="100" Click="CloseBtn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/Cancel.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Padding="10 0 0 0" Text="Close"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="10" x:Name="SaveBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                              HorizontalAlignment="Center" Width="100" Click="SaveBtn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Padding="10 0 0 0" Text="Save"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

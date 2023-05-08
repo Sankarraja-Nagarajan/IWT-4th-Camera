@@ -1,0 +1,107 @@
+﻿<UserControl x:Class="IWT.FactorySetupPages.DataBaseDetailsDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.FactorySetupPages"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:validations="clr-namespace:IWT.Validators"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="White" Width="800">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <TextBlock Margin="0 0 0 4" FontFamily="Segoe UI Semibold" FontSize="18">Database details</TextBlock>
+        </Grid>
+        <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1"></Border>
+        <Grid Grid.Row="3" Grid.Column="1" Margin="30 30 30 0">
+            <StackPanel>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Database_Password.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Database server" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="DataSource" Grid.Column="2" VerticalAlignment="Center">
+                        <Binding Path="DataSource" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validations:RequiredValidationRule FieldName="DataSource"  ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Database_Password.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Database" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="Database" Grid.Column="2" VerticalAlignment="Center">
+                        <Binding Path="DataSource" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validations:RequiredValidationRule FieldName="DataSource"  ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/User_name.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="User" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <TextBox x:Name="UserID" Grid.Column="2" VerticalAlignment="Center">
+                        <Binding Path="UserID" UpdateSourceTrigger="PropertyChanged">
+                            <Binding.ValidationRules>
+                                <validations:RequiredValidationRule FieldName="User"  ValidatesOnTargetUpdated="True" />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
+                </Grid>
+                <Grid Margin="0 0 0 10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="4*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Password.png" Width="40" Height="40"/>
+                    <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Password" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                    <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                        <PasswordBox x:Name="Password" materialDesign:TextFieldAssist.HasClearButton="True" PasswordChanged="Password_PasswordChanged" />
+                        <TextBlock x:Name="PasswordError" FontSize="10"  Foreground="#FFCE1921" >Password is mandatory</TextBlock>
+                    </StackPanel>
+                    
+                </Grid>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="5" Grid.Column="1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <!--<Button Click="Previous_Button_Click" Content="Back" Margin="0 0 30 0"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                        Width="100" Background="#FFCE1921" BorderBrush="#FFE8212A"/>-->
+                <Button x:Name="SubmitBtn" Click="SubmitBtn_Click"  IsDefault="True" Content="Submit"
+                        Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                        Width="100" Background="#FFCE1921" BorderBrush="#FFE8212A"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

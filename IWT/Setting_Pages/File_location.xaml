@@ -1,0 +1,152 @@
+﻿<Page x:Class="IWT.Setting_Pages.File_location"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="800"
+      Title="File_location">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto">
+
+            </RowDefinition>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <materialDesign:Card Grid.Row="0" Height="600" Padding="0 10" VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="400*"/>
+
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Margin="0 0 0 10">
+                    <TextBlock Text="File Location" VerticalAlignment="Center" FontSize="18" Margin="10" FontWeight="Medium"></TextBlock>
+                    <Separator />
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions >
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="20*"/>
+                        <ColumnDefinition Width="33*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                        <RowDefinition Height="20*"/>
+                    </Grid.RowDefinitions>
+                    <Image Source="/Assets/Icons/File_Path.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="0" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="1" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="2" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="3" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="4" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="5" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="6" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="7" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="8" Margin="40 0 0 0"/>
+                    <Image Source="/Assets/Icons/Field_name.png" HorizontalAlignment="Center" VerticalAlignment="Center" Width="30"
+                                                 Height="30" Grid.Row="9" Margin="40 0 0 0"/>
+                    <TextBlock Text="Log File Path" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="0" Margin="-25,0,0,0"/>
+                    <TextBlock Text="RDLC File Path" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="1" Margin="0"/>
+                    <TextBlock Text="RDLC File" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="2" Margin="-35,0,0,0"/>
+                    <TextBlock Text="Report Temp" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="3" Margin="-25,0,0,0"/>
+                    <TextBlock Text="Transaction Log" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="4" Margin="-10,0,0,0"/>
+                    <TextBlock Text="Ticket Temp" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="5" Margin="-35,0,0,0"/>
+                    <WrapPanel Grid.Column="1" Grid.Row="6" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Default Ticket Template Folder" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="6" Margin="0"/>
+                    </WrapPanel>
+                    <TextBlock Text="Default Template File" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="7" Margin="25,0,0,0"/>
+                    <TextBlock Text="WeighIndicator" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="8" Margin="-10,0,0,0"/>
+                    <TextBlock Text="WeighIndicator File" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" Grid.Column="1" Grid.Row="9" Margin="20,0,0,0"/>
+
+                    <TextBox Grid.Row="0" Grid.Column="2" Name="Log" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <TextBox Grid.Row="1" Grid.Column="2" Name="Ireport" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <TextBox Grid.Row="2" Grid.Column="2" Name="IReport_file" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                    <TextBox Grid.Row="3" Grid.Column="2" Name="report" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                        <!--<TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </TextBox.Resources>-->
+                    </TextBox>
+                    <TextBox Grid.Row="4" Grid.Column="2" Name="Transaction" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <TextBox Grid.Row="5" Grid.Column="2" Name="ticket" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <TextBox Grid.Row="6" Grid.Column="2" Name="default_ticket" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                    <TextBox Grid.Row="7" Grid.Column="2" Name="default_temp" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                        <!--<TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </TextBox.Resources>-->
+                    </TextBox>
+                    <TextBox Grid.Row="8" Grid.Column="2" Name="Weigh" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                    <TextBox Grid.Row="9" Grid.Column="2" Name="Weight_indicator" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}">
+                        <!--<TextBox.Resources>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="CornerRadius" Value="10"/>
+                            </Style>
+                        </TextBox.Resources>-->
+                    </TextBox>
+
+                    <Button Name="btnOpenFile" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Select folder</Button>
+
+                    <Button Name="btnOpenFile1" Grid.Row="1" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile1_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Select folder</Button>
+
+                    <Button Name="btnOpenFile2" Grid.Row="2" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile2_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Open file</Button>
+
+                    <Button Name="btnOpenFile3" Grid.Row="3" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile3_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Open file</Button>
+
+                    <Button Name="btnOpenFile4" Grid.Row="4" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile4_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Open file</Button>
+
+                    <Button Name="btnOpenFile5" Grid.Row="5" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile5_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Open file</Button>
+
+                    <Button Name="btnOpenFile6" Grid.Row="6" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile6_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Select folder</Button>
+
+                    <Button Name="btnOpenFile7" Grid.Row="7" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile7_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Open file</Button>
+
+                    <Button Name="btnOpenFile8" Grid.Row="8" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile8_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Select folder</Button>
+
+                    <Button Name="btnOpenFile9" Grid.Row="9" Grid.Column="3" Margin="20 0" Width="120" Click="btnOpenFile9_Click" HorizontalAlignment="Left" VerticalAlignment="Center">Open file</Button>
+                </Grid>
+            </Grid>
+        </materialDesign:Card>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0 10">
+            <Button Grid.Column="0" Grid.Row="1" Width="100" Background="#FF6C6C6C" BorderBrush="#0000" x:Name="FileSave" Click="FileSave_Click" Margin="0 0 10 0">
+                <Grid Width="50">
+                    <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                    <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+                </Grid>
+            </Button>
+            <Button Grid.Column="1" Grid.Row="1" Width="100" Background="#FF6C6C6C" BorderBrush="#0000" x:Name="DeleteFile" Click="DeleteFile_Click">
+                <Grid Width="50">
+                    <Image Source="/Assets/Icons/Cancel.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                    <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Delete"></TextBlock>
+                </Grid>
+            </Button>
+        </StackPanel>
+
+    </Grid>
+</Page>

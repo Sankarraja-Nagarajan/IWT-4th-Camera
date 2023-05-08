@@ -1,0 +1,101 @@
+﻿<Page x:Class="IWT.Setting_Pages.Software"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Software">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <materialDesign:Card Grid.Row="0" Padding="10" Height="270"  VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                
+                
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50*"/>
+                        <ColumnDefinition Width="50*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.ColumnSpan="2" Margin="0 0 0 10">
+                        <TextBlock Text="Software Configure" VerticalAlignment="Center" FontSize="18" Margin="10" FontWeight="Medium"></TextBlock>
+                        <Separator />
+                    </StackPanel>
+
+                    <CheckBox Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="single"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="Single Transaction" />
+                    <CheckBox Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="first"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="First Transaction" />
+                    <CheckBox Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="second"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="Second Transaction" />
+                    <CheckBox Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="ftmulti"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="First Multi Transaction" />
+                    <CheckBox Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="secmulti"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="Second Multi Transaction" />
+                    <CheckBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="singleaxle"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="Single Axle Transaction" Visibility="Collapsed" />
+                    <CheckBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="ftaxle"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="First Axle Transaction" Visibility="Collapsed"/>
+                    <CheckBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="secaxle"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="Second Axle Transaction" Visibility="Collapsed" />
+                    <CheckBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="loading"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="Loading Transaction" Visibility="Collapsed" />
+                    <CheckBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left"
+                      x:Name="unloading"
+                      IsChecked="False"
+                      Margin="20 0"
+                      Content="UnLoading Transaction" Visibility="Collapsed" />
+                </Grid>
+            </materialDesign:Card>
+        </Grid>
+        <Button Grid.Row="1" Width="100" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FF6C6C6C" BorderBrush="#0000" 
+                x:Name="SoftwareSave" Click="SoftwareSave_Click" Margin="0 10">
+            <Grid Width="50">
+                <Image Source="/Assets/Icons/Save.png" Height="15" VerticalAlignment="Center" HorizontalAlignment="Left"></Image>
+                <TextBlock HorizontalAlignment="Right" FontSize="12" Text="Save"></TextBlock>
+            </Grid>
+        </Button>
+    </Grid>
+</Page>

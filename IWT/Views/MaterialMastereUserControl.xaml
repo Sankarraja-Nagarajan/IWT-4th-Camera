@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="IWT.Views.MaterialMastereUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Views"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             d:DesignHeight="800" d:DesignWidth="1200">
+    <UserControl.Resources>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="Padding" Value="10 0"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="25"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid x:Name="mainGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="60"></RowDefinition>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden">
+            <WrapPanel x:Name="dynamicWrapPanel" Orientation="Vertical" Height="188">
+            </WrapPanel>
+        </ScrollViewer>
+        <StackPanel Grid.Row="1" Orientation="Horizontal">
+            <Button x:Name="NewButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" IsDefault="True" Click="New_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/new.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="New"/>
+                </Grid>
+            </Button>
+            <Button x:Name="SaveButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" Click="Save_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                </Grid>
+            </Button>
+            <!--<Button x:Name="UpdateeButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" Click="Update_Button_Click">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Update"/>
+                </Grid>
+            </Button>-->
+            <Button Click="Delete_Button_Click" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="/Assets/Icons/Cancel.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Delete"/>
+                </Grid>
+            </Button>
+        </StackPanel>
+        <ScrollViewer x:Name="TableContainer" Height="240" Grid.Row="2" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Disabled">
+
+        </ScrollViewer>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 10">
+            <TextBlock Text="Item per page" Padding="10 0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="PaginatorComboBox" Width="50" VerticalAlignment="Center" Margin="10 0"
+             SelectedValue="{Binding SelectedRecord,UpdateSourceTrigger=PropertyChanged}">
+
+            </ComboBox>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="FirstPage" ToolTip="First page" Click="FirstPage_Click"
+                    IsEnabled="{Binding IsFirstEnable}">
+                <materialDesign:PackIcon Kind="PageFirst"/>
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="PreviousPage" ToolTip="Previous page" Click="PreviousPage_Click"
+                    IsEnabled="{Binding IsPreviousEnable}">
+                <materialDesign:PackIcon Kind="ChevronLeft"/>
+            </Button>
+            <!--<TextBlock Text="{Binding NumberOfPages}"/>-->
+            <TextBlock Padding="10 0" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{} {0} of {1}">
+                        <Binding Path="CurrentPage"/>
+                        <Binding Path="NumberOfPages"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="NextPage" ToolTip="Next page" Click="NextPage_Click"
+                    IsEnabled="{Binding IsNextEnable}">
+                <materialDesign:PackIcon Kind="ChevronRight"/>
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="LastPage" ToolTip="Last page" Click="LastPage_Click"
+                    IsEnabled="{Binding IsLastEnable}">
+                <materialDesign:PackIcon Kind="PageLast"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

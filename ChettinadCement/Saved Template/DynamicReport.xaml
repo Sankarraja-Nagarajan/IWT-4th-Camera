@@ -1,0 +1,208 @@
+﻿<UserControl x:Class="IWT.Saved_Template.DynamicReport"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.Saved_Template"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid Width="800" Height="550" x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        
+        <StackPanel>
+            <Grid Margin="10" x:Name="CompanyGrid1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="20 10 0 0" VerticalAlignment="Center">
+                    <Image x:Name="CompanyLogoImage" Source="/Assets/download.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"/>
+                </StackPanel>
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock x:Name="CompanyNameTextBlock" FontSize="14"></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10 0 40 0">
+                    <TextBlock x:Name="AddressLine1TextBlock"/>
+                    <TextBlock x:Name="AddressLine2TextBlock"/>
+                    <TextBlock x:Name="CityTextBlock"/>
+                </StackPanel>
+            </Grid>
+            <Separator x:Name="Separator1"/>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" x:Name="ScrollViewer1">
+            <StackPanel x:Name="ReportPanel2">
+                <DataGrid Name="ReportDataGrid" ColumnWidth="auto" IsReadOnly="True" Margin="10" AutoGenerateColumns="False" CanUserAddRows="False" Visibility="Visible"/>
+
+                <Grid Margin="10" Visibility="Collapsed" x:Name="CompanyGrid2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="20 10 0 0" VerticalAlignment="Center">
+                        <Image x:Name="CompanyLogoImage1" Source="/Assets/download.png" Height="40" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock x:Name="CompanyNameTextBlock1" FontSize="14"></TextBlock>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="10 0 40 0">
+                        <TextBlock x:Name="AddressLine1TextBlock1"/>
+                        <TextBlock x:Name="AddressLine2TextBlock1" Width="200"/>
+                        <TextBlock x:Name="CityTextBlock1"/>
+                    </StackPanel>
+                </Grid>
+                <Separator x:Name="Separator2" Visibility="Collapsed"/>
+                <StackPanel x:Name="DynamicReportPanel" Orientation="Vertical" Visibility="Collapsed">
+
+                </StackPanel>
+                <StackPanel x:Name="Footer2" Visibility="Collapsed">
+                    <Separator/>
+                    <TextBlock x:Name="FooterTextBlock2" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5" Visibility="Collapsed"/>
+                    <!--<Separator/>-->
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 0 10 0" x:Name="PaginatorPanel">
+            <TextBlock Text="Item per page" Padding="10 0" VerticalAlignment="Center"/>
+            <ComboBox x:Name="PaginatorComboBox" Width="50" VerticalAlignment="Center" Margin="10 0"
+             SelectedValue="{Binding SelectedRecord,UpdateSourceTrigger=PropertyChanged}">
+
+            </ComboBox>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="FirstPage" ToolTip="First page" Click="FirstPage_Click"
+                    IsEnabled="{Binding IsFirstEnable}">
+                <materialDesign:PackIcon Kind="PageFirst"/>
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="PreviousPage" ToolTip="Previous page" Click="PreviousPage_Click"
+                    IsEnabled="{Binding IsPreviousEnable}">
+                <materialDesign:PackIcon Kind="ChevronLeft"/>
+            </Button>
+            <!--<TextBlock Text="{Binding NumberOfPages}"/>-->
+            <TextBlock Padding="10 0" VerticalAlignment="Center">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{} {0} of {1}">
+                        <Binding Path="CurrentPage"/>
+                        <Binding Path="NumberOfPages"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="NextPage" ToolTip="Next page" Click="NextPage_Click"
+                    IsEnabled="{Binding IsNextEnable}">
+                <materialDesign:PackIcon Kind="ChevronRight"/>
+            </Button>
+            <Button Style="{StaticResource MaterialDesignIconButton}" x:Name="LastPage" ToolTip="Last page" Click="LastPage_Click"
+                    IsEnabled="{Binding IsLastEnable}">
+                <materialDesign:PackIcon Kind="PageLast"/>
+            </Button>
+        </StackPanel>
+        <StackPanel Grid.Row="3">
+            <Separator/>
+            <TextBlock x:Name="FooterTextBlock" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="5"/>
+            <!--<Separator/>-->
+        </StackPanel>
+        <StackPanel Margin="10" Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="ActionPanel">
+            <Button  Margin="10 0 10 0" x:Name="ClearBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="CloseButton_Click" HorizontalAlignment="Center" Width="100">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/Cancel.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Padding="10 0 0 0" Text="Exit"/>
+                </StackPanel>
+            </Button>
+            <!--<Button Margin="10 0 10 0" x:Name="EmailBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="EmailBtn_Click" HorizontalAlignment="Center" Width="140">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/Email.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Padding="10 0 0 0" Text="Email As"/>
+                </StackPanel>
+            </Button>-->
+            <!--<MenuItem  x:Name="AddPresetButton" Background="#FF5C5961">
+                <MenuItem.Icon>
+                    <Image Source="/Assets/Icons/Email.png" Height="20"/>
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Email As" Foreground="White"/>
+                    </StackPanel>
+                </MenuItem.Header>
+                <MenuItem.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Pdf"/>
+                        <MenuItem Header="Excel"/>
+                        <MenuItem Header="Word"/>
+                    </ContextMenu>
+                </MenuItem.ContextMenu>
+            </MenuItem>-->
+            <materialDesign:PopupBox
+                            DockPanel.Dock="Right"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False" Foreground="#DD3A2F2F" Background="#FF5C5961"
+                            materialDesign:RippleAssist.IsDisabled="True">
+                <materialDesign:PopupBox.ToggleContent>
+                    <Border CornerRadius="2" Background="#FF5C5961" Height="30" Padding="10 5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Assets/Icons/Email.png" Width="20" HorizontalAlignment="Center"></Image>
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Name="Username" FontSize="16" Foreground="White" Margin="5 0">Email As</TextBlock>
+                            <materialDesign:PackIcon Kind="TriangleSmallDown"  Foreground="White"/>
+                        </StackPanel>
+                    </Border>
+
+                </materialDesign:PopupBox.ToggleContent>
+                <StackPanel>
+                    <Button Content="Pdf" x:Name="EmailAsPdf" Click="EmailAsPdf_Click"/>
+                    <Button Content="Excel" x:Name="EmailAsExcel" Click="EmailAsExcel_Click"/>
+                    <Button Content="Word" x:Name="EmailAsWord" Click="EmailAsWord_Click"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
+            <!--<Button Margin="10 0 10 0" x:Name="PrintBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="PrintBtn_Click" HorizontalAlignment="Center" Width="140">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/Print.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Padding="10 0 0 0" Text="Print As"/>
+                </StackPanel>
+            </Button>-->
+            <materialDesign:PopupBox Margin="10 0"
+                            DockPanel.Dock="Right"
+                            PlacementMode="BottomAndAlignRightEdges"
+                            StaysOpen="False" Foreground="#DD3A2F2F" Background="#FF5C5961"
+                            materialDesign:RippleAssist.IsDisabled="True">
+                <materialDesign:PopupBox.ToggleContent>
+                    <Border CornerRadius="2" Background="#FF5C5961" Height="30" Padding="10 5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <Image Source="/Assets/Icons/Print.png" Width="20" HorizontalAlignment="Center"></Image>
+                            <TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" x:Name="PrintPopUp" FontSize="16" Foreground="White" Margin="5 0">Print As</TextBlock>
+                            <materialDesign:PackIcon Kind="TriangleSmallDown"  Foreground="White"/>
+                        </StackPanel>
+                    </Border>
+
+                </materialDesign:PopupBox.ToggleContent>
+                <StackPanel>
+                    <Button Content="Portrait" x:Name="PrintAsPortrait" Click="PrintAsPortrait_Click"/>
+                    <Button Content="Landscape" x:Name="PrintAsLandscape" Click="PrintAsLandscape_Click"/>
+                </StackPanel>
+            </materialDesign:PopupBox>
+
+            <Button Margin="10 0 10 0" x:Name="SaveToBtn" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveToBtn_Click"  HorizontalAlignment="Center" Width="140">
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                    <TextBlock Padding="10 0 0 0" Text="Save to"/>
+                </StackPanel>
+            </Button>
+
+        </StackPanel>
+        
+        <!--<Image Source="/Assets/download.png" Height="40" HorizontalAlignment="Left"  Margin="609,10,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image HorizontalAlignment="Left" Height="24" Margin="641,26,0,0" VerticalAlignment="Top" Width="68"/>-->
+        <!--<Button Content="Close" HorizontalAlignment="Left" VerticalAlignment="Top" Width="149" Height="29" RenderTransformOrigin="4.376,1.206" Margin="297,388,0,0" Click="SaveButton_Click" x:Name="cancel" Background="Gray"/>-->
+
+    </Grid>
+</UserControl>

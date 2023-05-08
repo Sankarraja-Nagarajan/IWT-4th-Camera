@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="IWT.TransactionPages.Addmaterial"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:IWT.TransactionPages" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             >
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <TabControl Grid.Column="1" Grid.Row="1" BorderThickness="1" x:Name="MainTabControl">
+            <TabItem Header="Search Material" FontFamily="Segoe UI Semibold" FontSize="14" Foreground="#454343" Height="40" Width="120">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"></RowDefinition>
+                        <RowDefinition Height="auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
+                        <StackPanel Margin="30">
+                            <!--<TextBlock Text="Material Code" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
+                            <Image Source="/Assets/Icons/Material_code.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                            <ComboBox FontSize="13" Style="{StaticResource MaterialDesignOutlinedComboBox}" x:Name="MaterialCode" materialDesign:HintAssist.Hint="Material Code" Width="250" DisplayMemberPath="MaterialCode" SelectionChanged="MaterialCode_SelectionChanged">
+
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Margin="30">
+                            <!--<TextBlock Text="Material Name" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
+                            <Image Source="/Assets/Icons/Material_Name.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                            <ComboBox FontSize="13" Style="{StaticResource MaterialDesignOutlinedComboBox}" x:Name="MaterialName" materialDesign:HintAssist.Hint="Material Name" Width="250" DisplayMemberPath="MaterialName" SelectionChanged="MaterialName_SelectionChanged">
+
+                            </ComboBox>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 30">
+                        <Button Width="100" Margin="0 0 20 0" BorderBrush="#FF343138" Background="#FF5C5961"
+                                x:Name="CancelBtn" Click="CancelBtn_Click" IsCancel="True">
+                            Cancel
+                        </Button>
+                        <Button Width="100" BorderBrush="#FF343138" Background="#FF5C5961" IsDefault="True" Click="Next_Button_Click">
+                            Next
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Add Material" Width="120" Height="40" FontFamily="Segoe UI Semibold" FontSize="14" Foreground="#454343">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
+                        <StackPanel Margin="30">
+                            <Image Source="/Assets/Icons/Material_code.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                            <TextBox x:Name="NewMaterialCode" FontSize="13" Width="250" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Material Code"/>
+                        </StackPanel>
+                        <StackPanel Margin="30">
+                            <Image Source="/Assets/Icons/Material_Name.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                            <TextBox x:Name="NewMaterialName" FontSize="13" Width="250" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Material Name"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 30">
+                        <Button Width="100" Margin="0 0 20 0" BorderBrush="#FF343138" Background="#FF5C5961" IsCancel="True" Click="CancelBtn_Click">
+                            Cancel
+                        </Button>
+                        <Button Width="100" BorderBrush="#FF343138" Background="#FF5C5961" IsDefault="True" Click="Add_Button_Click">
+                            Add
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

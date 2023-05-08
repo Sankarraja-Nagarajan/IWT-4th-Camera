@@ -1,0 +1,508 @@
+﻿<Page x:Class="IWT.Setting_Pages.AWS_setting"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d"
+      TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+      d:DesignHeight="550" d:DesignWidth="1200" 
+      
+      Title="AWS_setting">
+    <Page.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
+                            <Grid Name="TabPanel">
+                                <ContentPresenter x:Name="ContentSite"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center"
+                                        ContentSource="Header"
+                                        Margin="10,2"/>
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="TabPanel" Property="Background" Value="#FFDE1717" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter TargetName="TabPanel" Property="Background" Value="White" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    
+    
+
+    <Grid>
+        <TabControl BorderThickness="0" Name="Tabcontrol" materialDesign:ShadowAssist.ShadowDepth="Depth5" SelectionChanged="TabControl_SelectionChanged" >
+            <TabControl.Template>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0"/>
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+                        <WrapPanel x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="2,2,2,0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
+                        <Border x:Name="contentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,0,2,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="1"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="2,2,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="Grid.Row" TargetName="headerPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="headerPanel" Value="1"/>
+                            <Setter Property="Grid.Column" TargetName="contentPanel" Value="0"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="headerPanel" Value="0,2,2,2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="TextElement.Foreground" TargetName="templateRoot" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </TabControl.Template>
+            <TabItem Header="RFID Reader 1" Uid="2" Height="50" Width="270" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                <materialDesign:Card Margin="10 10 10 10" Grid.Row="0" Height="385"  VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                    <Grid Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--<materialDesign:Card Height="200" Grid.Row="0"  VerticalAlignment="Top" Background="White">-->
+                        <Grid Grid.Row="0"  VerticalAlignment="Top" Background="White" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.ColumnSpan="4" Margin="10 10 10 0">
+                                <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">RFID Reader 1</TextBlock>
+                                <Separator Margin="0 5"/>
+                            </StackPanel>
+
+                            <Image Grid.Row="2" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="IP" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="IP1" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="Port" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left" PreviewTextInput="Constant_PreviewTextInput"/>
+                            <TextBox Grid.Row="4" Grid.Column="2" Name="Port1" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="6" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="Location" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox IsEnabled="False" Grid.Row="6" Grid.Column="2" Name="Location1" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <!--<Image Grid.Row="4" Source="/Assets/Icons/gateExit.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="Gate Exit Enable" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>-->
+                            <!--<RadioButton Name="Reader1" Margin="25 0 0 0" Grid.Row="3" Grid.Column="3" GroupName="Mail_method" Background="Green" FontSize="14" FontWeight="DemiBold" Checked="RadioButton_Checked1">Is Enable</RadioButton>-->
+
+                            <!--<Button Grid.Column="3"  Grid.Row="2" Content="Launch WeighSoft" Margin="10 0 10 0" Background="#FF6C6C6C" BorderBrush="#0000" ></Button>-->
+                        </Grid>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="45 25">
+                            <CheckBox Name="Reader1" FontSize="14" FontWeight="DemiBold">Is Enable</CheckBox>
+                            <CheckBox Margin="45 0 0 0" Name="GateExitEnable" FontSize="14" FontWeight="DemiBold">Gate Exit Enable</CheckBox>
+                        </StackPanel>
+                        <Button Grid.Row="2" Margin="30 0 0 0" x:Name="SaveBtn1" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveBtn1_Click"  HorizontalAlignment="Left" Width="140">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                <TextBlock Padding="10 0 0 0" Text="Save"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+            
+            <TabItem Header="RFID Reader 2" Uid="3" Height="50" Width="270" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                <materialDesign:Card Grid.Row="0" Height="400"  VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                    <Grid Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <!--<materialDesign:Card Height="240" Grid.Row="0"  VerticalAlignment="Top" Background="White">-->
+                        <Grid Grid.Row="0"  VerticalAlignment="Top" Background="White" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.ColumnSpan="4"  Margin="10 10 10 0">
+                                <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">RFID Reader 2</TextBlock>
+                                <Separator Margin="0 5"/>
+
+                            </StackPanel>
+
+                            <Image Grid.Row="2" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="IP" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="IP2" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="Port" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="4" Grid.Column="2" Name="Port2" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="6" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="Location" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox IsEnabled="False" Grid.Row="6" Grid.Column="2" Name="Location2" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                        </Grid>
+
+                        <CheckBox Grid.Row="1" Name="Reader2" Margin="25 0 0 0" FontSize="14" FontWeight="DemiBold">Is Enable</CheckBox>
+
+                        <Button Grid.Row="2" Margin="10" x:Name="SaveBtn2" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveBtn2_Click"  HorizontalAlignment="Left" Width="140">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                <TextBlock Padding="10 0 0 0" Text="Save"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+            
+            <TabItem Header="RFID Reader 3" Uid="4" Height="50" Width="270" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                <materialDesign:Card Grid.Row="0" Height="400"  VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                    <Grid Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <!--<materialDesign:Card Height="240" Grid.Row="0"  VerticalAlignment="Top" Background="White" >-->
+                        <Grid Height="240" Grid.Row="0"  VerticalAlignment="Top" Background="White" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.ColumnSpan="4"  Margin="10 10 10 0">
+                                <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">RFID Reader 3</TextBlock>
+                                <Separator Margin="0 5"/>
+
+                            </StackPanel>
+
+                            <Image Grid.Row="2" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="IP" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="IP3" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="4" PreviewTextInput="Constant_PreviewTextInput" Grid.Column="1" Text="Port" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="4" Grid.Column="2" Name="Port3" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="6" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="Location" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox IsEnabled="False" Grid.Row="6" Grid.Column="2" Name="Location3" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                        </Grid>
+                        
+                        <CheckBox Name="Reader3" Margin="25 0 0 0" Grid.Row="1" FontSize="14" FontWeight="DemiBold">Is Enable</CheckBox>
+
+                        <Button Grid.Row="2" Margin="10" x:Name="SaveBtn3" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveBtn3_Click"  HorizontalAlignment="Left" Width="140">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                <TextBlock Padding="10 0 0 0" Text="Save"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+
+            <TabItem Header="PLC" Uid="5" Height="50" Width="270" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                <materialDesign:Card Grid.Row="0" Height="400"  VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                    <Grid Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0"  VerticalAlignment="Top" Background="White" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="10"/>
+                                <RowDefinition Height="40"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="150"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="20"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel Grid.ColumnSpan="4"  Margin="10 10 10 0">
+                                <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">PLC</TextBlock>
+                                <Separator Margin="0 5"/>
+
+                            </StackPanel>
+                        
+
+                            <Image Grid.Row="2" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="IP" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="2" Grid.Column="2" Name="IP4" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                            <Image Grid.Row="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="Port" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                            <TextBox Grid.Row="4" Grid.Column="2" Name="Port4" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                        </Grid>
+                        <CheckBox Grid.Row="1" Name="PlcEnable" Margin="25 0 0 0" FontSize="14" FontWeight="DemiBold">Is Enable</CheckBox>
+
+                        <Button Grid.Row="2" Margin="10" x:Name="SaveBtn4" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveBtn4_Click"  HorizontalAlignment="Left" Width="140">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                <TextBlock Padding="10 0 0 0" Text="Save"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+                </materialDesign:Card>
+            </TabItem>
+
+            <TabItem Header="Configuration" Uid="1" Height="50" Width="270" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray">
+                <ScrollViewer Grid.Row="0" Grid.ColumnSpan="7" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <StackPanel Grid.Row="0" Height="400">
+                        <materialDesign:Card Grid.Row="0" Margin="10" Height="388"  VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4" >
+                            <Grid Margin="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!--<materialDesign:Card Height="200" Grid.Row="0"  VerticalAlignment="Top" Background="White">-->
+                                <Grid Grid.Row="1" VerticalAlignment="Top" Background="White" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="10"/>
+                                        <RowDefinition Height="35"/>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="35"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="260"/>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="200"/>
+                                        <ColumnDefinition Width="300"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.Row="0" Grid.ColumnSpan="8">
+                                        <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">Configuration</TextBlock>
+                                        <Separator/>
+                                    </StackPanel>
+
+                                    <Image Grid.Row="2" Source="/Assets/Icons/clock.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="TimeOut" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="2" Grid.Column="2" Name="TimeOut" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}" PreviewTextInput="Constant_PreviewTextInput"/>
+
+                                    <Image Grid.Row="2" Grid.Column="4" Source="/Assets/Icons/weight.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="5" Text="Weight Communication" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <ComboBox Grid.Row="2" Grid.Column="6" x:Name="WeightCommunication" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                        <ComboBoxItem>TCP/IP</ComboBoxItem>
+                                        <ComboBoxItem>Serial</ComboBoxItem>
+                                    </ComboBox>
+
+                                    <CheckBox Grid.Row="4" Grid.Column="2" Name="IsAutoLogin" FontSize="14" Checked="IsAutoLoginCheckBox_Checked" Unchecked="IsAutoLoginCheckBox_Checked" IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" FontWeight="DemiBold">IsAutoLogin</CheckBox>
+
+                                    <Image Name="AutoLoginUserImage" Grid.Row="4" Grid.Column="4" Source="/Assets/Icons/user_name.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Name="AutoLoginUserText" Grid.Row="4" Grid.Column="5" Text="AutoLoginUser" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <ComboBox Grid.Row="4" Grid.Column="6" x:Name="AutoLoginUserComboBox" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                    </ComboBox>
+
+                                </Grid>
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="30 20 10 0">
+                                    <CheckBox Name="SAP" FontSize="14" FontWeight="DemiBold">SAP Based</CheckBox>
+                                    <CheckBox Margin="30 0 0 0" Name="SemiAutomatic" FontSize="14" FontWeight="DemiBold">Semi Automatic</CheckBox>
+                                    <CheckBox Name="VPS" Margin="30 0 0 0" FontSize="14" FontWeight="DemiBold">VPS Enable</CheckBox>
+                                    <CheckBox Name="SGPrintEnable" Margin="30 0 0 0" FontSize="14" FontWeight="DemiBold">SG Print</CheckBox>
+                                    <CheckBox Name="FTPrintEnable" Margin="30 0 0 0" FontSize="14" FontWeight="DemiBold">FT Print</CheckBox>
+                                    <CheckBox Name="STPrintEnable" Margin="30 0 0 0" FontSize="14" FontWeight="DemiBold">ST Print</CheckBox>
+                                    <CheckBox Name="AutoGateExitEnable" Margin="30 0 0 0" FontSize="14" FontWeight="DemiBold">Auto Gate Exit</CheckBox>
+                                </StackPanel>
+                                <Button Grid.Row="3" Margin="30 20 0 0" x:Name="SaveBtn5" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveBtn5_Click" HorizontalAlignment="Left" Width="140">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                        <TextBlock Padding="10 0 0 0" Text="Save"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>               
+            </TabItem>
+
+            <TabItem Header="Serial Communication Settings" Uid="6" Height="50" Width="270" materialDesign:ShadowAssist.ShadowDepth="Depth5" Background="LightGray" >
+                <ScrollViewer Grid.Row="0" Grid.ColumnSpan="7" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                    <StackPanel Grid.Row="0" Height="400">
+                        <materialDesign:Card Margin="5 10 10 10" Grid.Row="0" Height="388" VerticalAlignment="Top" Background="White" Foreground="Black" materialDesign:ShadowAssist.ShadowDepth="Depth4">
+                            <Grid Margin="0">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0"  VerticalAlignment="Top" Background="White" >
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="10"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="40"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="20"/>
+
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="120"/>
+                                        <ColumnDefinition Width="370"/>
+                                        <ColumnDefinition Width="10"/>
+                                        <ColumnDefinition Width="100"/>
+                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="370"/>
+                                        <ColumnDefinition Width="20"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Grid.ColumnSpan="8"  Margin="10 10 10 0">
+                                        <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" HorizontalAlignment="Left" Foreground="Black" Margin="10,10,0,0" FontSize="14" FontWeight="Medium">Serial Communication Settings</TextBlock>
+                                        <Separator Margin="0 5"/>
+
+                                    </StackPanel>
+
+
+                                    <Image Grid.Row="2" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Text="Port" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="2" Grid.Column="2" Name="Port5" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="1" Text="BaudRate" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="4" Grid.Column="2" Name="BaudRate" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="6" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="1" Text="Parity" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="6" Grid.Column="2" Name="Parity" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="8" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="8" Grid.Column="1" Text="ImmediateDelay" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="8" Grid.Column="2" Name="ImmediateDelay" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="10" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="10" Grid.Column="1" Text="StartChar" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="10" Grid.Column="2" Name="StartChar" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="2" Grid.Column="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="5" Text="StopBit" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="2" Grid.Column="6" Name="StopBit" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="4" Grid.Column="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="5" Text="DataBits" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="4" Grid.Column="6" Name="DataBits" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="6" Grid.Column="4" Source="/Assets/Icons/Port.png" Height="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="5" Text="DataLength" PreviewTextInput="Constant_PreviewTextInput" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="6" Grid.Column="6" Name="DataLength" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="8" Grid.Column="4" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <TextBlock Grid.Row="8" Grid.Column="5" Text="EndChar" VerticalAlignment="Center" FontSize="14" FontWeight="DemiBold" HorizontalAlignment="Left"/>
+                                    <TextBox Grid.Row="8" Grid.Column="6" Name="EndChar" VerticalAlignment="Center" Padding="10" Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+
+                                    <Image Grid.Row="10" Grid.Column="4" Source="/Assets/Icons/Host.png" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <CheckBox Grid.Row="10" Grid.Column="5" Name="EnableSerial" FontSize="14" FontWeight="DemiBold">Enable</CheckBox>
+
+                                </Grid>
+
+                                <Button Grid.Row="1" Margin="30 10 10 10" x:Name="SaveBtn6" BorderBrush="#FF343138" Background="#FF5C5961"
+                             Click="SaveBtn6_Click"  HorizontalAlignment="Left" Width="140">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="/Assets/Icons/Save.png" Width="20" Height="18" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+                                        <TextBlock Padding="10 0 0 0" Text="Save"/>
+                                    </StackPanel>
+                                </Button>
+                            </Grid>
+                        </materialDesign:Card>
+                    </StackPanel>
+                </ScrollViewer>                
+            </TabItem>
+
+        </TabControl>
+    </Grid>
+</Page>

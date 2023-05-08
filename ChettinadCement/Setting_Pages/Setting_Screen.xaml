@@ -1,0 +1,252 @@
+﻿<Page x:Class="IWT.Setting_Pages.Setting_Screen"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:IWT.Setting_Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="Setting_Screen">
+
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--<Grid Grid.Row="1">
+            --><!--<ListView Foreground="DimGray">
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Transaction"></TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Transaction"></TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Transaction"></TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Transaction"></TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+                <ListViewItem Height="60">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Transaction"></TextBlock>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>--><!--
+            <StackPanel>
+                <Button Margin="10">
+                    <Grid Width="150">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Transaction"></TextBlock>
+                    </Grid>
+                </Button>
+                <Button Margin="10">
+                    <Grid Width="150">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Master"></TextBlock>
+                    </Grid>
+                </Button>
+                <Button Margin="10">
+                    <Grid Width="150">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Report"></TextBlock>
+                    </Grid>
+                </Button>
+                <Button Margin="10">
+                    <Grid Width="150">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Setting"></TextBlock>
+                    </Grid>
+                </Button>
+                <Button Margin="10">
+                    <Grid Width="150">
+                        <materialDesign:PackIcon Kind="TruckCargoContainer"></materialDesign:PackIcon>
+                        <TextBlock HorizontalAlignment="Center" Text="Admin"></TextBlock>
+                    </Grid>
+                </Button>
+            </StackPanel>
+        </Grid>-->
+
+        <!--<Grid x:Name="DragOption" Grid.ColumnSpan="2" Background="White" MouseDown="DragOption_MouseDown">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
+                <Button  Style="{DynamicResource MaterialDesignFloatingActionMiniAccentButton}" Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" >
+                    <materialDesign:PackIcon
+          Kind="Account"
+          Width="24"
+          Height="24"
+          HorizontalAlignment="Center" />
+                </Button>
+                <Button x:Name="ButtonFeChar" Style="{DynamicResource MaterialDesignFloatingActionMiniAccentButton}" Width="30" Height="30" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="Blue" Click="ButtonFechar_Click">
+                    <materialDesign:PackIcon
+          Kind="Power"
+          Width="24"
+          Height="24"
+          HorizontalAlignment="Center" />
+                </Button>
+            </StackPanel>
+        </Grid>-->
+        <Grid Grid.ColumnSpan="1">
+            <materialDesign:PackIcon Kind="Grain" Width="24"
+          Height="24"
+          HorizontalAlignment="Center" VerticalAlignment="Center"></materialDesign:PackIcon>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="1" Background="#FFE6E6E6">
+            <ScrollViewer>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="80*"></RowDefinition>
+                        <RowDefinition Height="200*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid >
+                        <WrapPanel >
+                            <Grid>
+                                <Button  Uid="1" x:Name="NAme"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7" Click="Weighing_Click" VerticalAlignment="Center"  Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="TruckCargoContainer" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center"  FontSize="12" Text="Weight Bridge"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="2" x:Name="MAIL"  Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="EmailOpen" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Email"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="3"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="TruckCargoContainer" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Summary Report"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="4"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="Camera" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Camera Setting"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="5"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="FolderMarkerOutline" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="File Location"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="6"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="TruckCargoContainer" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Software Configue"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="7"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="TruckCargoContainer" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Hardware Profile"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="8"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="StickerTextOutline" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="SMTP Setting"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="9"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="TruckCargoContainer" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Other Setting"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="10"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"    Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="SwapVertical" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Export/Import"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="11"   Margin="10" Width="160" Height="80" Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"   Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="DatabaseSettingsOutline" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Change DB Password"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                            <Grid>
+                                <Button  Uid="12"   Margin="10" Width="160" Height="80"  Background="#FFC9C7C7" BorderBrush="#FFC9C7C7"  Click="Weighing_Click" VerticalAlignment="Center" Foreground="Black">
+
+                                    <StackPanel>
+                                        <materialDesign:PackIcon Kind="MessageProcessingOutline" Width="90" Height="30" VerticalAlignment="Center" ></materialDesign:PackIcon>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="SMS Setting"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+                        </WrapPanel>
+                    </Grid>
+                    <Grid Grid.Row="2" Grid.Column="2" >
+                        <Frame x:Name="Main" Margin="10" NavigationUIVisibility="Hidden"></Frame>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+
+    </Grid>
+</Page>
