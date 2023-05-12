@@ -11,18 +11,18 @@ namespace TcpClientService.Helpers
     {
         public static string ToRfidValue(byte[] bytes)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (var data in bytes)
-            {
-                sb.Append(data.ToString("X2"));
-            }
-            string rfId = "";
-            if (sb.Length > 24)
-            {
-                string raw = sb.ToString();
-                rfId = raw.Substring(19, 5);
-            }
-            //string rfId = Encoding.UTF8.GetString(bytes);
+            //StringBuilder sb = new StringBuilder();
+            //foreach (var data in bytes)
+            //{
+            //    sb.Append(data.ToString("X2"));
+            //}
+            //string rfId = "";
+            //if (sb.Length > 24)
+            //{
+            //    string raw = sb.ToString();
+            //    rfId = raw.Substring(19, 5);
+            //}
+            string rfId = Encoding.UTF8.GetString(bytes);
             return rfId;
         }
         public static string ToWeighValue(byte[] bytes)

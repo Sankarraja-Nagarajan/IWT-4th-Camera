@@ -2780,8 +2780,12 @@ namespace IWT.TransactionPages
 
         private bool CaptureTolerance(OracleModel currentOracleData)
         {
-            int loadedWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(LoadedWeightBlock.Text);
-            int tareWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(TareWeightBlock.Text);
+            int loadedWeight = 0;
+            int tareWeight = 0;
+            this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => {
+            loadedWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(LoadedWeightBlock.Text);
+            tareWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(TareWeightBlock.Text);
+            }));
             if (tareWeight == 0 && loadedWeight != 0)
             {
                 if (currentOracleData.WBTOLLMIN >= loadedWeight && currentOracleData.WBTOLLMAX <= loadedWeight)
