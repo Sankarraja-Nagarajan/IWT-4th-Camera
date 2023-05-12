@@ -2779,35 +2779,36 @@ namespace IWT.TransactionPages
         }
 
         private bool CaptureTolerance(OracleModel currentOracleData)
-        {
-            int loadedWeight = 0;
-            int tareWeight = 0;
-            this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => {
-            loadedWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(LoadedWeightBlock.Text);
-            tareWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(TareWeightBlock.Text);
-            }));
-            if (tareWeight == 0 && loadedWeight != 0)
+        {            
+            if (currentOracleData.WBTOLLMIN != 0 && currentOracleData.WBTOLLMAX != 0)
             {
-                if (currentOracleData.WBTOLLMIN >= loadedWeight && currentOracleData.WBTOLLMAX <= loadedWeight)
+                if(currentTransaction.LoadStatus == "Loaded")
                 {
-                    return true;
+                    if (currentOracleData.WBTOLLMIN >= currentTransaction.LoadWeight && currentOracleData.WBTOLLMAX <= currentTransaction.LoadWeight)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    return false;
-                }
+                    if (currentOracleData.WBTOLLMIN >= currentTransaction.EmptyWeight && currentOracleData.WBTOLLMAX <= currentTransaction.EmptyWeight)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }                
             }
             else
             {
-                if (currentOracleData.WBTOLLMIN >= tareWeight && currentOracleData.WBTOLLMAX <= tareWeight)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }                       
+                return false;
+            }
         }
 
         private bool CaptureWeight()
