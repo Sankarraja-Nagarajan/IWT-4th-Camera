@@ -254,6 +254,8 @@ namespace IWT.Models
         public int? NoOfMaterial { get; set; }
         public DateTime? CreatedOn { get; set; }
         public DateTime? ModifiedOn { get; set; }
+        public string OracleData { get; set; }
+        public string OracleStatus { get; set; }
     }
 
     public class RFIDAllocationWithTrans

@@ -2074,7 +2074,7 @@ namespace IWT.TransactionPages
             {
                 if (camera.Enable)
                 {
-                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
+                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
@@ -2526,6 +2526,7 @@ namespace IWT.TransactionPages
 
         #region AWS
         public static string PlcValue = "";
+        private string currentOracleData = "";
         public bool IsAwsStarted { get; set; } = false;
         private RFIDAllocation currentAllocation = new RFIDAllocation();
 
@@ -2579,6 +2580,8 @@ namespace IWT.TransactionPages
             IsAwsStarted = true;
             currentTransaction = transaction.TransactionData;
             currentAllocation = transaction.AllocationData;
+            //currentOracleData = JsonConvert.DeserializeObject(transaction.AllocationData.OracleData);
+            currentOracleData = transaction.AllocationData.OracleData;
             this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 SetLoadStatus(currentTransaction.LoadStatus == "Loaded");
@@ -2646,6 +2649,19 @@ namespace IWT.TransactionPages
                 CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Transaction Saved");
                 WriteLog.WriteAWSLog($"Transaction saved");
                 CreateLog($"Transaction saved");
+            }
+
+            //change status in RFIDAllocation
+            var changeStatus = ChangeRFIDAllocationStatus();
+            if (!changeStatus)
+            {
+                throw new Exception("RFIDAllocation Status failed");
+            }
+            else
+            {
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "RFIDAllocation Status Changed Successfully");
+                WriteLog.WriteAWSLog($"RFIDAllocation Status Changed Successfully");
+                CreateLog($"RFIDAllocation Status Changed Successfully");
             }
 
             //SAP Transaction
@@ -2731,6 +2747,22 @@ namespace IWT.TransactionPages
             currentTransaction.NetWeight = Netweight;
             return true;
         }
+
+        private bool ChangeRFIDAllocationStatus()
+        {  
+            string updateQuery = $@"UPDATE [RFID_Allocations] SET OracleStatus='First' WHERE AllocationId={currentTransaction.RFIDAllocation}";
+            SqlCommand cmd = new SqlCommand(updateQuery);            
+            var response = _dbContext.ExecuteQuery(cmd);
+            if (response)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private bool SaveTransaction()
         {
             this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>

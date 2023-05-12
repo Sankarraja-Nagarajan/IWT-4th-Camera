@@ -2182,7 +2182,7 @@ namespace IWT.TransactionPages
             {
                 if (camera.Enable)
                 {
-                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
+                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
@@ -2589,7 +2589,7 @@ namespace IWT.TransactionPages
         public static string PlcValue = "";
         public bool IsAwsStarted { get; set; } = false;
         private RFIDAllocation currentAllocation = new RFIDAllocation();
-
+        private OracleModel currentOracleData = new OracleModel();
         private void StartAwsSequence(AWSTransaction transaction)
         {
             MainWindow.onPlcReceived += MainWindow_onPlcReceived;
@@ -2640,6 +2640,7 @@ namespace IWT.TransactionPages
             IsAwsStarted = true;
             currentTransaction = transaction.TransactionData;
             currentAllocation = transaction.AllocationData;
+            currentOracleData = JsonConvert.DeserializeObject<OracleModel>(transaction.AllocationData.OracleData);
             this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 SetLoadStatus(currentTransaction.LoadStatus == "Empty");
@@ -2701,7 +2702,18 @@ namespace IWT.TransactionPages
                 WriteLog.WriteAWSLog($"Weight captured");
                 CreateLog($"Weight captured");
             }
-
+            //Tolerance Testing
+            var weighTolerance = CaptureTolerance(currentOracleData);
+            if (!weighTolerance)
+            {
+                throw new Exception("Tolerance capture failed");
+            }
+            else
+            {
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Tolerance Successfully");
+                WriteLog.WriteAWSLog($"Tolerance captured");
+                CreateLog($"Tolerance captured");
+            }
             //Save transaction
             var saveStatus = SaveTransaction();
             if (!saveStatus)
@@ -2713,6 +2725,18 @@ namespace IWT.TransactionPages
                 CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Transaction Saved");
                 WriteLog.WriteAWSLog($"Transaction saved");
                 CreateLog($"Transaction saved");
+            }
+            //change status in RFIDAllocation
+            var changeStatus = ChangeRFIDAllocationStatus();
+            if (!changeStatus)
+            {
+                throw new Exception("RFIDAllocation Status failed");
+            }
+            else
+            {
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "RFIDAllocation Status Changed Successfully");
+                WriteLog.WriteAWSLog($"RFIDAllocation Status Changed Successfully");
+                CreateLog($"RFIDAllocation Status Changed Successfully");
             }
 
             //Auto gate exit (Non SAP)
@@ -2753,6 +2777,35 @@ namespace IWT.TransactionPages
             CreateLog("<============ AWS sequence completed ============>");
             awsOperationCompleted.Invoke("second", new AwsCompletedEventArgs());
         }
+
+        private bool CaptureTolerance(OracleModel currentOracleData)
+        {
+            int loadedWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(LoadedWeightBlock.Text);
+            int tareWeight = Convert.ToInt32(NetWeightBlock.Text) - Convert.ToInt32(TareWeightBlock.Text);
+            if (tareWeight == 0 && loadedWeight != 0)
+            {
+                if (currentOracleData.WBTOLLMIN >= loadedWeight && currentOracleData.WBTOLLMAX <= loadedWeight)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (currentOracleData.WBTOLLMIN >= tareWeight && currentOracleData.WBTOLLMAX <= tareWeight)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }                       
+        }
+
         private bool CaptureWeight()
         {
             while (!CheckIsStable()) { }
@@ -2815,6 +2868,22 @@ namespace IWT.TransactionPages
             currentTransaction.NetWeight = NetWeight;
             return true;
         }
+
+        private bool ChangeRFIDAllocationStatus()
+        {
+            string updateQuery = $@"UPDATE [RFID_Allocations] SET OracleStatus='Second' WHERE AllocationId={currentTransaction.RFIDAllocation}";
+            SqlCommand cmd = new SqlCommand(updateQuery);
+            var response = _dbContext.ExecuteQuery(cmd);
+            if (response)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         private bool SaveTransaction()
         {
             TicketNo = currentTransaction.TicketNo;
