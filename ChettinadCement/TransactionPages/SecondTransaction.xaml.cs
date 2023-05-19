@@ -2706,13 +2706,7 @@ namespace IWT.TransactionPages
             var weighTolerance = CaptureTolerance(currentOracleData);
             if (!weighTolerance)
             {
-                throw new Exception("Tolerance capture failed");
-            }
-            else
-            {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Tolerance Successfully");
-                WriteLog.WriteAWSLog($"Tolerance captured");
-                CreateLog($"Tolerance captured");
+                throw new Exception("Tolerance not matching!!");
             }
             //Save transaction
             var saveStatus = SaveTransaction();
@@ -2730,13 +2724,13 @@ namespace IWT.TransactionPages
             var changeStatus = ChangeRFIDAllocationStatus();
             if (!changeStatus)
             {
-                throw new Exception("RFIDAllocation Status failed");
+                throw new Exception("Oracle Status failed");
             }
             else
             {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "RFIDAllocation Status Changed Successfully");
-                WriteLog.WriteAWSLog($"RFIDAllocation Status Changed Successfully");
-                CreateLog($"RFIDAllocation Status Changed Successfully");
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Oracle Status Changed Successfully");
+                WriteLog.WriteAWSLog($"Oracle Status Changed Successfully");
+                CreateLog($"Oracle Status Changed Successfully");
             }
 
             //Auto gate exit (Non SAP)
@@ -2779,36 +2773,17 @@ namespace IWT.TransactionPages
         }
 
         private bool CaptureTolerance(OracleModel currentOracleData)
-        {            
-            if (currentOracleData.WBTOLLMIN != 0 && currentOracleData.WBTOLLMAX != 0)
+        {
+            if (currentOracleData.WBTOLLMIN.HasValue && currentOracleData.WBTOLLMAX.HasValue && currentOracleData.PARTYWT.HasValue)
             {
-                if(currentTransaction.LoadStatus == "Loaded")
+                int diffWt = Math.Abs(currentTransaction.NetWeight - (int)currentOracleData.PARTYWT);
+                if (diffWt >= currentOracleData.WBTOLLMIN && diffWt <= currentOracleData.WBTOLLMAX)
                 {
-                    if (currentOracleData.WBTOLLMIN >= currentTransaction.LoadWeight && currentOracleData.WBTOLLMAX <= currentTransaction.LoadWeight)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                else
-                {
-                    if (currentOracleData.WBTOLLMIN >= currentTransaction.EmptyWeight && currentOracleData.WBTOLLMAX <= currentTransaction.EmptyWeight)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }                
-            }
-            else
-            {
                 return false;
             }
+            return true;
         }
 
         private bool CaptureWeight()

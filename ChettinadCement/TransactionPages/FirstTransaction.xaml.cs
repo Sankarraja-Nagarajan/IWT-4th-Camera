@@ -2655,13 +2655,13 @@ namespace IWT.TransactionPages
             var changeStatus = ChangeRFIDAllocationStatus();
             if (!changeStatus)
             {
-                throw new Exception("RFIDAllocation Status failed");
+                throw new Exception("Oracle Status failed");
             }
             else
             {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "RFIDAllocation Status Changed Successfully");
-                WriteLog.WriteAWSLog($"RFIDAllocation Status Changed Successfully");
-                CreateLog($"RFIDAllocation Status Changed Successfully");
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Oracle Status Changed Successfully");
+                WriteLog.WriteAWSLog($"Oracle Status Changed Successfully");
+                CreateLog($"Oracle Status Changed Successfully");
             }
 
             //SAP Transaction
