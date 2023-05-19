@@ -296,6 +296,7 @@ namespace IWT.Models
         public string STATUS_FLAG { get; set; }
         public string GINDT { get; set; }
         public string CFLAG { get; set; }
+        public string AFLAG { get; set; }
         public string VEHICLE_NUMBER { get; set; }
         public string MATERIAL_CODE { get; set; }
         public string MATERIAL_DESCRIPTION { get; set; }
