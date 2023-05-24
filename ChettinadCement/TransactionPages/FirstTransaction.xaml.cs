@@ -2526,7 +2526,7 @@ namespace IWT.TransactionPages
 
         #region AWS
         public static string PlcValue = "";
-        private OracleModel currentOracleData= new OracleModel();;
+        private OracleModel currentOracleData= new OracleModel();
         public bool IsAwsStarted { get; set; } = false;
         private RFIDAllocation currentAllocation = new RFIDAllocation();
 
