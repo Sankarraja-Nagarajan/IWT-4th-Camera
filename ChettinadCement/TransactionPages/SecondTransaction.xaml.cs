@@ -323,7 +323,7 @@ namespace IWT.TransactionPages
                 FontSize = 14,
                 FontFamily = new FontFamily("Segoe UI Semibold"),
                 Tag = template.RegName,
-                Style=style
+                Style = style
             };
             if (template.IsMandatory)
             {
@@ -389,7 +389,7 @@ namespace IWT.TransactionPages
                 VerticalAlignment = VerticalAlignment.Center,
                 FontSize = 14,
                 FontFamily = new FontFamily("Segoe UI Semibold"),
-                Style=style
+                Style = style
             };
             if (template.IsMandatory)
             {
@@ -430,7 +430,7 @@ namespace IWT.TransactionPages
                 FontSize = 14,
                 FontFamily = new FontFamily("Segoe UI Semibold"),
                 Tag = template.RegName,
-                Style=style
+                Style = style
             };
             if (template.IsMandatory)
             {
@@ -477,7 +477,7 @@ namespace IWT.TransactionPages
                 FontSize = 14,
                 FontFamily = new FontFamily("Segoe UI Semibold"),
                 IsEnabled = false,
-                Style=style
+                Style = style
             };
             RegisterName(template.RegName, customFieldTextBox);
             HintAssist.SetHint(customFieldTextBox, template.FieldCaption);
@@ -518,7 +518,7 @@ namespace IWT.TransactionPages
                     FontSize = 14,
                     FontFamily = new FontFamily("Segoe UI Semibold"),
                     IsEnabled = false,
-                    Style=style
+                    Style = style
                 };
                 RegisterName(template.RegName, customFieldTextBox);
                 HintAssist.SetHint(customFieldTextBox, template.FieldCaption);
@@ -536,7 +536,7 @@ namespace IWT.TransactionPages
                     FontSize = 14,
                     FontFamily = new FontFamily("Segoe UI Semibold"),
                     IsEnabled = false,
-                    Style=style
+                    Style = style
                 };
                 RegisterName(template.RegName, customFieldTextBox);
                 Button linkBtn = new Button
@@ -1699,7 +1699,7 @@ namespace IWT.TransactionPages
             ReportViewerDemo1.LocalReport.ReportPath = _reportTemplate;
             ReportViewerDemo1.RefreshReport();
         }
-        
+
         public void GetShiftMasters()
         {
             try
@@ -2611,10 +2611,19 @@ namespace IWT.TransactionPages
                 else
                     CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.Message);
                 WriteLog.WriteAWSLog("Exception:-", ex);
+                string message = "";
                 if (ex.InnerException != null)
-                    CreateLog($"Exception:- {ex.InnerException.Message}");
+                    message = ex.InnerException.Message;
                 else
-                    CreateLog($"Exception:- {ex.Message}");
+                    message = ex.Message;
+
+                CreateLog($"Exception:- {ex.Message}");
+
+                //CC
+                string updateQuery = $@"UPDATE [RFID_Allocations] SET STError='{message}',STErrorDate='{DateTime.Now}',IsError='1' WHERE AllocationId={transaction.AllocationData.AllocationId}";
+                SqlCommand cmd = new SqlCommand(updateQuery);
+                var response = _dbContext.ExecuteQuery(cmd);
+
                 IsAwsStarted = false;
                 awsOperationCompleted.Invoke("second", new AwsCompletedEventArgs());
                 this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
@@ -2668,6 +2677,10 @@ namespace IWT.TransactionPages
             CreateLog("Gate entry data patched");
             PlcValue = "";
             string LastPlcCmd = "";
+            if (string.IsNullOrEmpty(currentOracleData.FIRSTWT) || currentOracleData.STATUS_FLAG != "S" && currentOracleData.CFLAG != "F" && currentOracleData.AFLAG != "F")
+            {
+                throw new Exception("Gate entry status check failed!!");
+            }
             if (transaction.IsSecondReader)
             {
                 commonFunction.SendCommandToPLC("77");
@@ -2706,13 +2719,7 @@ namespace IWT.TransactionPages
             var weighTolerance = CaptureTolerance(currentOracleData);
             if (!weighTolerance)
             {
-                throw new Exception("Tolerance capture failed");
-            }
-            else
-            {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Tolerance Successfully");
-                WriteLog.WriteAWSLog($"Tolerance captured");
-                CreateLog($"Tolerance captured");
+                throw new Exception("Tolerance not matching!!");
             }
             //Save transaction
             var saveStatus = SaveTransaction();
@@ -2730,20 +2737,20 @@ namespace IWT.TransactionPages
             var changeStatus = ChangeRFIDAllocationStatus();
             if (!changeStatus)
             {
-                throw new Exception("RFIDAllocation Status failed");
+                throw new Exception("Oracle Status failed");
             }
             else
             {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "RFIDAllocation Status Changed Successfully");
-                WriteLog.WriteAWSLog($"RFIDAllocation Status Changed Successfully");
-                CreateLog($"RFIDAllocation Status Changed Successfully");
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Oracle Status Changed Successfully");
+                WriteLog.WriteAWSLog($"Oracle Status Changed Successfully");
+                CreateLog($"Oracle Status Changed Successfully");
             }
-
+            commonFunction.AutoGateExit(transaction.AllocationData);
             //Auto gate exit (Non SAP)
-            if (!transaction.AllocationData.IsSapBased && transaction.AllocationData.AllocationType == "Temporary" && awsConfiguration.AutoGateExit.HasValue && awsConfiguration.AutoGateExit.Value)
-            {
-                commonFunction.AutoGateExit(transaction.AllocationData);
-            }
+            //if (!transaction.AllocationData.IsSapBased && transaction.AllocationData.AllocationType == "Temporary" && awsConfiguration.AutoGateExit.HasValue && awsConfiguration.AutoGateExit.Value)
+            //{
+            //    commonFunction.AutoGateExit(transaction.AllocationData);
+            //}
 
             //SAP Transaction
             if (currentAllocation.IsSapBased)
@@ -2779,36 +2786,17 @@ namespace IWT.TransactionPages
         }
 
         private bool CaptureTolerance(OracleModel currentOracleData)
-        {            
-            if (currentOracleData.WBTOLLMIN != 0 && currentOracleData.WBTOLLMAX != 0)
+        {
+            if (currentOracleData.WBTOLLMIN.HasValue && currentOracleData.WBTOLLMAX.HasValue && currentOracleData.PARTYWT.HasValue)
             {
-                if(currentTransaction.LoadStatus == "Loaded")
+                int diffWt = Math.Abs(currentTransaction.NetWeight - (int)currentOracleData.PARTYWT);
+                if (diffWt >= currentOracleData.WBTOLLMIN && diffWt <= currentOracleData.WBTOLLMAX)
                 {
-                    if (currentOracleData.WBTOLLMIN >= currentTransaction.LoadWeight && currentOracleData.WBTOLLMAX <= currentTransaction.LoadWeight)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    return true;
                 }
-                else
-                {
-                    if (currentOracleData.WBTOLLMIN >= currentTransaction.EmptyWeight && currentOracleData.WBTOLLMAX <= currentTransaction.EmptyWeight)
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }                
-            }
-            else
-            {
                 return false;
             }
+            return true;
         }
 
         private bool CaptureWeight()
@@ -2820,7 +2808,8 @@ namespace IWT.TransactionPages
             int NetWeight = 0;
             if (currentTransaction.LoadStatus == "Empty")
             {
-                this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() => {
+                this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
+                {
                     LoadedWeightBlock.Text = currentWeightment;
                     EmptyWeight = string.IsNullOrEmpty(TareWeightBlock.Text) ? 0 : Convert.ToInt32(TareWeightBlock.Text);
                     LoadWeight = string.IsNullOrEmpty(LoadedWeightBlock.Text) ? 0 : Convert.ToInt32(LoadedWeightBlock.Text);
@@ -2894,7 +2883,7 @@ namespace IWT.TransactionPages
             TicketNo = currentTransaction.TicketNo;
             this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
-                if (currentTransaction.LoadStatus=="Loaded")
+                if (currentTransaction.LoadStatus == "Loaded")
                 {
                     currentTransaction.EmptyWeightDate = DateTime.Now;
                     currentTransaction.EmptyWeightTime = DateTime.Now.ToString("hh:mm:ss tt");
@@ -2917,7 +2906,7 @@ namespace IWT.TransactionPages
             currentTransaction.ShiftName = CurrentShift?.ShiftName;
             currentTransaction.State = "ST";
 
-            var res=BuildTransactionInsertQuery(currentTransaction, CustomFieldsBuilder);
+            var res = BuildTransactionInsertQuery(currentTransaction, CustomFieldsBuilder);
             if (res)
             {
                 this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(async () =>

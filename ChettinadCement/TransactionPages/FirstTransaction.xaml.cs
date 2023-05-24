@@ -2526,7 +2526,7 @@ namespace IWT.TransactionPages
 
         #region AWS
         public static string PlcValue = "";
-        private string currentOracleData = "";
+        private OracleModel currentOracleData= new OracleModel();;
         public bool IsAwsStarted { get; set; } = false;
         private RFIDAllocation currentAllocation = new RFIDAllocation();
 
@@ -2551,10 +2551,19 @@ namespace IWT.TransactionPages
                 else
                     CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.Message);
                 WriteLog.WriteAWSLog("Exception:-", ex);
+                string message = "";
                 if (ex.InnerException != null)
-                    CreateLog($"Exception:- {ex.InnerException.Message}");
+                    message = ex.InnerException.Message;
                 else
-                    CreateLog($"Exception:- {ex.Message}");
+                    message = ex.Message;
+
+                CreateLog($"Exception:- {ex.Message}");
+
+                //CC
+                string updateQuery = $@"UPDATE [RFID_Allocations] SET FTError='{message}',FTErrorDate='{DateTime.Now}',IsError='1' WHERE AllocationId={transaction.AllocationData.AllocationId}";
+                SqlCommand cmd = new SqlCommand(updateQuery);
+                var response = _dbContext.ExecuteQuery(cmd);
+
                 IsAwsStarted = false;
                 awsOperationCompleted.Invoke("first", new AwsCompletedEventArgs());
                 this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
@@ -2580,8 +2589,7 @@ namespace IWT.TransactionPages
             IsAwsStarted = true;
             currentTransaction = transaction.TransactionData;
             currentAllocation = transaction.AllocationData;
-            //currentOracleData = JsonConvert.DeserializeObject(transaction.AllocationData.OracleData);
-            currentOracleData = transaction.AllocationData.OracleData;
+            currentOracleData = JsonConvert.DeserializeObject<OracleModel>(transaction.AllocationData.OracleData);
             this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 SetLoadStatus(currentTransaction.LoadStatus == "Loaded");
@@ -2605,6 +2613,10 @@ namespace IWT.TransactionPages
             CreateLog("Gate entry data patched");
             PlcValue = "";
             string LastPlcCmd = "";
+            if(string.IsNullOrEmpty(currentOracleData.GINDT) || !string.IsNullOrEmpty(currentOracleData.FIRSTWT) || !string.IsNullOrEmpty(currentOracleData.STATUS_FLAG) || currentOracleData.CFLAG != "F")
+            {
+                throw new Exception("Gate entry status check failed!!");
+            }
             if (transaction.IsSecondReader)
             {
                 commonFunction.SendCommandToPLC("77");
@@ -2655,13 +2667,13 @@ namespace IWT.TransactionPages
             var changeStatus = ChangeRFIDAllocationStatus();
             if (!changeStatus)
             {
-                throw new Exception("RFIDAllocation Status failed");
+                throw new Exception("Oracle Status failed");
             }
             else
             {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "RFIDAllocation Status Changed Successfully");
-                WriteLog.WriteAWSLog($"RFIDAllocation Status Changed Successfully");
-                CreateLog($"RFIDAllocation Status Changed Successfully");
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Oracle Status Changed Successfully");
+                WriteLog.WriteAWSLog($"Oracle Status Changed Successfully");
+                CreateLog($"Oracle Status Changed Successfully");
             }
 
             //SAP Transaction
