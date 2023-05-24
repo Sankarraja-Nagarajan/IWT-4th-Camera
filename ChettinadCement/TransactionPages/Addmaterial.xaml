@@ -30,14 +30,22 @@
                             <!--<TextBlock Text="Material Code" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
                             <Image Source="/Assets/Icons/Material_code.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
                             <ComboBox FontSize="13" Style="{StaticResource MaterialDesignOutlinedComboBox}" x:Name="MaterialCode" materialDesign:HintAssist.Hint="Material Code" Width="250" DisplayMemberPath="MaterialCode" SelectionChanged="MaterialCode_SelectionChanged">
-
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Margin="30">
                             <!--<TextBlock Text="Material Name" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
                             <Image Source="/Assets/Icons/Material_Name.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
                             <ComboBox FontSize="13" Style="{StaticResource MaterialDesignOutlinedComboBox}" x:Name="MaterialName" materialDesign:HintAssist.Hint="Material Name" Width="250" DisplayMemberPath="MaterialName" SelectionChanged="MaterialName_SelectionChanged">
-
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
                             </ComboBox>
                         </StackPanel>
                     </StackPanel>

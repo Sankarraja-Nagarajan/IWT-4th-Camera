@@ -29,14 +29,22 @@
                             <!--<TextBlock Text="Supplier Code" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
                             <Image Source="/Assets/Icons/Supplier_code.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
                             <ComboBox FontSize="13" Style="{StaticResource MaterialDesignOutlinedComboBox}" x:Name="SupplierCode" materialDesign:HintAssist.Hint="Supplier Code" Width="250" DisplayMemberPath="SupplierCode" SelectionChanged="SupplierCode_SelectionChanged">
-
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Margin="30">
                             <!--<TextBlock Text="Supplier Name" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>-->
                             <Image Source="/Assets/Icons/Supplier_Name.png" Width="100" Height="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
                             <ComboBox FontSize="13" Style="{StaticResource MaterialDesignOutlinedComboBox}" x:Name="SupplierName" materialDesign:HintAssist.Hint="Supplier Name" Width="250" DisplayMemberPath="SupplierName" SelectionChanged="SupplierName_SelectionChanged">
-
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
                             </ComboBox>
                         </StackPanel>
                     </StackPanel>
