@@ -174,7 +174,13 @@
                            Width="21" Height="21"
                            Content="{materialDesign:PackIcon Kind=Plus, Size=20}" Click="SelectRFIDBtn_Click"/>-->
                         <ComboBox Width="280" Margin="10 0" x:Name="RFIDNo" materialDesign:HintAssist.Hint="RFID Tag"
-                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}" />
+                                  FontSize="16" FontFamily="Segoe UI Semibold" VerticalAlignment="Center" Style="{DynamicResource MaterialDesignFloatingHintComboBox}">
+                            <ComboBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel />
+                                </ItemsPanelTemplate>
+                            </ComboBox.ItemsPanel>
+                        </ComboBox>
                     </StackPanel>
                 </Border>
 
