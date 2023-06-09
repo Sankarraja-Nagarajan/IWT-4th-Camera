@@ -2625,7 +2625,7 @@ namespace IWT.TransactionPages
             CreateLog("Gate entry data patched");
             PlcValue = "";
             string LastPlcCmd = "";
-            if(string.IsNullOrEmpty(currentOracleData.GINDT) || !string.IsNullOrEmpty(currentOracleData.FIRSTWT) || !string.IsNullOrEmpty(currentOracleData.STATUS_FLAG) || currentOracleData.CFLAG != "F")
+            if(!currentOracleData.GINDT.HasValue || currentOracleData.FIRSTWT.HasValue || !string.IsNullOrEmpty(currentOracleData.STATUS_FLG) || currentOracleData.CFLAG != "F")
             {
                 throw new Exception("Gate entry status check failed!!");
             }
