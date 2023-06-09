@@ -118,6 +118,11 @@
                                             <TextBlock x:Name="RangeTextBlock" VerticalAlignment="Center" Margin="30 0 0 0">Pick A Range</TextBlock>
                                             <ComboBox Margin="26 0 0 0" x:Name="RangeComboBox" VerticalAlignment="Center" Width="200" Style="{DynamicResource MaterialDesignOutlinedComboBox}"
                                                   Visibility="Collapsed" materialDesign:HintAssist.Hint="Select Range" SelectionChanged="RangeComboBox_SelectionChanged">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
                                             </ComboBox>
                                             <!--<DatePicker x:Name="FromDatePicker" materialDesign:HintAssist.Hint="From Date" Style="{DynamicResource MaterialDesignOutlinedDatePicker}"
                                       HorizontalAlignment="Left" VerticalAlignment="Center" Width="250" Foreground="Gray" Visibility="Collapsed"/>-->
@@ -130,6 +135,11 @@
                                             <ComboBox x:Name="TransactionTypeComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" 
                                                   materialDesign:HintAssist.Hint="Transaction Type" HorizontalAlignment="Left" VerticalAlignment="Center" Width="200"
                                                   DisplayMemberPath="Description" SelectedValuePath="TransactionType" SelectionChanged="TransactionTypeComboBox_SelectionChanged">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
                                             </ComboBox>
                                         </StackPanel>
                                     </Border>
@@ -141,6 +151,11 @@
                                                   materialDesign:HintAssist.Hint="Material" VerticalAlignment="Center" Width="200" DisplayMemberPath="MaterialName" SelectedValuePath="MaterialName"
                                                   SelectionChanged="MaterialComboBox_SelectionChanged">
 
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
                                             </ComboBox>
                                         </StackPanel>
                                     </Border>
@@ -151,6 +166,11 @@
                                             <ComboBox x:Name="SupplierComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" HorizontalAlignment="Left" 
                                                   materialDesign:HintAssist.Hint="Supplier" VerticalAlignment="Center" Width="200" DisplayMemberPath="SupplierName" SelectedValuePath="SupplierName"
                                                   SelectionChanged="SupplierComboBox_SelectionChanged">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
                                             </ComboBox>
                                         </StackPanel>
                                     </Border>
@@ -161,6 +181,11 @@
                                             <ComboBox x:Name="ShiftComboBox" Style="{DynamicResource MaterialDesignOutlinedComboBox}" HorizontalAlignment="Left" 
                                                   materialDesign:HintAssist.Hint="Shift" VerticalAlignment="Center" Width="200" DisplayMemberPath="ShiftName" SelectedValuePath="ShiftName"
                                                   SelectionChanged="ShiftComboBox_SelectionChanged">
+                                                <ComboBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <VirtualizingStackPanel />
+                                                    </ItemsPanelTemplate>
+                                                </ComboBox.ItemsPanel>
                                             </ComboBox>
                                         </StackPanel>
                                     </Border>

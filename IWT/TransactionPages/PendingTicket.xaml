@@ -19,7 +19,13 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40 20 20 30">
                             <Label Content="Tickets" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <ComboBox Name="combobox1" Width="250" Margin="20 0 20 0" DisplayMemberPath="TicketNo" SelectedValuePath="TicketNo"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
                         </StackPanel>
                         <Separator></Separator>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 5 10 0">
@@ -72,7 +78,13 @@
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40 20 20 30">
                             <Label Content="Vehicle No" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             <ComboBox Name="combobox2" Width="250" Margin="20 0 20 0" DisplayMemberPath="VehicleNo" SelectedValuePath="TicketNo"
-                              Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                              Style="{StaticResource MaterialDesignOutlinedComboBox}">
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
+                            </ComboBox>
                         </StackPanel>
                         <Separator></Separator>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="0 5 10 0">

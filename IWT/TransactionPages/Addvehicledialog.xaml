@@ -76,6 +76,11 @@
                             <Image Source="/Assets/Icons/Vehicle_number.png" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
                             <ComboBox x:Name="VehicleNumber" FontSize="13" Width="300" DisplayMemberPath="VehicleNumber"
                      Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Vehicle Number">
+                                <ComboBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ComboBox.ItemsPanel>
                             </ComboBox>
                         </StackPanel>
                     </StackPanel>

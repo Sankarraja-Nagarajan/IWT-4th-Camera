@@ -23,6 +23,11 @@
         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
             <ComboBox x:Name="VehicleName" materialDesign:HintAssist.Hint="Select Vehicle" Foreground="#545352" FontFamily="Segoe UI Semibold" FontSize="14" Margin="0,16" Style="{StaticResource MaterialDesignOutlinedComboBox}"
                                Width="400"  DisplayMemberPath="VehicleNumber">
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
             </ComboBox>
         </StackPanel>
         <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
