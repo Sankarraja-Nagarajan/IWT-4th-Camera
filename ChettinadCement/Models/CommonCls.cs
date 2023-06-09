@@ -385,7 +385,7 @@ namespace IWT.Models
         public string HardwareProfile { get; set; }
     }
 
-    public class SerialCommunicationSetting 
+    public class SerialCommunicationSetting
     {
         public int Id { get; set; }
         public string Port { get; set; }
@@ -406,8 +406,8 @@ namespace IWT.Models
     {
         public int Id { get; set; }
         public int SequenceTimeOut { get; set; }
-        public bool? SAP  { get; set;}
-        public bool? SemiAutomatic { get; set;}
+        public bool? SAP { get; set; }
+        public bool? SemiAutomatic { get; set; }
         public bool? VPSEnable { get; set; }
         public bool? IsAutoLogin { get; set; }
         public string AutoLoginUser { get; set; }
@@ -422,6 +422,18 @@ namespace IWT.Models
     public class HardwareProfileModel
     {
         public int ID { get; set; }
-        public string ProfileName { get; set; } 
+        public string ProfileName { get; set; }
+    }
+
+    public class TransErrLogs
+    {
+        public int Id { get; set; }
+        public int? TicketNo { get; set; }
+        public string VehicleNo { get; set; }
+        public string TransType { get; set; }
+        public string ErrorType { get; set; }
+        public string ErrorMessage { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string SystemId { get; set; }
     }
 }

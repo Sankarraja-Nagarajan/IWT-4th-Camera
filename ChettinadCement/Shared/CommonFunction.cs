@@ -1313,6 +1313,22 @@ namespace IWT.Shared
             }
         }
 
+        public void InsertTransErrorLog(TransErrLogs transErrLogs)
+        {
+            try
+            {
+                string insertQuery = $@"INSERT INTO [Trans_Err_Logs] (TicketNo,VehicleNo,TransType,ErrorType,ErrorMessage,CreatedOn,SystemId) 
+                                                Values ('{transErrLogs.TicketNo}','{transErrLogs.VehicleNo}','{transErrLogs.TransType}','{transErrLogs.ErrorType}',
+                                                       '{transErrLogs.ErrorMessage}','{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}','{transErrLogs.SystemId}')";
+                SqlCommand cmd = new SqlCommand(insertQuery);
+                masterDBCall.InsertData(cmd, CommandType.Text);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public void UpdateSAPDataBackUpById(SAPDataBackUp sapDataBackUp)
         {
             try

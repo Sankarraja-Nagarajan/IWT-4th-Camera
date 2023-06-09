@@ -1246,6 +1246,18 @@ ColumnWidth="150" Height="auto" Margin="0 20 0 0" AutoGenerateColumns="False" Ca
                                 </Button>
                             </Grid>
 
+                            <Grid>
+                                <Button Style="{DynamicResource BtnStyle }"  Uid="9"  x:Name="Logs"  Margin="10 0 0 5" Width="130" Height="80" Background="#BBC1D1" BorderBrush="#BBC1D1"   Click="Weighing_Click" VerticalAlignment="Center" >
+
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <!--<materialDesign:PackIcon Kind="FileOutline"  Width="40" Height="40" HorizontalAlignment="Center"/>-->
+                                        <Image Source="/Assets/Icons/Custom_Field.png"  Height="60" Width="60" VerticalAlignment="Center" ></Image>
+                                        <TextBlock HorizontalAlignment="Center" FontSize="12" Text="Trans Error Logs"></TextBlock>
+                                    </StackPanel>
+
+                                </Button>
+                            </Grid>
+
                         </WrapPanel>
                     </Grid>
                     <Grid Grid.Row="2" Grid.Column="2" >

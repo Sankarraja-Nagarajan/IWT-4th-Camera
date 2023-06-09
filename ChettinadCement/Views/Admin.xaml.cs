@@ -1,4 +1,5 @@
 ﻿using IWT.Admin_Pages;
+using IWT.AWS.Admin_Pages;
 using IWT.DBCall;
 using IWT.Models;
 using System;
@@ -106,6 +107,7 @@ namespace IWT.Views
             {
                 SystemConfig.Visibility = Visibility.Collapsed;
             }
+            Logs.Visibility = Visibility.Visible;
         }
         private void Weighing_Click(object sender, RoutedEventArgs e)
         {
@@ -143,6 +145,10 @@ namespace IWT.Views
             else if (senderBtn.Uid == "8")
             {
                 Main.Content = new SystemConfiguration();
+            }
+            else if (senderBtn.Uid == "9")
+            {
+                Main.Content = new TransErrorLogs();
             }
             else
             {
@@ -210,6 +216,8 @@ namespace IWT.Views
             SAPSync.Foreground = new SolidColorBrush(Colors.Black);
             SystemConfig.Background = (Brush)bc.ConvertFrom("#BBC1D1");
             SystemConfig.Foreground = new SolidColorBrush(Colors.Black);
+            Logs.Background = (Brush)bc.ConvertFrom("#BBC1D1");
+            Logs.Foreground = new SolidColorBrush(Colors.Black);
             HardwareProfile.Background = (Brush)bc.ConvertFrom("#FFAA33");
             HardwareProfile.Foreground = new SolidColorBrush(Colors.White);
         }

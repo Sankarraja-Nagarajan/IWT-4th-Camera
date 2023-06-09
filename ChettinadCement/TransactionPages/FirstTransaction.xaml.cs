@@ -2553,10 +2553,22 @@ namespace IWT.TransactionPages
                 WriteLog.WriteAWSLog("Exception:-", ex);
                 string message = "";
                 if (ex.InnerException != null)
+                {
                     message = ex.InnerException.Message;
+                }
                 else
+                {
                     message = ex.Message;
-
+                }
+                //Insert Into TransErrLogs
+                TransErrLogs transErrLogs = new TransErrLogs();
+                transErrLogs.TicketNo = currentTransaction.TicketNo;
+                transErrLogs.VehicleNo = currentTransaction.VehicleNo;
+                transErrLogs.TransType = "First";
+                transErrLogs.ErrorType = "AWS";
+                transErrLogs.ErrorMessage = message;
+                transErrLogs.SystemId = currentTransaction.SystemID;
+                commonFunction.InsertTransErrorLog(transErrLogs);
                 CreateLog($"Exception:- {ex.Message}");
 
                 //CC
@@ -2635,7 +2647,7 @@ namespace IWT.TransactionPages
             CreateLog($"{PlcValue} recieved from PLC");
             WriteLog.WriteAWSLog($"{PlcValue} recieved from PLC");
             if (PlcValue.Contains("99"))
-            {
+            {                
                 throw new Exception("Plc error");
             }
             //Weighment
@@ -2696,7 +2708,7 @@ namespace IWT.TransactionPages
             {
                 throw new Exception("Plc error");
             }
-            CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "AWS Operation Competed");
+            CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "AWS Operation Completed");
             this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 ClearTransaction();

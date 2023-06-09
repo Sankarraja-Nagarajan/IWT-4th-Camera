@@ -495,6 +495,9 @@
     <Compile Include="Admin_Pages\TicketDataEntry.xaml.cs">
       <DependentUpon>TicketDataEntry.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Admin_Pages\TransErrorLogs.xaml.cs">
+      <DependentUpon>TransErrorLogs.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Admin_Pages\viewer.xaml.cs">
       <DependentUpon>viewer.xaml</DependentUpon>
     </Compile>
@@ -817,6 +820,10 @@
     <Page Include="Admin_Pages\TicketDataEntry.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Admin_Pages\TransErrorLogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Admin_Pages\viewer.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -211,6 +211,7 @@ namespace IWT.Models
         public bool? SystemConfigurationAccess { get; set; }
         public bool? SAPSyncAccess { get; set; }
         public bool? PrintAndDeleteAccess { get; set; }
+        public bool? TransErrorLogs { get; set; }
     }
     public class RolePriviliege1
     {

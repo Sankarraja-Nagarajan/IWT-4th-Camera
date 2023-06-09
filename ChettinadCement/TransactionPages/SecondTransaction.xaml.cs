@@ -2613,10 +2613,22 @@ namespace IWT.TransactionPages
                 WriteLog.WriteAWSLog("Exception:-", ex);
                 string message = "";
                 if (ex.InnerException != null)
+                {
                     message = ex.InnerException.Message;
+                }                   
                 else
+                {
                     message = ex.Message;
-
+                }
+                //Insert Into TransErrLogs
+                TransErrLogs transErrLogs = new TransErrLogs();
+                transErrLogs.TicketNo = currentTransaction.TicketNo;
+                transErrLogs.VehicleNo = currentTransaction.VehicleNo;
+                transErrLogs.TransType = "Second";
+                transErrLogs.ErrorType = "AWS";
+                transErrLogs.ErrorMessage = message;
+                transErrLogs.SystemId = currentTransaction.SystemID;
+                commonFunction.InsertTransErrorLog(transErrLogs);
                 CreateLog($"Exception:- {ex.Message}");
 
                 //CC
