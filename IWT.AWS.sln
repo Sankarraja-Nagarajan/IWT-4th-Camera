@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IWTMultiFile.Console", "IWT
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IWTMultiFile.Setup", "IWTMultiFile.Setup\IWTMultiFile.Setup.vdproj", "{B91E9506-C0C6-4AA6-B726-3ECF210F239E}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IWT.AWS.CC.Setup", "IWT.AWS.CC.Setup\IWT.AWS.CC.Setup.vdproj", "{D98C3427-AE30-4186-BF91-E74421426B13}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,44 +103,15 @@ Global
 		{B91E9506-C0C6-4AA6-B726-3ECF210F239E}.Release|Any CPU.Build.0 = Release
 		{B91E9506-C0C6-4AA6-B726-3ECF210F239E}.Release|x64.ActiveCfg = Release
 		{B91E9506-C0C6-4AA6-B726-3ECF210F239E}.Release|x64.Build.0 = Release
+		{D98C3427-AE30-4186-BF91-E74421426B13}.Debug|Any CPU.ActiveCfg = Debug
+		{D98C3427-AE30-4186-BF91-E74421426B13}.Debug|x64.ActiveCfg = Debug
+		{D98C3427-AE30-4186-BF91-E74421426B13}.Release|Any CPU.ActiveCfg = Release
+		{D98C3427-AE30-4186-BF91-E74421426B13}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6DD03277-30ED-43EE-BC66-F65E57EED0F3}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 10
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://exalca.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = AWS.Communication\\AWS.Communication.csproj
-		SccProjectName1 = AWS.Communication
-		SccLocalPath1 = AWS.Communication
-		SccProjectUniqueName2 = TcpClientService\\TcpClientService.csproj
-		SccProjectName2 = TcpClientService
-		SccLocalPath2 = TcpClientService
-		SccProjectUniqueName3 = IWT\\IWT.AWS.csproj
-		SccProjectName3 = IWT
-		SccLocalPath3 = IWT
-		SccProjectUniqueName4 = ChettinadCement\\IWT.AWS.CC.csproj
-		SccProjectName4 = ChettinadCement
-		SccLocalPath4 = ChettinadCement
-		SccProjectUniqueName5 = IWT.Setup\\IWT.Setup.vdproj
-		SccProjectName5 = IWT.Setup
-		SccLocalPath5 = IWT.Setup
-		SccProjectUniqueName6 = IWT.Uninstaller\\IWT.Uninstaller.csproj
-		SccProjectName6 = IWT.Uninstaller
-		SccLocalPath6 = IWT.Uninstaller
-		SccProjectUniqueName7 = IWT.Uninstaller.Setup\\IWT.Uninstaller.Setup.vdproj
-		SccProjectName7 = IWT.Uninstaller.Setup
-		SccLocalPath7 = IWT.Uninstaller.Setup
-		SccProjectUniqueName8 = IWTMultiFile.Console\\IWTMultiFile.Console.csproj
-		SccProjectName8 = IWTMultiFile.Console
-		SccLocalPath8 = IWTMultiFile.Console
-		SccProjectUniqueName9 = IWTMultiFile.Setup\\IWTMultiFile.Setup.vdproj
-		SccProjectName9 = IWTMultiFile.Setup
-		SccLocalPath9 = IWTMultiFile.Setup
 	EndGlobalSection
 EndGlobal

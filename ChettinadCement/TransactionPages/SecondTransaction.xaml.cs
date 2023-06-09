@@ -1541,7 +1541,7 @@ namespace IWT.TransactionPages
                 string Query = "UPDATE [Transaction] SET EmptyWeight=@EmptyWeight,EmptyWeightDate=@EmptyWeightDate,EmptyWeightTime=@EmptyWeightTime,ShiftName=@ShiftName," +
                                                         "LoadWeight=@LoadWeight,LoadWeightDate=@LoadWeightDate,LoadWeightTime=@LoadWeightTime,NetWeight=@NetWeight," +
                                                         "Pending=@Pending,Closed=@Closed,LoadStatus=@LoadStatus,State=@State," +
-                                                        "MaterialCode=@MaterialCode,MaterialName=@MaterialName,SupplierCode=@SupplierCode,SupplierName=@SupplierName,TransType=@TransType,DocNumber=@DocNumber,GatePassNumber=@GatePassNumber,TokenNumber=@TokenNumber,IsSapBased=@IsSapBased,";
+                                                        "MaterialCode=@MaterialCode,MaterialName=@MaterialName,SupplierCode=@SupplierCode,SupplierName=@SupplierName,TransType=@TransType,DocNumber=@DocNumber,GatePassNumber=@GatePassNumber,TokenNumber=@TokenNumber,IsSapBased=@IsSapBased,SystemId=@SystemId";
                 foreach (var field in customFieldBuilders)
                 {
                     Query += $"{field.FieldName}=@{field.FieldName},";
@@ -1574,6 +1574,7 @@ namespace IWT.TransactionPages
                 cmd.Parameters.Add("@State", SqlDbType.VarChar).Value = "ST";
                 cmd.Parameters.Add("@TransactionType", SqlDbType.VarChar).Value = "Second";
                 cmd.Parameters.Add("@UserName", SqlDbType.VarChar).Value = authResult?.UserName;
+                cmd.Parameters.Add("@SystemId",SqlDbType.VarChar).Value=MainWindow.SystemId;
                 foreach (var field in customFieldBuilders)
                 {
                     cmd.Parameters.AddWithValue($"@{field.FieldName}", field.Value ?? DBNull.Value);
@@ -2677,7 +2678,7 @@ namespace IWT.TransactionPages
             CreateLog("Gate entry data patched");
             PlcValue = "";
             string LastPlcCmd = "";
-            if (string.IsNullOrEmpty(currentOracleData.FIRSTWT) || currentOracleData.STATUS_FLAG != "S" && currentOracleData.CFLAG != "F" && currentOracleData.AFLAG != "F")
+            if (currentOracleData.FIRSTWT.HasValue && currentOracleData.STATUS_FLG == "S" && currentOracleData.CFLAG == "F" && currentOracleData.AFLAG == "F")
             {
                 throw new Exception("Gate entry status check failed!!");
             }
