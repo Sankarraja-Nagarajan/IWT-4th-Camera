@@ -1541,7 +1541,7 @@ namespace IWT.TransactionPages
                 string Query = "UPDATE [Transaction] SET EmptyWeight=@EmptyWeight,EmptyWeightDate=@EmptyWeightDate,EmptyWeightTime=@EmptyWeightTime,ShiftName=@ShiftName," +
                                                         "LoadWeight=@LoadWeight,LoadWeightDate=@LoadWeightDate,LoadWeightTime=@LoadWeightTime,NetWeight=@NetWeight," +
                                                         "Pending=@Pending,Closed=@Closed,LoadStatus=@LoadStatus,State=@State," +
-                                                        "MaterialCode=@MaterialCode,MaterialName=@MaterialName,SupplierCode=@SupplierCode,SupplierName=@SupplierName,TransType=@TransType,DocNumber=@DocNumber,GatePassNumber=@GatePassNumber,TokenNumber=@TokenNumber,IsSapBased=@IsSapBased,SystemId=@SystemId";
+                                                        "MaterialCode=@MaterialCode,MaterialName=@MaterialName,SupplierCode=@SupplierCode,SupplierName=@SupplierName,TransType=@TransType,DocNumber=@DocNumber,GatePassNumber=@GatePassNumber,TokenNumber=@TokenNumber,IsSapBased=@IsSapBased,SystemId=@SystemId,";
                 foreach (var field in customFieldBuilders)
                 {
                     Query += $"{field.FieldName}=@{field.FieldName},";
@@ -2690,7 +2690,7 @@ namespace IWT.TransactionPages
             CreateLog("Gate entry data patched");
             PlcValue = "";
             string LastPlcCmd = "";
-            if (currentOracleData.FIRSTWT.HasValue && currentOracleData.STATUS_FLG == "S" && currentOracleData.CFLAG == "F" && currentOracleData.AFLAG == "F")
+            if (!currentOracleData.FIRSTWT.HasValue || currentOracleData.STATUS_FLG != "S" || currentOracleData.CFLAG != "F" || currentOracleData.AFLAG != "F")
             {
                 throw new Exception("Gate entry status check failed!!");
             }

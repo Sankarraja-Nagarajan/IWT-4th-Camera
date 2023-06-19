@@ -2567,7 +2567,7 @@ namespace IWT.TransactionPages
                 transErrLogs.TransType = "First";
                 transErrLogs.ErrorType = "AWS";
                 transErrLogs.ErrorMessage = message;
-                transErrLogs.SystemId = currentTransaction.SystemID;
+                transErrLogs.SystemId = MainWindow.SystemId;
                 commonFunction.InsertTransErrorLog(transErrLogs);
                 CreateLog($"Exception:- {ex.Message}");
 
