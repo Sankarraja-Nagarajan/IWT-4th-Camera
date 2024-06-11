@@ -51,7 +51,17 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
              d:DesignHeight="450" d:DesignWidth="800"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:materialAutoComplete="http://wpfcontrols.com/"
+              xmlns:providers="clr-namespace:IWT.AWS.Providers"
              >
+    <UserControl.Resources>
+        <providers:VehicleSuggestionProvider x:Key="VehicleSuggestionProvider"/>
+        <DataTemplate x:Key="VehicleTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Path=VehicleNumber}" FontSize="13" FontWeight="SemiBold"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="20"/>
@@ -74,14 +84,31 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="0" HorizontalAlignment="Center">
                         <StackPanel Margin="30">
                             <Image Source="/Assets/Icons/Vehicle_number.png" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
-                            <ComboBox x:Name="VehicleNumber" FontSize="13" Width="300" DisplayMemberPath="VehicleNumber"
+                            <!--<ComboBox PreviewTextInput="VehicleNumber_PreviewTextInput" x:Name="VehicleNumber" FontSize="13" Width="300" DisplayMemberPath="VehicleNumber"
                      Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Vehicle Number">
                                 <ComboBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <VirtualizingStackPanel />
                                     </ItemsPanelTemplate>
                                 </ComboBox.ItemsPanel>
-                            </ComboBox>
+                            </ComboBox>-->
+                            
+                            <materialAutoComplete:AutoCompleteComboBox x:Name="VehicleNumber" Tag="VehicleNumber" materialDesign:HintAssist.Hint="Search Vehicle"
+                                 HorizontalAlignment="Stretch"
+                                 DisplayMember="VehicleNumber"
+                                 CharacterCasing="Upper"
+                                 ItemTemplate="{StaticResource ResourceKey=VehicleTemplate}"
+                                 Provider="{StaticResource ResourceKey=VehicleSuggestionProvider}"
+                                 SelectedItem="{Binding VehicleNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource MaterialAutoCompleteComboBox}"
+                                    >
+                                <materialAutoComplete:AutoCompleteComboBox.LoadingContent>
+                                    <TextBlock
+                                                        Margin="5"
+                                                        FontSize="14"
+                                                        Text="Loading..."/>
+                                </materialAutoComplete:AutoCompleteComboBox.LoadingContent>
+                            </materialAutoComplete:AutoCompleteComboBox>
                         </StackPanel>
                     </StackPanel>
 

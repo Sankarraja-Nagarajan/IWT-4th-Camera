@@ -107,6 +107,10 @@ namespace IWT.TransactionPages
                 BuildCustomFields();
                 InitializeTypeList();
                 InitializeTypeComboBox();
+                //commonFunction.RemoveDuplicateMaterials();
+                //commonFunction.RemoveDuplicateSuppliers();
+                //commonFunction.GetMaterialMasters();
+                //commonFunction.GetSupplierMasters();
             }
             catch (Exception ex)
             {
@@ -140,31 +144,44 @@ namespace IWT.TransactionPages
 
         public void CaptureCameraImage(Transaction transaction)
         {
+            WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage : CaptureCameraImage starts.");
+            WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage : TicketNo :- " + transaction.TicketNo);
             ImageSourcePath imageSourcePath = new ImageSourcePath();
             foreach (var camera in CCTVSettings)
             {
                 if (camera.Enable)
                 {
+                    WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage :- camera.RecordID : " + camera.RecordID);
                     string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
                         imageSource = image1.Source;
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 1:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 1:- imagePath : " + imagePath);
                         imageSourcePath.Image1Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 1:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 2)
                     {
                         imageSource = image2.Source;
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 2:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 2:- imagePath : " + imagePath);
                         imageSourcePath.Image2Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 2:- imageSourcePath.Image1Path : " + imageSourcePath.Image2Path);
                     }
                     else if (camera.RecordID == 3)
                     {
                         imageSource = image3.Source;
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 3:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 3:- imagePath : " + imagePath);
                         imageSourcePath.Image3Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage 3:- imageSourcePath.Image1Path : " + imageSourcePath.Image3Path);
                     }
                 }
             }
             CurrentTransactionImageSourcePath = new List<ImageSourcePath>();
+            WriteLog.WriteToFile("SingleTransaction/CaptureCameraImage:- imageSourcePath : " + imageSourcePath);
             CurrentTransactionImageSourcePath.Add(imageSourcePath);
         }
 
@@ -1133,6 +1150,7 @@ namespace IWT.TransactionPages
                             currentTransaction.EmptyWeightTime = DateTime.Now.ToString("hh:mm:ss tt");
                             currentTransaction.LoadWeightDate = (DateTime?)null;
                             currentTransaction.LoadWeightTime = "";
+                            currentTransaction.NetWeight = Convert.ToInt32(TareWeight.Text);
                         }
                         //currentTransaction.LoadStatus = "Loaded";
                         currentTransaction.TransactionType = "Single";

@@ -2390,5 +2390,64 @@ namespace IWT.Shared
                 WriteLog.WriteToFile("CommonFunction/UpdateRFIDAllocationStatus", ex);
             }
         }
+
+        #region Remove_Duplicate_Master_And_Supplier
+        public void RemoveDuplicateMaterials()
+        {
+            try
+            {
+                DataTable table = adminDB.GetAllData($"select *  from [Material_Master]");
+                var JsonString = JsonConvert.SerializeObject(table);
+                var materials = JsonConvert.DeserializeObject<List<MaterialMaster>>(JsonString);
+
+                for (int i = 0; i < materials.Count; i++)
+                {
+                    for (int j = i + 1; j < materials.Count; j++)
+                    {
+                        if (materials[i].MaterialName == materials[j].MaterialName)
+                        {
+                            string removeQuery = $"delete from [Material_Master] where MaterialID={materials[j].MaterialID}";
+                            adminDB.ExecuteQuery(removeQuery);
+                        }
+                    }
+                }
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateMaterials :- Removed Successfully ");
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateMaterials/Exception :- " + ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public void RemoveDuplicateSuppliers()
+        {
+            try
+            {
+                DataTable table = adminDB.GetAllData($"select *  from [Supplier_Master]");
+                var JsonString = JsonConvert.SerializeObject(table);
+                var suppliers = JsonConvert.DeserializeObject<List<SupplierMaster>>(JsonString);
+
+                for (int i = 0; i < suppliers.Count; i++)
+                {
+                    for (int j = i + 1; j < suppliers.Count; j++)
+                    {
+                        if (suppliers[i].SupplierName == suppliers[j].SupplierName)
+                        {
+                            string removeQuery = $"delete from [Supplier_Master] where SupplierID={suppliers[j].SupplierID}";
+                            adminDB.ExecuteQuery(removeQuery);
+                        }
+                    }
+                }
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateSuppliers :- Removed Successfully ");
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateSuppliers/Exception :- " + ex.Message, ex);
+                throw ex;
+            }
+        }
+        #endregion
+
     }
 }

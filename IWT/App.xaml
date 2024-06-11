@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/ToastNotifications.Messages;component/Themes/Default.xaml" />
                 <!--<ResourceDictionary Source="pack://application:,,,/VirtualKeyboard.Wpf;component/ResourceDictionaries/DefaultStyles.xaml"/>-->
+                <ResourceDictionary Source="Styles/CustomAutoCompleteStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <Style x:Key="WhiteFont">
                 <Setter Property="Control.Foreground" Value="White"></Setter>

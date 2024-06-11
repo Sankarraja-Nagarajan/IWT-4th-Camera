@@ -59,7 +59,8 @@ namespace IWT.Setting_Pages
                 {
                     FileInfo file = new FileInfo(Log.Text);
                     string script1 = file.OpenText().ReadToEnd();
-                    SqlConnection conn = new SqlConnection(connectionString);
+                    //SqlConnection conn = new SqlConnection(connectionString);
+                    SqlConnection conn = new SqlConnection("server=DESKTOP-30IUE2U;database=IWT-Desktop;user=sa;password=Exalca@123;");
                     Server server1 = new Server(new ServerConnection(conn));
                     server1.ConnectionContext.ExecuteNonQuery(script1);
                     conn.Close();

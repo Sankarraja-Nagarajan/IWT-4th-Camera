@@ -289,6 +289,93 @@
                         </Grid>
                     </StackPanel>
                 </TabItem>
+                <TabItem x:Uid="4" Height="40" Width="100" Header="CCTV4" Uid="4" FontFamily="Segoe UI Semibold">
+                    <StackPanel Margin="10">
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Camera_Caapture.png" Width="40" Height="40"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Capture Url" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                            <TextBox x:Name="captureUrl4" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                        </Grid>
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Camera_Stream.png" Width="40" Height="40"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="CameraType" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                            <ComboBox x:Name="cameraType4" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" BorderThickness="1">
+                                <ComboBoxItem>Bullet Camera</ComboBoxItem>
+                                <ComboBoxItem>Hikvision Camera</ComboBoxItem>
+                                <ComboBoxItem>Zoom Camera</ComboBoxItem>
+                            </ComboBox>
+                        </Grid>
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Camera_Caapture.png" Width="40" Height="40"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Stream Url" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                            <TextBox x:Name="streamUrl4" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                        </Grid>
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Camera_Stream.png" Width="40" Height="40"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Camera Username" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                            <TextBox x:Name="cameraUsername4" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                        </Grid>
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/Camera_Stream.png" Width="40" Height="40"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Camera Password" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                            <PasswordBox x:Name="cameraPassword4" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                        </Grid>
+                        <Grid Margin="0 0 0 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                                <ColumnDefinition Width="4*"></ColumnDefinition>
+                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                                <ColumnDefinition Width="1*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <Image HorizontalAlignment="Left" Grid.Column="0" Source="/Assets/Icons/File_Path.png" Width="30" Height="30"/>
+                            <TextBlock Grid.Column="1" VerticalAlignment="Center" Text="Log File Path" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E"/>
+                            <TextBox x:Name="logFilePath4" Grid.Column="2" Padding="5" BorderBrush="#89BBABAB" CaretBrush="#FF6C6C6C" BorderThickness="1"/>
+                            <Image MouseLeftButtonUp="ChooseFolder4_MouseLeftButtonUp"  Cursor="Hand" Grid.Column="3" Width="20" Height="20" Source="/Assets/Icons/upload.png"></Image>
+                        </Grid>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="7*"></ColumnDefinition>
+                                <ColumnDefinition Width="2*"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="cameraEnable4" Grid.Column="0" FontSize="14" FontWeight="DemiBold" Foreground="#FF857C6E" VerticalAlignment="Center">Camera Enable</CheckBox>
+                            <Button Click="SaveButton4_Click" Grid.Column="1" x:Name="SaveButton4" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Source="/Assets/Icons/Save.png" Grid.Row="1" Width="20" Height="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Image>
+                                    <TextBlock Grid.Column="1" Padding="10 0 0 0" Text="Save"/>
+                                </Grid>
+                            </Button>
+                        </Grid>
+                    </StackPanel>
+                </TabItem>
             </TabControl>
         </Grid>
         <Grid Grid.Row="5" Grid.Column="1">

@@ -111,6 +111,10 @@ namespace IWT.TransactionPages
             CloseTicketBtn.IsEnabled = this.rolePriviliege.CloseTickets.HasValue && this.rolePriviliege.CloseTickets.Value;
             InitializeTypeList();
             InitializeTypeComboBox();
+            //commonFunction.RemoveDuplicateMaterials();
+            //commonFunction.RemoveDuplicateSuppliers();
+            //commonFunction.GetMaterialMasters();
+            //commonFunction.GetSupplierMasters();
         }
 
         public void InitializeTypeList()
@@ -1568,14 +1572,35 @@ namespace IWT.TransactionPages
                     dt.Rows[0]["Time"] = dt.Rows[0]["EmptyWeightTime"];
                 }
             }
+            DataTable top = db.GetAllData("select top(1) * from [Transaction_Details] where TicketNo = " + pendingTicketsTransaction.TicketNo);
+            if (top.Rows.Count > 0)
+            {
+                int EmptyWeight = 0;
+                int LoadWeight = 0;
+                if (LoadStatusBlock.Text == "Loaded")
+                {
+                    //dt.Rows[0]["EmptyWeight"] = top.Rows[0]["TDEmptyWeight"];
+                    EmptyWeight = (int)top.Rows[0]["TDEmptyWeight"];
+                    LoadWeight = (int)dt.Rows[0]["LoadWeight"];
+                    dt.Rows[0]["EmptyWeight"] = EmptyWeight;
+                }
+                if (LoadStatusBlock.Text == "Empty")
+                {
+                    LoadWeight = (int)top.Rows[0]["TDLoadWeight"];
+                    EmptyWeight = (int)dt.Rows[0]["EmptyWeight"];
+                    dt.Rows[0]["LoadWeight"] = LoadWeight;
+                }
+                int NetWeight = LoadWeight - EmptyWeight;
+                dt.Rows[0]["NetWeight"] = NetWeight;
+            }
 
             ReportDataSource rds = new ReportDataSource("DataSet1", dt);
-            //ReportDataSource rds10 = new ReportDataSource("DataSet10", dt1);
+            ReportDataSource rds10 = new ReportDataSource("DataSet10", dt1);
             ReportDataSource rds1 = new ReportDataSource("DataSet2", company_Details);
             ReportDataSource rds3 = new ReportDataSource("DataSet3", CurrentTransactionImageSourcePath);
             ReportViewerDemo1.LocalReport.DataSources.Clear();
             ReportViewerDemo1.LocalReport.DataSources.Add(rds);
-            //ReportViewerDemo1.LocalReport.DataSources.Add(rds10);
+            ReportViewerDemo1.LocalReport.DataSources.Add(rds10);
             ReportViewerDemo1.LocalReport.DataSources.Add(rds1);
             ReportViewerDemo1.LocalReport.DataSources.Add(rds3);
             ReportViewerDemo1.ShowExportButton = false;
@@ -2314,27 +2339,39 @@ namespace IWT.TransactionPages
         }
         public void CaptureCameraImage(Transaction transaction)
         {
+            WriteLog.WriteToFile("SecondMulti/CaptureCameraImage : CaptureCameraImage starts.");
+            WriteLog.WriteToFile("SecondMulti/CaptureCameraImage : TicketNo :- " + transaction.TicketNo);
             ImageSourcePath imageSourcePath = new ImageSourcePath();
             foreach (var camera in cCTVSettings)
             {
                 if (camera.Enable)
                 {
+                    WriteLog.WriteToFile("SecondMulti/CaptureCameraImage :- camera.RecordID : " + camera.RecordID);
                     string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 1:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 1:- imagePath : " + imagePath);
                         imageSource = image1.Source;
                         imageSourcePath.Image4Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 1:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 2)
                     {
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 2:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 2:- imagePath : " + imagePath);
                         imageSource = image2.Source;
                         imageSourcePath.Image5Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 2:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 3)
                     {
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 3:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 3:- imagePath : " + imagePath);
                         imageSource = image3.Source;
                         imageSourcePath.Image6Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondMulti/CaptureCameraImage 3:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                 }
             }
@@ -2342,6 +2379,7 @@ namespace IWT.TransactionPages
             imageSourcePath.Image2Path = FirstTransactionImageSourcePath.Image2Path;
             imageSourcePath.Image3Path = FirstTransactionImageSourcePath.Image3Path;
             CurrentTransactionImageSourcePath = new List<ImageSourcePath>();
+            WriteLog.WriteToFile("SecondMulti/CaptureCameraImage:- imageSourcePath : " + imageSourcePath);
             CurrentTransactionImageSourcePath.Add(imageSourcePath);
         }
         public async Task GetSnapshotFromHikVision(CCTVSettings ccTV)

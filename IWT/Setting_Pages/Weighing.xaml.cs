@@ -17,7 +17,7 @@ namespace IWT.Setting_Pages
         string LastMessage;
         private readonly ToastViewModel toastViewModel;
         Setting_DBCall db = null;
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         public Weighing()
         {

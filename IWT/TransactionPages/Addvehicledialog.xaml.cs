@@ -1,4 +1,5 @@
-﻿using IWT.DBCall;
+﻿using IWT.AWS.ViewModel;
+using IWT.DBCall;
 using IWT.Models;
 using IWT.Shared;
 using IWT.ViewModel;
@@ -6,6 +7,7 @@ using MaterialDesignThemes.Wpf;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -41,11 +43,41 @@ namespace IWT.TransactionPages
             selectedIndex = _selectedIndex;
             MainTabControl.SelectedIndex = selectedIndex;
             SapBased = isSapBased;
+            MainWindow.isSAPBased = SapBased;
+            MainWindow.multiTrans = "";
             if (SapBased)
                 GetAllVehiclesFromGatePasses();
             else
                 GetAllVehicleFromVehicleMaster();
             toastViewModel = new ToastViewModel();
+            Loaded += Addvehicledialog_Loaded;
+        }
+
+        private void Addvehicledialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            //autocomplete
+            TransactionViewModel dataContext = this.DataContext as TransactionViewModel;
+            dataContext.PropertyChanged += DataContext_PropertyChanged;
+        }
+
+        private void DataContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            try
+            {
+                TransactionViewModel dataContext = this.DataContext as TransactionViewModel;
+                if (e.PropertyName == "Vehicle" && dataContext.Vehicle != null)
+                {
+                    VehicleNumber.Text = dataContext.Vehicle.VehicleNumber;
+                }
+                if(e.PropertyName =="GatePasses" &&  dataContext.GatePasses != null)
+                {
+                    VehicleNumber.Text = dataContext.GatePasses.VehicleNumber;
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("AddVehicleDialog/Addvehicledialog_Loaded/DataContext_PropertyChanged/Exception :- " + ex.Message);
+            }
         }
 
         private void GetAllVehiclesFromGatePasses()
@@ -53,7 +85,7 @@ namespace IWT.TransactionPages
             DataTable dt = _dbContext.GetAllData("SELECT * FROM [GatePasses] WHERE [Status] in ('','OGI')");
             string JSONString = JsonConvert.SerializeObject(dt);
             vehiclesInGatePasses = JsonConvert.DeserializeObject<List<GatePasses>>(JSONString);
-            VehicleNumber.ItemsSource = vehiclesInGatePasses.OrderByDescending(t=>t.Id).ToList();
+            //VehicleNumber.ItemsSource = vehiclesInGatePasses.OrderByDescending(t=>t.Id).ToList();
         }
         private void GetAllVehicleFromVehicleMaster()
         {
@@ -64,7 +96,7 @@ namespace IWT.TransactionPages
                 DataTable dt1 = masterDBCall.GetData(cmd, CommandType.Text);
                 string JSONString = JsonConvert.SerializeObject(dt1);
                 AllVehicles = JsonConvert.DeserializeObject<List<VehicleMaster>>(JSONString);
-                VehicleNumber.ItemsSource = AllVehicles.OrderByDescending(t=>t.VehicleID).ToList();
+                //VehicleNumber.ItemsSource = AllVehicles.OrderByDescending(t=>t.VehicleID).ToList();
             }
             catch (Exception ex)
             {
@@ -118,12 +150,10 @@ namespace IWT.TransactionPages
 
         private void Next_Button_Click(object sender, RoutedEventArgs e)
         {
-            dynamic vehileNumber = VehicleNumber.SelectedItem as GatePasses;
-            if(!SapBased)
-                vehileNumber = VehicleNumber.SelectedItem as VehicleMaster;
+            var vehileNumber = VehicleNumber.Text;
             if (vehileNumber != null)
             {
-                DialogHost.CloseDialogCommand.Execute(vehileNumber.VehicleNumber, null);
+                DialogHost.CloseDialogCommand.Execute(vehileNumber, null);
             }
             else
             {
@@ -134,6 +164,8 @@ namespace IWT.TransactionPages
         {
             var regex = new Regex(@"[^a-zA-Z0-9\s]");
             e.Handled = regex.IsMatch(e.Text);
+            //VehicleNumber.IsDropDownOpen = true;
+            //VehicleNumber.ItemsSource = vehiclesInGatePasses.Where(p => p.VehicleNumber.Contains(e.Text)).ToList();
         }
 
         private void VehicleNumber_PreviewKeyDown(object sender, KeyEventArgs e)

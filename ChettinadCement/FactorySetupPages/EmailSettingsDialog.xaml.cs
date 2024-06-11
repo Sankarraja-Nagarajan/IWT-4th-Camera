@@ -85,18 +85,22 @@ namespace IWT.FactorySetupPages
             }
             else
             {
-                saveQuery = $@"INSERT INTO [Mail_Settings] (ToID,CCList,FromID,Password,Subject,Message) VALUES ('{_mailSettings.ToID}','{_mailSettings.CCList}','{_mailSettings.FromID}','{_mailSettings.Password}','{_mailSettings.Subject}','{_mailSettings.Message}'";
+                saveQuery = $@"INSERT INTO [Mail_Settings] (ToID,CCList,FromID,Password,Subject,Message) VALUES ('{_mailSettings.ToID}','{_mailSettings.CCList}','{_mailSettings.FromID}','{_mailSettings.Password}','{_mailSettings.Subject}','{_mailSettings.Message}')";
             }
-            var res = dbCall.ExecuteQuery(saveQuery);
-            if (res)
+            if (_mailSettings.ToID.Contains("@") && _mailSettings.FromID.Contains("@"))
             {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Mail configuration saved successfully !!");
-                DialogHost.CloseDialogCommand.Execute("weighbridge", null);
+                var res = dbCall.ExecuteQuery(saveQuery);
+                if (res)
+                {
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Mail configuration saved successfully !!");
+                    DialogHost.CloseDialogCommand.Execute("weighbridge", null);
+                }
+                else
+                {
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Something went wrong !!");
+                }
             }
-            else
-            {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Something went wrong !!");
-            }
+            DialogHost.CloseDialogCommand.Execute("weighbridge", null);
         }
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
         {

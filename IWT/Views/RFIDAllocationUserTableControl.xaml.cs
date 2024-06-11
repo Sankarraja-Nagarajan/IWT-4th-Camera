@@ -186,7 +186,7 @@ namespace IWT.Views
             string Query = $@"select
 tr.[TicketNo],ge.[AllocationId],ge.[VehicleNumber],ge.[RFIDTag],ge.[TransMode],ge.[Status],ge.[MaterialCode],ge.[MaterialName],ge.[SupplierCode],ge.[SupplierName],ge.[ExpiryDate],ge.[TareWeight],ge.[IsLoaded],ge.[TransType],ge.[AllocationType],ge.[IsSapBased],ge.[DocNumber],ge.[GatePassNumber],ge.[TokenNumber],ge.[NoOfMaterial],ge.[CreatedOn],
 tr.[EmptyWeight],tr.[LoadWeight],tr.[EmptyWeightDate],tr.[EmptyWeightTime],tr.[LoadWeightDate],tr.[LoadWeightTime],tr.[NetWeight],tr.[Closed],tr.[SystemID]
-from [RFID_Allocations] ge left join [Transaction] tr on ge.AllocationId=tr.RFIDAllocation WHERE ";
+from [RFID_Allocations] ge left join [Transaction] tr on ge.AllocationId=tr.RFIDAllocation WHERE ge.[Status]!='Closed-Manual' AND ";
             var FromDate = FromDateVal.HasValue ? FromDateVal.Value.Date.ToString("MM-dd-yyyy") : string.Empty;
             var ToDate = ToDateVal.HasValue ? ToDateVal.Value.Date.ToString("MM-dd-yyyy") : string.Empty;
             Query += $"CAST(ge.[CreatedOn] as date) BETWEEN";

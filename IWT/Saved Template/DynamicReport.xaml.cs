@@ -35,6 +35,7 @@ using System.Windows.Xps.Packaging;
 using System.Windows.Documents.Serialization;
 using NPOI.XWPF.UserModel;
 using System.IO.Packaging;
+using IWT.DBCall;
 
 namespace IWT.Saved_Template
 {
@@ -75,6 +76,8 @@ namespace IWT.Saved_Template
 
         List<dynamic> Result = new List<dynamic>();
         List<dynamic> Result1 = new List<dynamic>();
+        DataRow newrow;
+        private MasterDBCall masterDB = new MasterDBCall();
 
         public int CurrentPage
         {
@@ -154,6 +157,60 @@ namespace IWT.Saved_Template
         {
             InitializeComponent();
             dt = _dt;
+            DataRow row = dt.NewRow();
+
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                string query1 = "select LoadStatus,TransactionType from [Transaction] where TicketNo=@TicketNo";
+                System.Data.SqlClient.SqlCommand cmd1 = new System.Data.SqlClient.SqlCommand(query1);
+                cmd1.Parameters.AddWithValue("@TicketNo", dt.Rows[i]["TicketNo"].ToString());
+                DataTable trans = masterDB.GetData(cmd1, System.Data.CommandType.Text);
+                string JSONString1 = JsonConvert.SerializeObject(trans);
+                var result1 = JsonConvert.DeserializeObject<List<Transaction>>(JSONString1);
+                for (int j = 0; j < result1.Count; j++)
+                {
+                    if (result1[j].TransactionType == "SecondMulti")
+                    {
+                        string query = "select * from [Transaction_Details] where TicketNo=@TicketNo";
+                        System.Data.SqlClient.SqlCommand cmd = new System.Data.SqlClient.SqlCommand(query);
+                        cmd.Parameters.AddWithValue("@TicketNo", dt.Rows[i]["TicketNo"].ToString());
+                        DataTable trans_details = masterDB.GetData(cmd, System.Data.CommandType.Text);
+
+                        string JSONString = JsonConvert.SerializeObject(trans_details);
+                        var result = JsonConvert.DeserializeObject<List<TransactionDetails>>(JSONString);
+
+                        if (result1[j].LoadStatus == "Empty" && result.Count > 0)
+                        {
+                            dt.Rows[i]["EmptyWeight"] = result[result.Count - 1].TDEmptyWeight.ToString();
+                            dt.Rows[i]["LoadWeight"] = result[0].TDLoadWeight.ToString();
+                            //int value =int.Parse(dt.Rows[i]["EmptyWeight"]) - int.Parse
+                            // dt.Rows[i]["NetWeight"] = (Int32.Parse(dt.Rows[i]["EmptyWeight"].ToString()) - Int32.Parse(dt.Rows[i]["EmptyWeight"])).ToString());
+                            dt.Rows[i]["NetWeight"] = Convert.ToInt32(dt.Rows[i]["LoadWeight"]) - Convert.ToInt32(dt.Rows[i]["EmptyWeight"]);
+                        }
+                        if (result1[j].LoadStatus == "Loaded")
+                        {
+                            dt.Rows[i]["EmptyWeight"] = result[0].TDEmptyWeight.ToString();
+                            dt.Rows[i]["LoadWeight"] = result[result.Count - 1].TDLoadWeight.ToString();
+                            //int value =int.Parse(dt.Rows[i]["EmptyWeight"]) - int.Parse
+                            // dt.Rows[i]["NetWeight"] = (Int32.Parse(dt.Rows[i]["EmptyWeight"].ToString()) - Int32.Parse(dt.Rows[i]["EmptyWeight"])).ToString());
+                            dt.Rows[i]["NetWeight"] = Convert.ToInt32(dt.Rows[i]["LoadWeight"]) - Convert.ToInt32(dt.Rows[i]["EmptyWeight"]);
+
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                var type = dt.Columns[i].DataType;
+                if ((type == typeof(Double) || type == typeof(Int16) || type == typeof(Int32) || type == typeof(Int64)) && dt.Columns[i].ColumnName != "TicketNo")
+                {
+                    row[dt.Columns[i].ColumnName] = dt.Compute($"Sum({dt.Columns[i].ColumnName})", "");
+                }
+            }
+
+            newrow = row;
+            dt.Rows.Add(newrow);
             //transactions = _transactions;
             columnNames = _columnNames;
             IsGroupByChecked = _IsGroupByChecked;
@@ -217,6 +274,7 @@ namespace IWT.Saved_Template
                         bitmap.UriSource = new Uri(company.LogoPath);
                         bitmap.EndInit();
                         CompanyLogoImage.Source = bitmap;
+                        CompanyLogoImage1.Source = bitmap;
                     }
                     //CityTextBlock.Text = $"{company.City} , {company.State}";
                     FooterTextBlock.Text = company.CompanyFooter;
@@ -304,9 +362,13 @@ namespace IWT.Saved_Template
                         if (!string.IsNullOrEmpty(GroupByColumn3))
                         {
                             var dt1 = dt.AsEnumerable()
-                           .GroupBy(r => new { Column1 = GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"], 
-                               Column2 = GroupByColumn2.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn2}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn2}"], 
-                               Column3 = GroupByColumn3.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn3}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn3}"]
+                           .GroupBy(r => new {
+                               //Column1 = GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"], 
+                               //Column2 = GroupByColumn2.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn2}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn2}"], 
+                               //Column3 = GroupByColumn3.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn3}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn3}"]
+                               Column1 = r[$"{GroupByColumn1}"] is DBNull ? r[$"{GroupByColumn1}"] : GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"],
+                               Column2 = r[$"{GroupByColumn2}"] is DBNull ? r[$"{GroupByColumn2}"] : GroupByColumn2.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn2}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn2}"],
+                               Column3 = r[$"{GroupByColumn3}"] is DBNull ? r[$"{GroupByColumn3}"] : GroupByColumn3.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn3}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn3}"],
                            })
                            .Select(g => g).ToList();
                             CreateAndRegisterDynamicGroups(dt1, IsLandscape);
@@ -315,8 +377,11 @@ namespace IWT.Saved_Template
                         else
                         {
                             var dt1 = dt.AsEnumerable()
-                           .GroupBy(r => new { Column1 = GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"], 
-                               Column2 = GroupByColumn2.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn2}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn2}"]
+                           .GroupBy(r => new {
+                               //Column1 = GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"], 
+                               //Column2 = GroupByColumn2.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn2}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn2}"]
+                               Column1 = r[$"{GroupByColumn1}"] is DBNull ? r[$"{GroupByColumn1}"] : GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"],
+                               Column2 = r[$"{GroupByColumn2}"] is DBNull ? r[$"{GroupByColumn2}"] : GroupByColumn2.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn2}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn2}"],
                            })
                            .Select(g => g).ToList();
                             CreateAndRegisterDynamicGroups(dt1, IsLandscape);
@@ -328,7 +393,11 @@ namespace IWT.Saved_Template
                         //Convert.ToDateTime(row["Date"]).ToString("dd/MM/yyyy");
 
                         var dt1 = dt.AsEnumerable()
-                          .GroupBy(r => new { Column1 = GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"] })
+                          .GroupBy(r => new
+                          {
+                              //Column1 = GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"] })
+                              Column1 = r[$"{GroupByColumn1}"] is DBNull ? r[$"{GroupByColumn1}"] : GroupByColumn1.ToLower().Contains("date") ? Convert.ToDateTime(r[$"{GroupByColumn1}"]).ToString("yyyy/MM/dd") : r[$"{GroupByColumn1}"],
+                          })
                           .Select(g => g).ToList();
                         CreateAndRegisterDynamicGroups(dt1, IsLandscape);
                     }
@@ -734,7 +803,7 @@ namespace IWT.Saved_Template
                         }
                     }
                 }
-                dt.Rows.Add(row);
+                //dt.Rows.Add(row);
                 iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 10, 10, 10, 10);
                 PdfWriter writer = PdfWriter.GetInstance(document, memoryStream);
                 PdfContentByte cb = new PdfContentByte(writer);
@@ -867,10 +936,10 @@ namespace IWT.Saved_Template
                 //wordDoc.InsertParagraph(strPDFText);
                 //wordDoc.Save();
 
-                if (dt.Rows.Count > 0)
-                {
-                    dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                }
+                //if (dt.Rows.Count > 0)
+                //{
+                //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                //}
 
 
                 return fileByteArray;
@@ -977,7 +1046,7 @@ namespace IWT.Saved_Template
                             }
                         }
                     }
-                    dt.Rows.Add(row);
+                    //dt.Rows.Add(row);
 
                     var heading = "";
                     if (headings?.Count > hi)
@@ -1053,10 +1122,10 @@ namespace IWT.Saved_Template
                     table.SpacingBefore = 7f;
                     document.Add(table);
 
-                    if (dt.Rows.Count > 0)
-                    {
-                        dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                    }
+                    //if (dt.Rows.Count > 0)
+                    //{
+                    //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                    //}
 
                     hi++;
                 }
@@ -1171,7 +1240,7 @@ namespace IWT.Saved_Template
                         }
                     }
                 }
-                dt.Rows.Add(roww);
+                //dt.Rows.Add(roww);
 
                 using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
                 {
@@ -1204,10 +1273,10 @@ namespace IWT.Saved_Template
                     workbook.Write(memoryStream);
                     byte[] fileByteArray = memoryStream.ToArray();
                     memoryStream.Close();
-                    if (dt.Rows.Count > 0)
-                    {
-                        dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                    }
+                    //if (dt.Rows.Count > 0)
+                    //{
+                    //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                    //}
 
                     return fileByteArray;
                 }
@@ -1304,7 +1373,7 @@ namespace IWT.Saved_Template
                                 }
                             }
                         }
-                        dt.Rows.Add(roww);
+                        //dt.Rows.Add(roww);
 
 
 
@@ -1348,10 +1417,10 @@ namespace IWT.Saved_Template
 
 
 
-                        if (dt.Rows.Count > 0)
-                        {
-                            dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                        }
+                        //if (dt.Rows.Count > 0)
+                        //{
+                        //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                        //}
 
                         hi++;
                     }
@@ -1481,7 +1550,7 @@ namespace IWT.Saved_Template
                         }
                     }
                 }
-                dt.Rows.Add(roww);
+                //dt.Rows.Add(roww);
 
                 using (System.IO.MemoryStream memoryStream = new System.IO.MemoryStream())
                 {
@@ -1521,10 +1590,10 @@ namespace IWT.Saved_Template
                     byte[] fileByteArray = memoryStream.ToArray();
                     memoryStream.Close();
                     //File.WriteAllBytes(@"C:\Users\iadmin\Documents\text.docx", fileByteArray);
-                    if (dt.Rows.Count > 0)
-                    {
-                        dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                    }
+                    //if (dt.Rows.Count > 0)
+                    //{
+                    //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                    //}
 
                     return fileByteArray;
                 }
@@ -1621,7 +1690,7 @@ namespace IWT.Saved_Template
                                 }
                             }
                         }
-                        dt.Rows.Add(roww);
+                        //dt.Rows.Add(roww);
 
                         var heading = "";
                         if (headings?.Count > hi)
@@ -1668,10 +1737,10 @@ namespace IWT.Saved_Template
                         }
 
                         //File.WriteAllBytes(@"C:\Users\iadmin\Documents\text.docx", fileByteArray);
-                        if (dt.Rows.Count > 0)
-                        {
-                            dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                        }
+                        //if (dt.Rows.Count > 0)
+                        //{
+                        //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                        //}
                         hi++;
                     }
                     doc.Write(memoryStream);
@@ -2431,7 +2500,7 @@ namespace IWT.Saved_Template
                             }
                         }
                     }
-                    dt1.Rows.Add(row);
+                    //dt1.Rows.Add(row);
 
                     string JSONString = JsonConvert.SerializeObject(dt1);
                     var lis = JsonConvert.DeserializeObject<List<dynamic>>(JSONString);
@@ -2495,10 +2564,10 @@ namespace IWT.Saved_Template
                     DynamicReportPanel.Visibility = Visibility.Collapsed;
                 }
 
-                if (dt.Rows.Count > 0)
-                {
-                    dt.Rows.RemoveAt(dt.Rows.Count - 1);
-                }
+                //if (dt.Rows.Count > 0)
+                //{
+                //    dt.Rows.RemoveAt(dt.Rows.Count - 1);
+                //}
 
                 return true;
             }

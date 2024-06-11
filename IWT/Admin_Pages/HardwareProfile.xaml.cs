@@ -87,10 +87,12 @@ namespace IWT.Admin_Pages
                 GetFieldsValue();
                 if (selectedHardwareProfile != null && selectedHardwareProfile.ID != 0)
                 {
+                    adminDBCall.UpdateSystemConfig(selectedHardwareProfile.HardwareProfileName, selectedHardwareProfile.ID);
                     UpdateHardwareProfile();
                 }
                 else
                 {
+                    adminDBCall.InsertSystemConfig(selectedHardwareProfile.HardwareProfileName);
                     InsertHardwareProfile();
                 }
             }

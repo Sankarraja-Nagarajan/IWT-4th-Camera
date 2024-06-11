@@ -65,7 +65,7 @@ namespace IWT.DBCall
                     {
                         WriteLog.WriteToFile($"authenticateUser:- {username} - Logged in successfully ");
                         Result.Status = true;
-                        Result.Message = "Logged in successfully";
+                        Result.Message = "Successful login";
                         Result.Role = role;
                         Result.UserName = name;
                         Result.HardwareProfileName= hardware;
@@ -75,7 +75,7 @@ namespace IWT.DBCall
                     {
                         WriteLog.WriteToFile($"authenticateUser:- {username} - Incorrect password ");
                         Result.Status = false;
-                        Result.Message = "Incorrect password";
+                        Result.Message = "Invalid User name or password";
                         return Result;
                     }
                 }

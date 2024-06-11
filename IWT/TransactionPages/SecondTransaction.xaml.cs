@@ -10,6 +10,7 @@ using MaterialDesignThemes.Wpf;
 using Microsoft.Reporting.WinForms;
 using MjpegProcessor;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Utilities.Net;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -32,8 +33,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace IWT.TransactionPages
@@ -86,6 +87,12 @@ namespace IWT.TransactionPages
         AWSTransaction AwsTransaction = null;
         AWSConfiguration awsConfiguration = new AWSConfiguration();
         public static event EventHandler<TransLogEventArgs> createTransLog = delegate { };
+        public static Transaction_DBCall transaction_DBCall = new Transaction_DBCall();
+        List<CamDetail> camDetail = new List<CamDetail>();
+        private string _cameraUrl;
+        private HttpClient _client;
+        public static BitmapImage Camera4Source { get; set; }
+        public static BitmapImage Camera2Source { get; set; }
 
         public SecondTransaction(AuthStatus _authResult, RolePriviliege _rolePriviliege, UserHardwareProfile _userHardwareProfile, AWSTransaction _transaction = null)
         {
@@ -95,11 +102,15 @@ namespace IWT.TransactionPages
             this.rolePriviliege = _rolePriviliege;
             this.userHardwareProfile = _userHardwareProfile;
             AwsTransaction = _transaction;
+            //image4.Source = Camera4Source;
+            //image2.Source = Camera2Source;
             Loaded += SecondTransaction_Loaded;
             Unloaded += SecondTransaction_Unloaded;
             _dbContext = new AdminDBCall();
             TransactionPath = System.IO.Path.Combine(BaseDirectory, "TransactionPages");
             GetShiftMasters();
+            GetCCTVSettings();
+            //CaptureCam();
             fieldDependencies = GetAllFieldDependencies();
             GetCompanyDetails();
             GetOtherSettings();
@@ -113,8 +124,39 @@ namespace IWT.TransactionPages
             InitializeTypeComboBox();
             if (_transaction == null)
                 OpenPendingDialog();
+            //commonFunction.RemoveDuplicateMaterials();
+            //commonFunction.RemoveDuplicateSuppliers();
+            //commonFunction.GetMaterialMasters();
+            //commonFunction.GetSupplierMasters();
         }
 
+        public void CaptureCam()
+        {
+            CCTVSettings cam = cCTVSettings.FirstOrDefault(x => x.RecordID == 4);
+            WriteLog.WriteToFile("FirstTransaction/Camera/CaptureCam/Cam4 :- " + cam.ToString());
+            _cameraUrl = cam.CaptureURL;
+            WriteLog.WriteToFile("FirstTransaction/Camera/CaptureCam/_cameraUrl :- " + _cameraUrl);
+            _client = new HttpClient(new HttpClientHandler()
+            {
+                Credentials = new NetworkCredential(cam.UserName, cam.CameraPassword),
+                Proxy = null
+            });
+        }
+
+        public async Task GetImage(string imgPath)
+        {
+            Stream responseStream = await _client.GetStreamAsync(_cameraUrl);
+            if (responseStream == null)
+            {
+                WriteLog.WriteToFile("FirstTransaction/Camera/CaptureCam :- Unable to get image from camera.");
+                //throw new Exception("Unable to get image from camera.");
+            }
+            using (FileStream fileStream = new FileStream(imgPath, FileMode.Create, FileAccess.Write, FileShare.Read))
+            {
+                WriteLog.WriteToFile("FirstTransaction/Camera/CaptureCam/Response :- Response received");
+                responseStream.CopyTo(fileStream);
+            }
+        }
         private void GetERPFileLocation()
         {
             try
@@ -180,11 +222,18 @@ namespace IWT.TransactionPages
             onSecondTicketCompletion.Invoke(this, new TicketEventArgs("1"));
             MainWindow.onWeighmentReceived += Single_onWeighmentReceived;
             MainWindow.onSecondTransactionTicketSelection += MainWindow_onSecondTransactionTicketSelection;
+            WriteLog.WriteToFile("ST/Images");
             MainWindow.onImage1Recieved += MainWindow_onImage1Recieved;
-            MainWindow.onImage2Recieved += MainWindow_onImage2Recieved;
+            //MainWindow.onImage2Recieved += MainWindow_onImage2Recieved;
+            MainWindow.cam2Img += MainWindow_cam2Img;
+            MainWindow.cam4Img += MainWindow_cam4Img;
             MainWindow.onImage3Recieved += MainWindow_onImage3Recieved;
+            //MainWindow.onImage4Recieved += MainWindow_onImage4Recieved;
+            //image4.Source = Camera4Source;
+            //image2.Source = Camera2Source;
             cCTVSettings = commonFunction.GetCCTVSettings(MainWindow.systemConfig.HardwareProfile);
             awsConfiguration = commonFunction.GetAWSConfiguration(MainWindow.systemConfig.HardwareProfile);
+            MainWindow.onPlcReceived += MainWindow_onPlcReceived;
             Task.Run(() => StartAwsSequence(AwsTransaction));
         }
 
@@ -198,8 +247,11 @@ namespace IWT.TransactionPages
             MainWindow.onWeighmentReceived -= Single_onWeighmentReceived;
             MainWindow.onSecondTransactionTicketSelection -= MainWindow_onSecondTransactionTicketSelection;
             MainWindow.onImage1Recieved -= MainWindow_onImage1Recieved;
-            MainWindow.onImage2Recieved -= MainWindow_onImage2Recieved;
+            //MainWindow.onImage2Recieved -= MainWindow_onImage2Recieved;
+            MainWindow.cam2Img -= MainWindow_cam2Img;
+            MainWindow.cam4Img -= MainWindow_cam4Img;
             MainWindow.onImage3Recieved -= MainWindow_onImage3Recieved;
+            //MainWindow.onImage4Recieved -= MainWindow_onImage4Recieved;
             MainWindow.onPlcReceived -= MainWindow_onPlcReceived;
         }
 
@@ -638,8 +690,12 @@ namespace IWT.TransactionPages
                     var tempList = Copylist.Skip(Math.Max(0, Copylist.Count() - StableWeightArraySelectable)).Take(StableWeightArraySelectable).ToArray();
                     if (Array.TrueForAll(tempList, y => y == tempList[0]))
                     {
-                        if ((bool)mainWindow.VPSEnable)
+                        if ((bool)awsConfiguration.VPSEnable)
                         {
+                            if (!MainWindow.isPlcConnected)
+                            {
+                                return false;
+                            }
                             if (tempList.Length > 0 && PlcValue.Contains("22"))
                             {
                                 return true;
@@ -833,17 +889,21 @@ namespace IWT.TransactionPages
                     if (fi != null)
                     {
                         var bytes = File.ReadAllBytes(fi.FullName);
-                        if (i == 1)
+                        if (ccTV.RecordID == 1)
                         {
                             FirstTransactionImageSourcePath.Image1Path = bytes;
                         }
-                        if (i == 2)
+                        if (ccTV.RecordID == 2)
                         {
                             FirstTransactionImageSourcePath.Image2Path = bytes;
                         }
-                        if (i == 3)
+                        if (ccTV.RecordID == 3)
                         {
                             FirstTransactionImageSourcePath.Image3Path = bytes;
+                        }
+                        if (ccTV.RecordID == 4)
+                        {
+                            FirstTransactionImageSourcePath.Img4Path = bytes;
                         }
                     }
                     i++;
@@ -1352,6 +1412,7 @@ namespace IWT.TransactionPages
                         isTemplateSelected = await OpenTemplateDialog();
                     }
                     GetTransactionData();
+                    transaction_DBCall.UpdateCloudTransaction(CurrentTransaction.TicketNo,false);
 
                     //else if (isTemplateSelected)
                     //{
@@ -1476,7 +1537,7 @@ namespace IWT.TransactionPages
         {
             try
             {
-                //commonFunction.SendTransactionDetailsToCloudApp(selectedCloudAppConfig, CurrentTransactionDataTable, CurrentTransaction.TicketNo);
+                commonFunction.SendTransactionDetailsToCloudApp(selectedCloudAppConfig, CurrentTransactionDataTable, CurrentTransaction.TicketNo);
             }
             catch (Exception ex)
             {
@@ -2175,38 +2236,247 @@ namespace IWT.TransactionPages
                 WriteLog.WriteToFile("StartCameraStreaming:- " + ex.Message);
             }
         }
-        public void CaptureCameraImage(Transaction transaction)
+        public async void CaptureCameraImage(Transaction transaction)
         {
+            WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage : CaptureCameraImage starts.");
+            WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage : TicketNo :- " + transaction.TicketNo);
             ImageSourcePath imageSourcePath = new ImageSourcePath();
             foreach (var camera in cCTVSettings)
             {
                 if (camera.Enable)
                 {
+                    WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage :- camera.RecordID : " + camera.RecordID);
                     string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
                         imageSource = image1.Source;
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 1:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 1:- imagePath : " + imagePath);
                         imageSourcePath.Image4Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 1:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
+                        FileInfo imageInfo = new FileInfo(imagePath);
+                        long sizeInBytes = imageInfo.Length;
+                        WriteLog.WriteToFile("Camera1/sizeInBytes :- " + sizeInBytes.ToString());
+                        if(sizeInBytes < 500)
+                        {
+                            camDetail.Add(new CamDetail
+                            {
+                                CamId = 1,
+                                FilePath = imagePath
+                            });
+                        }
                     }
                     else if (camera.RecordID == 2)
                     {
                         imageSource = image2.Source;
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 2:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 2:- imagePath : " + imagePath);
                         imageSourcePath.Image5Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 2:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
+                        FileInfo imageInfo = new FileInfo(imagePath);
+                        long sizeInBytes = imageInfo.Length;
+                        WriteLog.WriteToFile("Camera2/sizeInBytes :- " + sizeInBytes.ToString());
+                        if (sizeInBytes < 500)
+                        {
+                            camDetail.Add(new CamDetail
+                            {
+                                CamId = 2,
+                                FilePath = imagePath
+                            });
+                        }
                     }
                     else if (camera.RecordID == 3)
                     {
                         imageSource = image3.Source;
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 3:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 3:- imagePath : " + imagePath);
                         imageSourcePath.Image6Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 3:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
+                        FileInfo imageInfo = new FileInfo(imagePath);
+                        long sizeInBytes = imageInfo.Length;
+                        WriteLog.WriteToFile("Camera3/sizeInBytes :- " + sizeInBytes.ToString());
+                        if (sizeInBytes < 500)
+                        {
+                            camDetail.Add(new CamDetail
+                            {
+                                CamId = 3,
+                                FilePath = imagePath
+                            });
+                        }
+                    }
+                    else if (camera.RecordID == 4)
+                    {
+                        imageSource = image4.Source;
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 4/ Test4/IMgSource :-" + imageSource.ToString());
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 4:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 4:- imagePath : " + imagePath);
+                        imageSourcePath.Img4Path2 = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 4:- imageSourcePath.Image4Path : " + imageSourcePath.Image1Path);
+                        FileInfo imageInfo = new FileInfo(imagePath);
+                        long sizeInBytes = imageInfo.Length;
+                        WriteLog.WriteToFile("Camera4/sizeInBytes :- " + sizeInBytes.ToString());
+                        if (sizeInBytes < 500)
+                        {
+                            camDetail.Add(new CamDetail
+                            {
+                                CamId = 4,
+                                FilePath = imagePath
+                            });
+                        }
                     }
                 }
             }
+
             imageSourcePath.Image1Path = FirstTransactionImageSourcePath.Image1Path;
             imageSourcePath.Image2Path = FirstTransactionImageSourcePath.Image2Path;
             imageSourcePath.Image3Path = FirstTransactionImageSourcePath.Image3Path;
+            imageSourcePath.Img4Path = FirstTransactionImageSourcePath.Img4Path;
             CurrentTransactionImageSourcePath = new List<ImageSourcePath>();
+            WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage:- imageSourcePath : " + imageSourcePath);
             CurrentTransactionImageSourcePath.Add(imageSourcePath);
+            if(camDetail.Count > 0)
+            {
+                await OpenCamConfirmationDialog(camDetail);
+            }
+            camDetail = new List<CamDetail>();
         }
+        public async Task OpenCamConfirmationDialog(List<CamDetail> camera)
+        {
+           foreach (CamDetail cam in  camera)
+            {
+                await ReCaptureCameraImage(cam);
+                //var view = new ConfirmationDialog(null,false,$"Camera {cam.CamId} is not Captured. Do you want to Recapture?");
+                //var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
+                //if ((bool)result)
+                //{
+                //    // recapture code
+                //    //await ReCaptureCameraImage(cam);
+                //}
+            }
+        }
+
+        public async Task ReCaptureCameraImage(CamDetail cam)
+        {
+            ImageSource imageSource = null;
+            ImageSourcePath imageSourcePath = new ImageSourcePath();
+            if (cam.CamId == 1)
+            {
+                imageSource = image1.Source;
+                File.Delete(cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 1:- imageSource : " + imageSource);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 1:- imagePath : " + cam.FilePath);
+                imageSourcePath.Image4Path = commonFunction.SaveCameraImage(imageSource, cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 1:- imageSourcePath.Image4Path : " + imageSourcePath.Image4Path);
+                CurrentTransactionImageSourcePath[0].Image4Path = imageSourcePath.Image4Path;
+                FileInfo imageInfo = new FileInfo(cam.FilePath);
+                long sizeInBytes = imageInfo.Length;
+                WriteLog.WriteToFile("Camera1/sizeInBytes :- " + sizeInBytes.ToString());
+                camDetail.RemoveAll(x => x.CamId == cam.CamId);
+                if (sizeInBytes < 500)
+                {
+                    camDetail.Add(new CamDetail
+                    {
+                        CamId = 1,
+                        FilePath = cam.FilePath
+                    });
+                }
+            }
+            else if (cam.CamId == 2)
+            {
+                imageSource = image2.Source;
+                File.Delete(cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 2:- imageSource : " + imageSource);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 2:- imagePath : " + cam.FilePath);
+                imageSourcePath.Image5Path = commonFunction.SaveCameraImage(imageSource, cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 2:- imageSourcePath.Image5Path : " + imageSourcePath.Image5Path);
+                CurrentTransactionImageSourcePath[0].Image5Path = imageSourcePath.Image5Path;
+                FileInfo imageInfo = new FileInfo(cam.FilePath);
+                long sizeInBytes = imageInfo.Length;
+                WriteLog.WriteToFile("Camera2/sizeInBytes :- " + sizeInBytes.ToString());
+                camDetail.RemoveAll(x => x.CamId == cam.CamId);
+                if (sizeInBytes < 500)
+                {
+                    camDetail.Add(new CamDetail
+                    {
+                        CamId = 2,
+                        FilePath = cam.FilePath
+                    });
+                }
+            }
+            else if (cam.CamId == 3)
+            {
+                imageSource = image3.Source;
+                File.Delete(cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 3:- imageSource : " + imageSource);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 3:- imagePath : " + cam.FilePath);
+                imageSourcePath.Image6Path = commonFunction.SaveCameraImage(imageSource, cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 3:- imageSourcePath.Image3Path : " + imageSourcePath.Image6Path);
+                CurrentTransactionImageSourcePath[0].Image6Path = imageSourcePath.Image6Path;
+                FileInfo imageInfo = new FileInfo(cam.FilePath);
+                long sizeInBytes = imageInfo.Length;
+                WriteLog.WriteToFile("Camera3/sizeInBytes :- " + sizeInBytes.ToString());
+                camDetail.RemoveAll(x => x.CamId == cam.CamId);
+                if (sizeInBytes < 500)
+                {
+                    camDetail.Add(new CamDetail
+                    {
+                        CamId = 3,
+                        FilePath = cam.FilePath
+                    });
+                }
+            }
+            else if (cam.CamId == 4)
+            {
+                imageSource = image4.Source;
+                File.Delete(cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 4:- imageSource : " + imageSource);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 4:- imagePath : " + cam.FilePath);
+                imageSourcePath.Img4Path2 = commonFunction.SaveCameraImage(imageSource, cam.FilePath);
+                WriteLog.WriteToFile("SecondTransaction/ReCaptureCameraImage 4:- imageSourcePath.Img4Path2 : " + imageSourcePath.Img4Path2);
+                CurrentTransactionImageSourcePath[0].Img4Path2 = imageSourcePath.Img4Path2;
+                FileInfo imageInfo = new FileInfo(cam.FilePath);
+                long sizeInBytes = imageInfo.Length;
+                WriteLog.WriteToFile("Camera4/sizeInBytes :- " + sizeInBytes.ToString());
+                camDetail.RemoveAll(x => x.CamId == cam.CamId);
+
+                if (sizeInBytes < 500)
+                {
+                    camDetail.Add(new CamDetail
+                    {
+                        CamId = 4,
+                        FilePath = cam.FilePath
+                    });
+                }
+            }
+
+            if(camDetail.Count > 0)
+            {
+                await OpenCamConfirmationDialog(camDetail);
+            }
+        }
+
+        public async Task<ImageSource> ConvertPathToImageSource(string imgPath)
+        {
+            try
+            {
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri(imgPath, UriKind.Absolute);
+                image.CacheOption = BitmapCacheOption.OnLoad; // This option loads the image when it is needed
+                image.EndInit();
+                image.Freeze(); // Freeze the image for cross-thread operations
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                // Optionally log the exception message or handle it accordingly
+               WriteLog.WriteToFile("Error loading image: " + ex.Message);
+                return null;
+            }
+        }
+
         public async Task GetSnapshotFromHikVision(CCTVSettings ccTV)
         {
             byte[] buffer = new byte[300000];
@@ -2263,6 +2533,16 @@ namespace IWT.TransactionPages
                 return bitmapimage;
             }
         }
+
+        //private void MainWindow_onImage4Recieved(object sender, CameraEventArgs e)
+        //{
+        //    Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
+        //    {
+        //        image4.Source = e.bitmap;
+        //        WriteLog.WriteToFile("SecondTransaction/MainWindow_onImage4Recieved/image4.Source" + image4.Source.ToString());
+        //    }));
+        //}
+
         private void MainWindow_onImage3Recieved(object sender, CameraEventArgs e)
         {
             Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
@@ -2271,19 +2551,36 @@ namespace IWT.TransactionPages
             }));
         }
 
-        private void MainWindow_onImage2Recieved(object sender, CameraEventArgs e)
-        {
-            Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
-            {
-                image2.Source = e.bitmap;
-            }));
-        }
+        //private void MainWindow_onImage2Recieved(object sender, CameraEventArgs e)
+        //{
+        //    Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
+        //    {
+        //        image2.Source = e.bitmap;
+        //        WriteLog.WriteToFile("SecondTransaction/MainWindow_onImage2Recieved/image2.Source" + image2.Source.ToString());
+        //    }));
+        //}
 
         private void MainWindow_onImage1Recieved(object sender, CameraEventArgs e)
         {
             Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
             {
                 image1.Source = e.bitmap;
+            }));
+        }
+
+        private void MainWindow_cam4Img(object sender, CameraEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
+            {
+                image4.Source = e.bitmap;
+            }));
+        }
+
+        private void MainWindow_cam2Img(object sender, CameraEventArgs e)
+        {
+            Dispatcher.Invoke(DispatcherPriority.Render, new Action(() =>
+            {
+                image2.Source = e.bitmap;
             }));
         }
         #endregion
@@ -2606,10 +2903,19 @@ namespace IWT.TransactionPages
             }
             catch (Exception ex)
             {
-                if (ex.InnerException != null)
-                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.InnerException.Message);
-                else
-                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.Message);
+                var exception = "";
+                if (ex.InnerException.Message != exception)
+                {
+                    WriteLog.WriteAWSLog($"ex.InnerException.Message :- {ex.InnerException.Message}");
+                    if (ex.InnerException != null)
+                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.InnerException.Message);
+                    else
+                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.Message);
+                    exception = ex.InnerException.Message;
+                    WriteLog.WriteAWSLog($"exception :- {exception}");
+                    WriteLog.WriteAWSLog($"ex.Message :- {ex.Message}");
+                }
+
                 WriteLog.WriteAWSLog("Exception:-", ex);
                 if (ex.InnerException != null)
                     CreateLog($"Exception:- {ex.InnerException.Message}");
@@ -2849,6 +3155,7 @@ namespace IWT.TransactionPages
                 this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(async () =>
                 {
                     GetTransactionData();
+                    transaction_DBCall.UpdateCloudTransaction(currentTransaction.TicketNo,false);
                     if (!string.IsNullOrEmpty(_reportTemplate) && File.Exists(_reportTemplate))
                     {
                         if (_otherSettings != null && awsConfiguration.STPrintEnable.HasValue && awsConfiguration.STPrintEnable.Value)

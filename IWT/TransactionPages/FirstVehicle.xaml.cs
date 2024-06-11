@@ -1,8 +1,10 @@
-﻿using IWT.DBCall;
+﻿using IWT.AWS.ViewModel;
+using IWT.DBCall;
 using IWT.Models;
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Linq;
 using System.Text;
@@ -29,7 +31,34 @@ namespace IWT.TransactionPages
         {
             InitializeComponent();
             GetAllVehicleMasters();
+            MainWindow.isSAPBased = false;
+            MainWindow.multiTrans = "";
+            Loaded += FirstVehicle_Loaded;
         }
+
+        private void FirstVehicle_Loaded(object sender, RoutedEventArgs e)
+        {
+            //autocomplete 
+            TransactionViewModel dataContext = this.DataContext as TransactionViewModel;
+            dataContext.PropertyChanged += DataContext_PropertyChanged;
+        }
+
+        private void DataContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            try
+            {
+                TransactionViewModel dataContext = this.DataContext as TransactionViewModel;
+                if (e.PropertyName == "Vehicle" && dataContext.Vehicle != null)
+                {
+                    VehicleNumber.Text = dataContext.Vehicle.VehicleNumber;
+                }
+            }
+            catch(Exception ex)
+            {
+                WriteLog.WriteToFile("FirstVehicle/FirstVehicle_Loaded/DataContext_PropertyChanged/Exception :- "+ ex.Message);
+            }
+        }
+
         private void GetAllVehicleMasters()
         {
             List<VehicleMaster> vehicleMasters = new List<VehicleMaster>();
@@ -45,12 +74,12 @@ namespace IWT.TransactionPages
                     item.VehicleTareWeight = (int)dr["VehicleTareWeight"];
                     vehicleMasters.Add(item);
                 }
-                VehicleName.ItemsSource = vehicleMasters;
+                //VehicleName.ItemsSource = vehicleMasters;
             }
         }
         private void Submit_Button_Click(object sender, RoutedEventArgs e)
         {
-            var selected = VehicleName.SelectedItem;
+            var selected = VehicleNumber.SelectedItem;
             DialogHost.CloseDialogCommand.Execute(selected, null);
         }
 

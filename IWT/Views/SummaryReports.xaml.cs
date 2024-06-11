@@ -1748,7 +1748,15 @@ namespace IWT.Views
             try
             {
                 var selectedVal = TransactionTypeComboBox.SelectedValue?.ToString();
-                if (!string.IsNullOrEmpty(selectedVal))
+                if (selectedVal == "Two way")
+                {
+                    Query += $"[TransactionType] IN ('First','Second')";
+                }
+                else if (selectedVal == "Multi")
+                {
+                    Query += $"[TransactionType] IN ('FirstMulti','SecondMulti')";
+                }
+                else if (!string.IsNullOrEmpty(selectedVal))
                 {
                     Query += $"[TransactionType] = '{selectedVal}'";
                 }

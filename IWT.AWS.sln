@@ -23,6 +23,10 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IWTMultiFile.Setup", "IWTMu
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IWT.AWS.CC.Setup", "IWT.AWS.CC.Setup\IWT.AWS.CC.Setup.vdproj", "{D98C3427-AE30-4186-BF91-E74421426B13}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IWT.AWS.", "IWT.AWS\IWT.AWS..vdproj", "{4ECD0EF8-6897-4AA8-9F97-8104F3493F21}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "IWT-AWS-CAM-UPGRADE", "IWT-AWS-CAM-UPGRADE\IWT-AWS-CAM-UPGRADE.vdproj", "{CDCF6C91-9318-4F37-86C0-7C5F0414F51A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +111,14 @@ Global
 		{D98C3427-AE30-4186-BF91-E74421426B13}.Debug|x64.ActiveCfg = Debug
 		{D98C3427-AE30-4186-BF91-E74421426B13}.Release|Any CPU.ActiveCfg = Release
 		{D98C3427-AE30-4186-BF91-E74421426B13}.Release|x64.ActiveCfg = Release
+		{4ECD0EF8-6897-4AA8-9F97-8104F3493F21}.Debug|Any CPU.ActiveCfg = Debug
+		{4ECD0EF8-6897-4AA8-9F97-8104F3493F21}.Debug|x64.ActiveCfg = Debug
+		{4ECD0EF8-6897-4AA8-9F97-8104F3493F21}.Release|Any CPU.ActiveCfg = Release
+		{4ECD0EF8-6897-4AA8-9F97-8104F3493F21}.Release|x64.ActiveCfg = Release
+		{CDCF6C91-9318-4F37-86C0-7C5F0414F51A}.Debug|Any CPU.ActiveCfg = Debug
+		{CDCF6C91-9318-4F37-86C0-7C5F0414F51A}.Debug|x64.ActiveCfg = Debug
+		{CDCF6C91-9318-4F37-86C0-7C5F0414F51A}.Release|Any CPU.ActiveCfg = Release
+		{CDCF6C91-9318-4F37-86C0-7C5F0414F51A}.Release|x64.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

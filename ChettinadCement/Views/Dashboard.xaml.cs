@@ -355,22 +355,40 @@ namespace IWT.Views
 
         private void MainWindow_onRfid2Received(object sender, RfidEventArgs e)
         {
+            WriteLog.WriteToFile("MainWindow_onRfid2Received ");
             if (awsConfiguration!=null && !IsAwsStarted)
             {
-                Task.Run(() => StartAwsSequence(e.tag, true));
+                try
+                {
+                    Task.Run(() => StartAwsSequence(e.tag, true));
+                }
+                catch(Exception ex)
+                {
+                    WriteLog.WriteToFile("MainWindow_onRfid2Received/Exception :-  " , ex);
+                }
             }
         }
         private void MainWindow_onRfid3Received(object sender, RfidEventArgs e)
         {
+            WriteLog.WriteToFile("MainWindow_onRfid3Received ");
             if (awsConfiguration != null && !IsAwsStarted)
             {
-                Task.Run(() => StartAwsSequence(e.tag));
+                try
+                {
+                    Task.Run(() => StartAwsSequence(e.tag));
+                }
+                catch(Exception ex)
+                {
+                    WriteLog.WriteToFile("MainWindow_onRfid3Received/Exception :-  ", ex);
+                }
             }
         }
         public void StartAwsSequence(string rfid, bool isSecondReader = false)
         {
             try
             {
+                WriteLog.WriteToFile("RFID :- " + rfid);
+                WriteLog.WriteToFile("StartAwsSequence");
                 CreateLog($"RFID-{rfid} detected!! Initiating AWS process...");
                 IsAwsStarted = true;
                 this.Dispatcher.Invoke(() => Panel.SetZIndex(DashboardContainer, 10));
@@ -380,12 +398,14 @@ namespace IWT.Views
                 {
                     MainWindow.plcClient.Client.Send("88");
                 }
+                WriteLog.WriteToFile("RFID :- " + rfid);
                 string Query = $@"SELECT * FROM [RFID_Allocations] WHERE RFIDTag='{rfid}' and Status in ('In-Transit','LTSM')";
                 SqlCommand cmd = new SqlCommand(Query);
                 DataTable dt1 = masterDBCall.GetData(cmd, CommandType.Text);
                 string JSONString = JsonConvert.SerializeObject(dt1);
                 var Result = JsonConvert.DeserializeObject<List<RFIDAllocation>>(JSONString);
                 var Allocation = Result.FirstOrDefault();
+                WriteLog.WriteToFile("Allocation.RFIDTag :- "+ Allocation.RFIDTag);
                 if (Allocation != null)
                 {
                     var currentTransaction = new Transaction

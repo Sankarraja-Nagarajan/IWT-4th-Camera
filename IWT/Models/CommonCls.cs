@@ -187,6 +187,8 @@ namespace IWT.Models
         public byte[] Image4Path { get; set; }
         public byte[] Image5Path { get; set; }
         public byte[] Image6Path { get; set; }
+        public byte[] Img4Path { get; set; }
+        public byte[] Img4Path2 { get; set; }
         public byte[] WaterMarkImagePath { get; set; }
     }
     public class FailedMailSMS

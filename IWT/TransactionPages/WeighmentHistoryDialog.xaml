@@ -31,7 +31,7 @@
                         <DataGridTextColumn Width="*" Header="Supplier" Binding="{Binding SupplierName}"/>
                         <DataGridTextColumn Width="*" Header="Empty Weight" Binding="{Binding TDEmptyWeight}"/>
                         <DataGridTextColumn Width="*" Header="Loaded Weight" Binding="{Binding TDLoadWeight}"/>
-                        <DataGridTextColumn Width="*" Header="Weight" Binding="{Binding Weight}"/>
+                        <DataGridTextColumn Width="*" Header="Net Weight" Binding="{Binding Weight}"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </ScrollViewer>

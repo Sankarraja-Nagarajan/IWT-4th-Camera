@@ -73,7 +73,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
@@ -100,6 +100,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoCompleteTextBox, Version=1.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCompleteTextBox.1.6.0\lib\net48\AutoCompleteTextBox.dll</HintPath>
+    </Reference>
     <Reference Include="BouncyCastle.Crypto, Version=1.8.9.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
       <HintPath>..\packages\Portable.BouncyCastle.1.8.9\lib\net40\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
@@ -552,6 +555,7 @@
     <Compile Include="Models\TicketDataEntry.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="NonTopmostPopup.cs" />
+    <Compile Include="Providers\VehicleSuggestionProvider.cs" />
     <Compile Include="ReportDesignerWindow.xaml.cs">
       <DependentUpon>ReportDesignerWindow.xaml</DependentUpon>
     </Compile>
@@ -689,6 +693,7 @@
     <Compile Include="ViewModel\SubItem.cs" />
     <Compile Include="ViewModel\TicketDataEntryViewModel.cs" />
     <Compile Include="ViewModel\ToastViewModel.cs" />
+    <Compile Include="ViewModel\TransactionViewModel.cs" />
     <Compile Include="ViewModel\ValidatorViewModel.cs" />
     <Compile Include="ViewModel\ViewBaseModel.cs" />
     <Compile Include="ViewModel\ViewFieldDialogViewModel.cs" />
@@ -966,6 +971,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\CustomAutoCompleteStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Themes\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1207,6 +1216,7 @@
     <Resource Include="Assets\Icons\VPS.png" />
     <Resource Include="Assets\Icons\pending.png" />
     <Resource Include="Assets\Icons\print1.png" />
+    <Resource Include="Assets\Dropdown.png" />
     <Content Include="RichTextWebsite\quill.js">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -1434,6 +1444,7 @@
       <Name>TcpClientService</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <!--<ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>-->

@@ -372,7 +372,7 @@ namespace IWT.Views
                 if (SelectedRow == null)
                 {
                     var fieldValues = GetValuesFromFields();
-                    var previousValue = Result.FirstOrDefault(t => t.MaterialCode == fieldValues.MaterialCode || t.MaterialName == fieldValues.MaterialName);
+                    var previousValue = Result.FirstOrDefault(t => t.MaterialCode == fieldValues.MaterialCode || t.MaterialName.ToLower() == fieldValues.MaterialName.ToLower());
                     if (previousValue == null)
                     {
                         string insertQuery = $@"INSERT INTO [Material_Master] (";
@@ -412,34 +412,42 @@ namespace IWT.Views
                 else
                 {
                     var fieldValues = GetValuesFromFields();
-                    string updateQuery = $@"UPDATE [Material_Master] SET ";
-                    var fields = CustomFieldsBuilder;
-                    for (int i = 0; i < fields.Count; i++)
+                    var previousValue = Result.FirstOrDefault(t => t.MaterialCode == fieldValues.MaterialCode || t.MaterialName.ToLower() == fieldValues.MaterialName.ToLower());
+                    if (previousValue == null)
                     {
-                        if (i < fields.Count - 1)
+                        string updateQuery = $@"UPDATE [Material_Master] SET ";
+                        var fields = CustomFieldsBuilder;
+                        for (int i = 0; i < fields.Count; i++)
                         {
-                            var dict = (IDictionary<string, object>)fieldValues;
-                            string val = dict[fields[i].FieldName].ToString();
-                            updateQuery += $"{fields[i].FieldName}='{val}',";
+                            if (i < fields.Count - 1)
+                            {
+                                var dict = (IDictionary<string, object>)fieldValues;
+                                string val = dict[fields[i].FieldName].ToString();
+                                updateQuery += $"{fields[i].FieldName}='{val}',";
+                            }
+                            else
+                            {
+                                var dict = (IDictionary<string, object>)fieldValues;
+                                string val = dict[fields[i].FieldName].ToString();
+                                updateQuery += $"{fields[i].FieldName}='{val}'";
+                            }
+                        }
+                        updateQuery += $"WHERE MaterialID='{SelectedRow["MaterialID"].ToString()}'";
+                        var res = _dbContext.ExecuteQuery(updateQuery);
+                        if (res)
+                        {
+                            CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Record Updated !!");
+                            GetTableData();
+                            ResetFields();
                         }
                         else
                         {
-                            var dict = (IDictionary<string, object>)fieldValues;
-                            string val = dict[fields[i].FieldName].ToString();
-                            updateQuery += $"{fields[i].FieldName}='{val}'";
+                            CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Something went wrong !!");
                         }
-                    }
-                    updateQuery += $"WHERE MaterialID='{SelectedRow["MaterialID"].ToString()}'";
-                    var res = _dbContext.ExecuteQuery(updateQuery);
-                    if (res)
-                    {
-                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Record Updated !!");
-                        GetTableData();
-                        ResetFields();
                     }
                     else
                     {
-                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Something went wrong !!");
+                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Record with same MaterialCode/MaterialName already exists !!");
                     }
                 }
             }

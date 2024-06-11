@@ -31,7 +31,7 @@ namespace IWT.Setting_Pages
         SerialCommunicationSetting serialComSettings = new SerialCommunicationSetting();
         AWSConfiguration awsConfigurations = new AWSConfiguration();
         public static event EventHandler<GeneralEventHandler> onCompletion = delegate { };
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         private AdminDBCall _dbContext;
         List<Usermanage> UserManage = new List<Usermanage>();

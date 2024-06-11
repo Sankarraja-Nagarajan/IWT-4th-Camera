@@ -121,4 +121,15 @@ namespace IWT.Models
         public string Image3 { get; set; }
     }
 
+    public class CloudConfigTransaction
+    {
+        public int TicketNo { get; set; }
+        public bool IsSynced { get; set; }
+    }
+
+    public class CamDetail
+    {
+        public int CamId { get; set; }
+        public string FilePath { get; set; }
+    }
 }

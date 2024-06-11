@@ -104,6 +104,10 @@ namespace IWT.TransactionPages
             BuildCustomFields();
             InitializeTypeList();
             InitializeTypeComboBox();
+            //commonFunction.RemoveDuplicateMaterials();
+            //commonFunction.RemoveDuplicateSuppliers();
+            //commonFunction.GetMaterialMasters();
+            //commonFunction.GetSupplierMasters();
         }
 
         public void InitializeTypeList()
@@ -1768,31 +1772,44 @@ namespace IWT.TransactionPages
         }
         public void CaptureCameraImage(Transaction transaction)
         {
+            WriteLog.WriteToFile("FirstMulti/CaptureCameraImage : CaptureCameraImage starts.");
+            WriteLog.WriteToFile("FirstMulti/CaptureCameraImage : TicketNo :- " + transaction.TicketNo);
             ImageSourcePath imageSourcePath = new ImageSourcePath();
             foreach (var camera in cCTVSettings)
             {
                 if (camera.Enable)
                 {
+                    WriteLog.WriteToFile("FirstMulti/CaptureCameraImage :- camera.RecordID : " + camera.RecordID);
                     string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 1:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 1:- imagePath : " + imagePath);
                         imageSource = image1.Source;
                         imageSourcePath.Image1Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 1:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 2)
                     {
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 2:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 2:- imagePath : " + imagePath);
                         imageSource = image2.Source;
                         imageSourcePath.Image2Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 2:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 3)
                     {
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 3:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 3:- imagePath : " + imagePath);
                         imageSource = image3.Source;
                         imageSourcePath.Image3Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("FirstMulti/CaptureCameraImage 3:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                 }
             }
             CurrentTransactionImageSourcePath = new List<ImageSourcePath>();
+            WriteLog.WriteToFile("FirstMulti/CaptureCameraImage:- imageSourcePath : " + imageSourcePath);
             CurrentTransactionImageSourcePath.Add(imageSourcePath);
         }
         public async Task GetSnapshotFromHikVision(CCTVSettings ccTV)

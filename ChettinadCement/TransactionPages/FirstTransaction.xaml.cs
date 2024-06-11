@@ -111,6 +111,10 @@ namespace IWT.TransactionPages
             InitializeTypeList();
             InitializeTypeComboBox();
             CloseTicketBtn.IsEnabled = this.rolePriviliege.CloseTickets.HasValue && this.rolePriviliege.CloseTickets.Value;
+            //commonFunction.RemoveDuplicateMaterials();
+            //commonFunction.RemoveDuplicateSuppliers();
+            //commonFunction.GetMaterialMasters();
+            //commonFunction.GetSupplierMasters();
         }
 
         private void GetERPFileLocation()
@@ -1149,6 +1153,7 @@ namespace IWT.TransactionPages
 
 
                     var res = _dbContext.ExecuteQuery(command);
+                    _dbContext.InsertDataToSystemTable(MainWindow.SystemId);
                     if (res)
                     {
                         bool isTemplateSelected = true;
@@ -2069,31 +2074,44 @@ namespace IWT.TransactionPages
         }
         public void CaptureCameraImage(Transaction transaction)
         {
+            WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage : CaptureCameraImage starts.");
+            WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage : TicketNo :- " + transaction.TicketNo);
             ImageSourcePath imageSourcePath = new ImageSourcePath();
             foreach (var camera in cCTVSettings)
             {
                 if (camera.Enable)
                 {
-                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}.jpeg";
+                    WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage :- camera.RecordID : " + camera.RecordID);
+                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
                         imageSource = image1.Source;
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 1:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 1:- imagePath : " + imagePath);
                         imageSourcePath.Image1Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 1:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 2)
                     {
                         imageSource = image2.Source;
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 2:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 2:- imagePath : " + imagePath);
                         imageSourcePath.Image2Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 2:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 3)
                     {
                         imageSource = image3.Source;
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 3:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 3:- imagePath : " + imagePath);
                         imageSourcePath.Image3Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage 3:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                 }
             }
             CurrentTransactionImageSourcePath = new List<ImageSourcePath>();
+            WriteLog.WriteToFile("FirstTransaction/CaptureCameraImage:- imageSourcePath : " + imageSourcePath);
             CurrentTransactionImageSourcePath.Add(imageSourcePath);
         }
         public void GetSnapshotFromHikVision(CCTVSettings ccTV)
@@ -2839,6 +2857,7 @@ namespace IWT.TransactionPages
                 cmd.Parameters.AddWithValue("@EmptyWeightDate", DBNull.Value);
             }
             var res = _dbContext.ExecuteQuery(cmd);
+            _dbContext.InsertDataToSystemTable(MainWindow.SystemId);
             if (res)
             {
                 this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(async () =>

@@ -113,6 +113,10 @@ namespace IWT.TransactionPages
             InitializeTypeComboBox();
             if (_transaction == null)
                 OpenPendingDialog();
+            //commonFunction.RemoveDuplicateMaterials();
+            //commonFunction.RemoveDuplicateSuppliers();
+            //commonFunction.GetMaterialMasters();
+            //commonFunction.GetSupplierMasters();
         }
 
         private void GetERPFileLocation()
@@ -1336,10 +1340,14 @@ namespace IWT.TransactionPages
                     CurrentTransaction.LoadWeightDate = pendingTicketsTransaction.LoadWeightDate;
                     CurrentTransaction.LoadWeightTime = pendingTicketsTransaction.LoadWeightTime;
                 }
+
+                WriteLog.WriteToFile("Load Status :- " + pendingTicketsTransaction.LoadStatus + " Empty Weight Date :- "+ pendingTicketsTransaction.EmptyWeightDate + " Empty Weight Time :- " + pendingTicketsTransaction.EmptyWeightTime + " Load Weight Date :- " + pendingTicketsTransaction.LoadWeightDate + " Load Weight Time :- " + pendingTicketsTransaction.LoadWeightTime);
+
                 pendingTicketsTransaction.State = "ST";
                 pendingTicketsTransaction.TransactionType = "Second";
                 GetValuesFromFields();
                 bool res = BuildTransactionInsertQuery(CurrentTransaction, CustomFieldsBuilder);
+                _dbContext.InsertDataToSystemTable(MainWindow.SystemId);
                 if (res)
                 {
                     bool isTemplateSelected = true;
@@ -2178,27 +2186,39 @@ namespace IWT.TransactionPages
         }
         public void CaptureCameraImage(Transaction transaction)
         {
+            WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage : CaptureCameraImage starts.");
+            WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage : TicketNo :- " + transaction.TicketNo);
             ImageSourcePath imageSourcePath = new ImageSourcePath();
             foreach (var camera in cCTVSettings)
             {
                 if (camera.Enable)
                 {
-                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}.jpeg";
+                    WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage :- camera.RecordID : " + camera.RecordID);
+                    string imagePath = $"{camera.LogFolder}\\{transaction.TicketNo}_{transaction.State}_cam{camera.RecordID.ToString()}_{DateTime.Now:ddMMyyyyhhmmss}.jpeg";
                     ImageSource imageSource = null;
                     if (camera.RecordID == 1)
                     {
                         imageSource = image1.Source;
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 1:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 1:- imagePath : " + imagePath);
                         imageSourcePath.Image4Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 1:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 2)
                     {
                         imageSource = image2.Source;
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 2:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 2:- imagePath : " + imagePath);
                         imageSourcePath.Image5Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 2:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                     else if (camera.RecordID == 3)
                     {
                         imageSource = image3.Source;
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 3:- imageSource : " + imageSource);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 3:- imagePath : " + imagePath);
                         imageSourcePath.Image6Path = commonFunction.SaveCameraImage(imageSource, imagePath);
+                        WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage 3:- imageSourcePath.Image1Path : " + imageSourcePath.Image1Path);
                     }
                 }
             }
@@ -2206,6 +2226,7 @@ namespace IWT.TransactionPages
             imageSourcePath.Image2Path = FirstTransactionImageSourcePath.Image2Path;
             imageSourcePath.Image3Path = FirstTransactionImageSourcePath.Image3Path;
             CurrentTransactionImageSourcePath = new List<ImageSourcePath>();
+            WriteLog.WriteToFile("SecondTransaction/CaptureCameraImage:- imageSourcePath : " + imageSourcePath);
             CurrentTransactionImageSourcePath.Add(imageSourcePath);
         }
         public async Task GetSnapshotFromHikVision(CCTVSettings ccTV)
@@ -2690,6 +2711,14 @@ namespace IWT.TransactionPages
             CreateLog("Gate entry data patched");
             PlcValue = "";
             string LastPlcCmd = "";
+            WriteLog.WriteAWSLog($"currentOracleData.FIRSTWT.HasValue :-  " + currentOracleData.FIRSTWT.HasValue);
+            CreateLog("currentOracleData.FIRSTWT.HasValue :- " + currentOracleData.FIRSTWT.HasValue);
+            WriteLog.WriteAWSLog($"currentOracleData.STATUS_FLG :- " + currentOracleData.STATUS_FLG);
+            CreateLog("currentOracleData.STATUS_FLG :- " + currentOracleData.STATUS_FLG);
+            WriteLog.WriteAWSLog($"currentOracleData.CFLAG :- " + currentOracleData.CFLAG);
+            CreateLog("currentOracleData.CFLAG :- " + currentOracleData.CFLAG);
+            WriteLog.WriteAWSLog($"currentOracleData.AFLAG :- " + currentOracleData.AFLAG);
+            CreateLog("currentOracleData.AFLAG :- " + currentOracleData.AFLAG);
             if (!currentOracleData.FIRSTWT.HasValue || currentOracleData.STATUS_FLG != "S" || currentOracleData.CFLAG != "F" || currentOracleData.AFLAG != "F")
             {
                 throw new Exception("Gate entry status check failed!!");
@@ -2920,6 +2949,7 @@ namespace IWT.TransactionPages
             currentTransaction.State = "ST";
 
             var res = BuildTransactionInsertQuery(currentTransaction, CustomFieldsBuilder);
+            _dbContext.InsertDataToSystemTable(MainWindow.SystemId);
             if (res)
             {
                 this.Dispatcher.Invoke(DispatcherPriority.Render, new Action(async () =>

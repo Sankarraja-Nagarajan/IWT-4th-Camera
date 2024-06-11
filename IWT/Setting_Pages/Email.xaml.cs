@@ -142,23 +142,43 @@ namespace IWT.Setting_Pages
             data.SendType = radiovalue;
             if (data.To != "" || data.Cc != "" || data.MailID != "" || data.Subject != "" || data.Message != "" || data.Password != "" || data.SendType != null)
             {
-                DataTable dt1 = db.GetEmailData("SELECT * FROM Mail_Settings Where SendType=" + "'" + data.SendType + "'");
-                if (dt1 != null && dt1.Rows.Count > 0)
+                bool c = true;
+                if (data.Cc != "")
                 {
-                    db.UpdateEmailData(data);
-                    WriteLog.WriteToFile("EmailSave_Click:- UpdateEmailData - Updated Successfully ");
-                    // RFIDno.ItemsSource = items;
-                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Email Details Updated Successsfully For " + data.SendType + " !!");
+                    List<string> temp = data.Cc.Split(',').ToList();
+                    foreach (var cc in temp)
+                    {
+                        if (!(cc.Contains("@")))
+                        {
+                            c = false;
+                            break;
+                        }
+                    }
+                }
+                if (data.To.Contains("@") && data.MailID.Contains("@") && c)
+                {
+                    DataTable dt1 = db.GetEmailData("SELECT * FROM Mail_Settings Where SendType=" + "'" + data.SendType + "'");
+                    if (dt1 != null && dt1.Rows.Count > 0)
+                    {
+                        db.UpdateEmailData(data);
+                        WriteLog.WriteToFile("EmailSave_Click:- UpdateEmailData - Updated Successfully ");
+                        // RFIDno.ItemsSource = items;
+                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Email Details Updated Successsfully For " + data.SendType + " !!");
+                    }
+                    else
+                    {
+                        db.InsertEmailData(data);
+                        WriteLog.WriteToFile("EmailSave_Click:- InsertEmailData - Inserted Successfully ");
+                        // RFIDno.ItemsSource = items;
+                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Email Details Inserted Successsfully For " + data.SendType + " !!");
+                    }
+
+                    db.DisableEmailData(data.SendType == "SMTP" ? "Send Grid" : "SMTP");
                 }
                 else
                 {
-                    db.InsertEmailData(data);
-                    WriteLog.WriteToFile("EmailSave_Click:- InsertEmailData - Inserted Successfully ");
-                    // RFIDno.ItemsSource = items;
-                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Email Details Inserted Successsfully For " + data.SendType + " !!");
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Invalid Mail !!");
                 }
-
-                db.DisableEmailData(data.SendType=="SMTP"? "Send Grid":"SMTP");
             }
             else
             {

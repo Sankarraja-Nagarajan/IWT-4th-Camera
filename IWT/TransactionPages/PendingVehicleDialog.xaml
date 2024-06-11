@@ -5,8 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:IWT.TransactionPages"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" x:Class="IWT.TransactionPages.PendingVehicleDialog"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:materialAutoComplete="http://wpfcontrols.com/"
+             xmlns:providers="clr-namespace:IWT.AWS.Providers"
              d:DesignHeight="450" Width="537">
+    <UserControl.Resources>
+        <providers:VehicleSuggestionProvider x:Key="VehicleSuggestionProvider"/>
+        <DataTemplate x:Key="VehicleTemplate">
+            <Grid>
+                <TextBlock Text="{Binding Path=VehicleNo}" FontSize="13" FontWeight="SemiBold"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
         <TabControl HorizontalAlignment="Left" Height="200" VerticalAlignment="Top" Width="537" Margin="10">
             <TabItem Header="Pending Tickets" Margin="-5 0 0 0" Height="30" Width="150" Padding="5">
@@ -66,7 +76,7 @@
             <TabItem Header="Vehicle Number" Margin="0" Height="30" Width="150" Padding="5">
                 <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 20 0 20">
-                        <Label Content="Vehicle Number" VerticalAlignment="Center"/>
+                        <!--<Label Content="Vehicle Number" VerticalAlignment="Center"/>
                         <ComboBox Name="combobox" Width="250" Margin="20 0 20 0" DisplayMemberPath="VehicleNo" SelectedValuePath="VehicleNo"
                                   Style="{StaticResource MaterialDesignOutlinedComboBox}">
                             <ComboBox.ItemsPanel>
@@ -74,9 +84,25 @@
                                     <VirtualizingStackPanel />
                                 </ItemsPanelTemplate>
                             </ComboBox.ItemsPanel>
-                        </ComboBox>
+                        </ComboBox>-->
+                        <materialAutoComplete:AutoCompleteComboBox x:Name="VehicleNo" Tag="VehicleNo" materialDesign:HintAssist.Hint="Search Vehicle"
+                                 HorizontalAlignment="Stretch"
+                                 DisplayMember="VehicleNo"
+                                 CharacterCasing="Upper"
+                                 ItemTemplate="{StaticResource ResourceKey=VehicleTemplate}"
+                                 Provider="{StaticResource ResourceKey=VehicleSuggestionProvider}"
+                                 SelectedItem="{Binding Transaction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource MaterialAutoCompleteComboBox}"
+                                    >
+                            <materialAutoComplete:AutoCompleteComboBox.LoadingContent>
+                                <TextBlock
+                                                        Margin="5"
+                                                        FontSize="14"
+                                                        Text="Loading..."/>
+                            </materialAutoComplete:AutoCompleteComboBox.LoadingContent>
+                        </materialAutoComplete:AutoCompleteComboBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 20 0 20">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 0 20">
 
                         <Button x:Name="CancelBtn1" Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961">
                             <Grid>

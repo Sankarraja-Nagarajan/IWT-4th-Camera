@@ -458,7 +458,13 @@ namespace IWT.Views
             }
             catch (Exception ex)
             {
-                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.Message);
+                var exception = "";
+                if(ex.Message != exception)
+                {
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, ex.Message);
+                    exception = ex.Message;
+                }
+                
                 WriteLog.WriteToFile("StartAwsSequence/Exception:- ", ex);
                 CreateLog($"Exception:-{ex.Message}");
                 //commonFunction.SendCommandToPLC("55");

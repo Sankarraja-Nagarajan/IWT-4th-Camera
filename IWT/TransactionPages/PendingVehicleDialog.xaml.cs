@@ -1,4 +1,5 @@
-﻿using IWT.DBCall;
+﻿using IWT.AWS.ViewModel;
+using IWT.DBCall;
 using IWT.Models;
 using IWT.Shared;
 using MaterialDesignThemes.Wpf;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -33,9 +35,39 @@ namespace IWT.TransactionPages
         public PendingVehicleDialog(string _TransactionType = "Second")
         {
             TransactionType = _TransactionType;
+            MainWindow.multiTrans = TransactionType;
+            MainWindow.isSAPBased = false;
             InitializeComponent();
             GetPendingTickets();
+            Loaded += PendingVehicleDialog_Loaded;
         }
+
+        private void PendingVehicleDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            WriteLog.WriteToFile("PendingVehicleDialog_Loaded invoked");
+            //autocomplete
+            TransactionViewModel dataContext = this.DataContext as TransactionViewModel;
+            dataContext.PropertyChanged += DataContext_PropertyChanged;
+        }
+        private void DataContext_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            try
+            {
+                WriteLog.WriteToFile("DataContext_PropertyChanged invoked");
+                TransactionViewModel dataContext = this.DataContext as TransactionViewModel;
+                if (e.PropertyName == "Transaction" && dataContext.Transaction != null)
+                {
+                    VehicleNo.Text = dataContext.Transaction.VehicleNo;
+                }
+                //VehicleNumber.Text = VehicleNumber.SelectedItem.ToString();
+
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("PendingVehicleDialog/PendingVehicleDialog_Loaded/DataContext_PropertyChanged/Exception :- " + ex.Message);
+            }
+        }
+
         public void GetPendingTickets()
         {
             AdminDBCall db = new AdminDBCall();
@@ -71,8 +103,8 @@ namespace IWT.TransactionPages
                 string JSONString = JsonConvert.SerializeObject(dt1);
                 transactions = JsonConvert.DeserializeObject<List<Transaction>>(JSONString);
                 transactions = transactions.OrderByDescending(x => x.TicketNo).ToList();
-                combobox.ItemsSource = transactions;
-                combobox.Items.Refresh();
+                //combobox.ItemsSource = transactions;
+                //combobox.Items.Refresh();
                 combobox1.ItemsSource = transactions;
                 combobox1.Items.Refresh();
 
@@ -116,9 +148,9 @@ namespace IWT.TransactionPages
         {
 
             AdminDBCall db = new AdminDBCall();
-            if (combobox.SelectedItem != null)
+            if (VehicleNo.SelectedItem != null)
             {
-                var Transac = combobox.SelectedItem as Transaction;
+                var Transac = VehicleNo.SelectedItem as Transaction;
                 //string selectedText = combobox.SelectedValue.ToString();
                 if (Transac != null && Transac.TicketNo != 0)
                 {

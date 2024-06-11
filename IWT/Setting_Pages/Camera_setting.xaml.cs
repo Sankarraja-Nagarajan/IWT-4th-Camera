@@ -29,7 +29,7 @@ namespace IWT.Setting_Pages
         string LastMessage;
         private readonly ToastViewModel toastViewModel;
         public static event EventHandler<GeneralEventHandler> onCompletion = delegate { };
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         public Camera_setting()
         {
@@ -63,6 +63,16 @@ namespace IWT.Setting_Pages
             if (result.ToString() != string.Empty)
             {
                 Log2.Text = openFileDialog2.SelectedPath;
+            }
+        }
+
+        private void btnOpenFile3_Click(object sender, RoutedEventArgs e)
+        {
+            var openFileDialog3 = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();
+            var result = openFileDialog3.ShowDialog();
+            if (result.ToString() != string.Empty)
+            {
+                Log3.Text = openFileDialog3.SelectedPath;
             }
         }
 
@@ -218,6 +228,47 @@ namespace IWT.Setting_Pages
                 CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Enter CCTV3 Fields !!");
             }
         }
+
+        private void CCTV4_Click(object sender, RoutedEventArgs e)
+        {
+            Setting_DBCall db = new Setting_DBCall();
+            Camera_Config data = new Camera_Config();
+            data.capture = Camera_Capture3.Text;
+            data.stream = Camera_Stream3.Text;
+            data.type = Camera_Type3.Text;
+            data.username = Camera_User3.Text;
+            data.password = Camera_password3.Password;
+            data.log = Log3.Text;
+            if ((bool)radio4.IsChecked)
+                data.enable = true;
+            else
+                data.enable = false;
+            data.HarwareProfile = hardwareProfile;
+            data.recordID = 4;
+            if (data.capture != "" || data.stream != "" || data.type != "" || data.username != "" || data.password != "" || data.log != "")
+            {
+                DataTable dt1 = db.GetCCTVData($"SELECT * FROM CCTV_Settings Where RecordID='{data.recordID}' and HarwareProfile='{data.HarwareProfile}'");
+                if (dt1 != null && dt1.Rows.Count > 0)
+                {
+                    db.UpdateCCTVData(data);
+                    WriteLog.WriteToFile("CCTV4_Click:- UpdateCCTVData - Updated Successfully ");
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "CCTV4 Updated Successsfully !!");
+                    // RFIDno.ItemsSource = items;
+                }
+                else
+                {
+                    db.InsertCCTVData(data);
+                    WriteLog.WriteToFile("CCTV4_Click:- InsertCCTVData - Inserted Successfully ");
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "CCTV4 Inserted Successsfully !!");
+                    // RFIDno.ItemsSource = items;
+                }
+                onCompletion.Invoke(this, new GeneralEventHandler());
+            }
+            else
+            {
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Enter CCTV4 Fields !!");
+            }
+        }
         public void ShowMessage(Action<string> message, string name)
         {
             this.Dispatcher.Invoke(() =>
@@ -295,7 +346,7 @@ namespace IWT.Setting_Pages
 
                 }
             }
-            else
+            else if(selectedtab == "3")
             {
                 if (dt1 != null && dt1.Rows.Count > 0)
                 {
@@ -326,6 +377,37 @@ namespace IWT.Setting_Pages
 
                 }
             }
-        }
+            else if (selectedtab == "4")
+            {
+                if (dt1 != null && dt1.Rows.Count > 0)
+                {
+                    foreach (DataRow row in dt1.Rows)
+                    {
+                        Camera_Stream3.Text = (row[2].ToString());
+                        Camera_Capture3.Text = (row[3].ToString());
+                        Camera_Type3.Text = (row[10].ToString());
+                        Camera_User3.Text = (row[8].ToString());
+                        Camera_password3.Password = (row[9].ToString());
+                        Log3.Text = (row[5].ToString());
+                        radiovalue = (row[1].ToString());
+                        if (radiovalue == "True")
+                        {
+                            radio4.IsChecked = true;
+                        }
+                        else
+                        {
+                            radio4.IsChecked = false;
+                        }
+                    }
+                    WriteLog.WriteToFile("InitializeComponent:- InitializeComponentData - Inserted Successfully ");
+                    // RFIDno.ItemsSource = items;
+                }
+                else if (dt1 == null || dt1.Rows.Count == 0 && Camera_Stream3.Text == "")
+                {
+                    CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowWarning, "No Data For CCTV4 !!");
+
+                }
+            }
+        } 
     }
 }

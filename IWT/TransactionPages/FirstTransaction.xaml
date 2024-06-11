@@ -250,13 +250,16 @@
         </ScrollViewer>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <Border Height="200" Width="250" Background="Azure" Margin="0 0 10 0">
-                <Image x:Name="image1" Stretch="UniformToFill"></Image>
+                <Image x:Name="image1" Stretch="UniformToFill" ></Image>
             </Border>
             <Border Height="200" Width="250" Background="Azure" Margin="0 0 10 0">
                 <Image x:Name="image2" Stretch="UniformToFill"></Image>
             </Border>
             <Border Height="200" Width="250" Background="Azure">
                 <Image x:Name="image3" Stretch="UniformToFill"></Image>
+            </Border>
+            <Border Height="200" Width="250" Background="Azure" Visibility="Collapsed">
+                <Image x:Name="image4" Stretch="UniformToFill"></Image>
             </Border>
         </StackPanel>
         <StackPanel Background="White" Grid.Row="4" Orientation="Horizontal">

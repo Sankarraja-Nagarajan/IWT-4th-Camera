@@ -32,7 +32,7 @@ namespace IWT.FactorySetupPages
         private readonly ToastViewModel toastViewModel;
         string LastMessage;
         private OtherSettings _otherSettings = new OtherSettings();
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         public OtherSettingsDialog()
         {

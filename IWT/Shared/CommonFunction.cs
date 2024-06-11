@@ -27,6 +27,7 @@ namespace IWT.Shared
     public class CommonFunction
     {
         public static MasterDBCall masterDBCall = new MasterDBCall();
+        public static Transaction_DBCall transactiondBCall = new Transaction_DBCall();
         public static AdminDBCall adminDB = new AdminDBCall();
         public async Task CheckAndSendEmail(Transaction CurrentTransaction, string Message, byte[] bytearray, string FileName, string autoEmail = null)
         {
@@ -1790,7 +1791,7 @@ namespace IWT.Shared
                 WebRequest request = WebRequest.Create(url);
                 request.Method = "POST";
                 var JSONString = JsonConvert.SerializeObject(CurrentTransactionDataTable);
-                List<dynamic> Transactionlist = JsonConvert.DeserializeObject<List<dynamic>>(JSONString);
+                //List<dynamic> Transactionlist = JsonConvert.DeserializeObject<List<dynamic>>(JSONString);
 
                 string postData = JSONString;
                 byte[] byteArray = Encoding.UTF8.GetBytes(postData);
@@ -1802,11 +1803,15 @@ namespace IWT.Shared
                 {
                     dataStream.Write(byteArray, 0, byteArray.Length);
                 }
-
+                
 
                 WebResponse response = request.GetResponse();
                 Console.WriteLine(((HttpWebResponse)response).StatusDescription);
                 //if(((HttpWebResponse)response).StatusCode==HttpStatusCode.OK)
+                if (((HttpWebResponse)response).StatusDescription == "OK")
+                {
+                    transactiondBCall.UpdateCloudTransaction(TicketNumber);
+                }
                 using (Stream dataStream = response.GetResponseStream())
                 {
                     StreamReader reader = new StreamReader(dataStream);
@@ -1822,7 +1827,6 @@ namespace IWT.Shared
             }
             return true;
         }
-
         #region Failed SMS,Mail
         public void CaptureFailedMail(FailedMailSMS failedMail)
         {
@@ -2287,6 +2291,38 @@ namespace IWT.Shared
 
         }
 
+        public SystemConfigurations GetSystemConfigurationByHardwareProfile(string hardwareProfile)
+        {
+            try
+            {
+                DataTable table = adminDB.GetAllData($"select * from [Sytem_Configuration] where [Name]='{hardwareProfile}'");
+                var JsonString = JsonConvert.SerializeObject(table);
+                var systemConfigurations = JsonConvert.DeserializeObject<List<SystemConfigurations>>(JsonString);
+                return systemConfigurations.FirstOrDefault();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
+        public string GetSystemConfigurationNameByHardwareProfile(string hardwareProfile)
+        {
+            try
+            {
+                DataTable table = adminDB.GetAllData($"select * from [Sytem_Configuration] where [HardwareProfile]='{hardwareProfile}'");
+                var JsonString = JsonConvert.SerializeObject(table);
+                var systemConfigurations = JsonConvert.DeserializeObject<List<SystemConfigurations>>(JsonString);
+                return systemConfigurations.FirstOrDefault().Name;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+
+        }
+
         public SystemConfigurations GetSystemConfigurationBySystemIdAndHardwareProfile(string systemId, string hardwareProfile)
         {
             try
@@ -2374,5 +2410,63 @@ namespace IWT.Shared
                 WriteLog.WriteToFile("CommonFunction/UpdateRFIDAllocationStatus", ex);
             }
         }
+
+        #region Remove_Duplicate_Master_And_Supplier
+        public void RemoveDuplicateMaterials()
+        {
+            try
+            {
+                DataTable table = adminDB.GetAllData($"select *  from [Material_Master]");
+                var JsonString = JsonConvert.SerializeObject(table);
+                var materials = JsonConvert.DeserializeObject<List<MaterialMaster>>(JsonString);
+
+                for (int i = 0; i < materials.Count; i++)
+                {
+                    for (int j = i + 1; j < materials.Count; j++)
+                    {
+                        if (materials[i].MaterialName == materials[j].MaterialName)
+                        {
+                            string removeQuery = $"delete from [Material_Master] where MaterialID={materials[j].MaterialID}";
+                            adminDB.ExecuteQuery(removeQuery);
+                        }
+                    }
+                }
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateMaterials :- Removed Successfully ");
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateMaterials/Exception :- " + ex.Message, ex);
+                throw ex;
+            }
+        }
+
+        public void RemoveDuplicateSuppliers()
+        {
+            try
+            {
+                DataTable table = adminDB.GetAllData($"select *  from [Supplier_Master]");
+                var JsonString = JsonConvert.SerializeObject(table);
+                var suppliers = JsonConvert.DeserializeObject<List<SupplierMaster>>(JsonString);
+
+                for (int i = 0; i < suppliers.Count; i++)
+                {
+                    for (int j = i + 1; j < suppliers.Count; j++)
+                    {
+                        if (suppliers[i].SupplierName == suppliers[j].SupplierName)
+                        {
+                            string removeQuery = $"delete from [Supplier_Master] where SupplierID={suppliers[j].SupplierID}";
+                            adminDB.ExecuteQuery(removeQuery);
+                        }
+                    }
+                }
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateSuppliers :- Removed Successfully ");
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("CommnFunction/RemoveDuplicateSuppliers/Exception :- " + ex.Message, ex);
+                throw ex;
+            }
+        }
+        #endregion
     }
 }

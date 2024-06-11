@@ -113,7 +113,7 @@ namespace IWT.DBCall
             try
             {
                 DataTable dt = new DataTable();
-                SqlConnection con = new SqlConnection(ConnectionString);
+                SqlConnection con = new SqlConnection(GetDecryptedConnectionStringDB());
                 SqlCommand cmd = new SqlCommand(SQL);
                 cmd.Connection = con;
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -848,6 +848,94 @@ namespace IWT.DBCall
             }
         }
         #endregion
+
+        string[] tableNames = new string[]
+        {
+            "[ALPR_Settings]",
+            "[Basic_Configuration]",
+            "[Other_Settings]",
+            "[Serial_COM_Setting]",
+            "[Sytem_Configuration]",
+            "[User_Management]",
+            "[Weighbridge_Settings]"
+        };
+        public void UpdateHardwareProfileInAllTAbles(string oldName, string newName)
+        {
+            try
+            {
+                SqlConnection con1 = new SqlConnection(ConnectionString);
+                con1.Open();
+                foreach (var table in tableNames)
+                {
+                    string UpdateAllTableHPQuery = $" UPDATE {table} SET HardwareProfile = '{newName}' where HardwareProfile='{oldName}'";
+                    new SqlCommand(UpdateAllTableHPQuery, con1).ExecuteNonQuery();
+                }
+                string UpdateCCTVSettingsQuery = $" UPDATE [CCTV_Settings] SET HarwareProfile = '{newName}' where HarwareProfile='{oldName}'";
+                string UpdateFileLocationSettingQuery = $" UPDATE [FileLocation_Setting] SET HarwareProfile = '{newName}' where HarwareProfile='{oldName}'";
+                new SqlCommand(UpdateCCTVSettingsQuery, con1).ExecuteNonQuery();
+                new SqlCommand(UpdateFileLocationSettingQuery, con1).ExecuteNonQuery();
+                con1.Close();
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("AdminDBCall/UpdateHardwareProfileInAllTAbles/Exception :- " + ex.Message);
+            }
+        }
+
+        public void UpdateSystemConfig(string HardwareProfile, int id)
+        {
+            try
+            {
+                SqlConnection con = new SqlConnection(ConnectionString);
+                con.Open();
+                string getHardwareProfileById = $"select HardwareProfileName from [User_HardwareProfiles] where ID='{id}'";
+                SqlCommand cmd = new SqlCommand(getHardwareProfileById, con);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        string oldName = reader["HardwareProfileName"].ToString();
+                        UpdateHardwareProfileInAllTAbles(oldName, HardwareProfile);
+                    }
+                }
+
+                string UpdateSystemConfigQuery = $" UPDATE [Sytem_Configuration] SET HardwareProfile = '{HardwareProfile}',Name='{HardwareProfile}' where Id='{id}'";
+                new SqlCommand(UpdateSystemConfigQuery, con).ExecuteNonQuery();
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("AdminDBCall/UpdateSystemConfig/Exception :- " + ex.Message);
+            }
+        }
+
+        public void InsertSystemConfig(string HardwareProfile)
+        {
+            try
+            {
+                DataTable dt1 = GetAllData($"SELECT * FROM [Sytem_Configuration] where HardwareProfile='{HardwareProfile}'");
+                if (dt1 != null && dt1.Rows.Count > 0)
+                {
+
+                }
+                else
+                {
+                    SqlConnection con = new SqlConnection(ConnectionString);
+                    string insertSystemConfigQuery = "INSERT INTO [Sytem_Configuration] (Name,HardwareProfile) VALUES(@Name,@HardwareProfile)";
+                    SqlCommand cmd = new SqlCommand(insertSystemConfigQuery, con);
+                    cmd.Parameters.Add("@Name", SqlDbType.NVarChar).Value = HardwareProfile;
+                    cmd.Parameters.Add("@HardwareProfile", SqlDbType.NVarChar).Value = HardwareProfile;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+                    con.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("AdminDBCall/InsertSystemConfig/Exception :- " + ex.Message);
+            }
+        }
     }
     public class transaction_details
     {

@@ -32,7 +32,7 @@ namespace IWT.FactorySetupPages
         private readonly ToastViewModel toastViewModel;
         string LastMessage;
         private WeighbridgeSettings _wbSettings = new WeighbridgeSettings();
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         public WeighBridgeDialog()
         {

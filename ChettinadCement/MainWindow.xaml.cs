@@ -1813,6 +1813,10 @@ namespace IWT
                             }
                             GetRoleData(authResult, GotoScreen);
                             GetShiftMasters();
+                            commonFunction.RemoveDuplicateMaterials();
+                            commonFunction.RemoveDuplicateSuppliers();
+                            commonFunction.GetMaterialMasters();
+                            commonFunction.GetSupplierMasters();
                         }
                     }
                     else
@@ -1922,7 +1926,7 @@ namespace IWT
             {
                 if (string.IsNullOrEmpty(SystemId))
                 {
-                    await OpenFactorySetupDialogs("system");
+                    await OpenFactorySetupDialogs("database");
                 }
             }
             catch (Exception ex)
@@ -1960,6 +1964,10 @@ namespace IWT
             else if (dialog == "system")
             {
                 view = new SystemConfigureDialog();
+            }
+            else if (dialog == "database")
+            {
+                view = new DataBaseDetailsDialog();
             }
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             if (result != null && (string)result != "completed")

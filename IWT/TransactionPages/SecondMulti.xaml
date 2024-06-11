@@ -304,6 +304,9 @@
             <Border Height="200" Width="250" Background="Azure">
                 <Image x:Name="image3" Stretch="UniformToFill"></Image>
             </Border>
+            <Border Height="200" Width="250" Background="Azure" Visibility="Collapsed">
+                <Image x:Name="image4" Stretch="UniformToFill"></Image>
+            </Border>
         </StackPanel>
         <StackPanel Background="White" Grid.Row="6" Orientation="Horizontal">
             <Button x:Name="WeighButton" Margin="0 10 10 10" BorderBrush="#FF343138" Background="#FF5C5961" IsDefault="True" IsEnabled="False" Click="Weigh_Button_Click">

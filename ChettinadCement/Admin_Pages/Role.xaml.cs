@@ -391,7 +391,7 @@ namespace IWT.Admin_Pages
             var view = new ConfirmationDialog($"Delete the role");
 
             //    //show the dialog
-            var result = await DialogHost.Show(view, "ReportDialog", ClosingEventHandler);
+            var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             return (bool)result;
         }
         private void ClosingEventHandler(object sender, DialogClosingEventArgs eventArgs)

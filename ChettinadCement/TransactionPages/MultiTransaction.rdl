@@ -766,7 +766,7 @@ FROM
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>43.77469mm</Height>
+                  <Height>52.4896mm</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -1035,14 +1035,14 @@ FROM
                                 <PaddingBottom>2pt</PaddingBottom>
                               </Style>
                             </Textbox>
-                            <Textbox Name="Textbox139">
+                            <Textbox Name="Textbox137">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>Date</Value>
+                                      <Value>Empty Weight</Value>
                                       <Style>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
@@ -1053,8 +1053,8 @@ FROM
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox121</rd:DefaultName>
-                              <Top>2.92694cm</Top>
-                              <Left>0.56244cm</Left>
+                              <Top>2.97968cm</Top>
+                              <Left>0.56733cm</Left>
                               <Height>0.45183cm</Height>
                               <Width>2.9445cm</Width>
                               <ZIndex>8</ZIndex>
@@ -1068,14 +1068,14 @@ FROM
                                 <PaddingBottom>2pt</PaddingBottom>
                               </Style>
                             </Textbox>
-                            <Textbox Name="Textbox146">
+                            <Textbox Name="Textbox144">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Date.Value</Value>
+                                      <Value>=Fields!EmptyWeight.Value</Value>
                                       <Style>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Normal</FontWeight>
@@ -1086,11 +1086,76 @@ FROM
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox121</rd:DefaultName>
-                              <Top>2.92694cm</Top>
-                              <Left>3.81073cm</Left>
+                              <Top>2.97968cm</Top>
+                              <Left>3.77408cm</Left>
                               <Height>0.45183cm</Height>
                               <Width>2.9445cm</Width>
                               <ZIndex>9</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox138">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>Load Weight</Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                        <FontWeight>Bold</FontWeight>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox121</rd:DefaultName>
+                              <Top>3.77343cm</Top>
+                              <Left>0.56244cm</Left>
+                              <Height>0.45183cm</Height>
+                              <Width>2.9445cm</Width>
+                              <ZIndex>10</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="Textbox139">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!LoadWeight.Value</Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>Textbox121</rd:DefaultName>
+                              <Top>3.77343cm</Top>
+                              <Left>3.77408cm</Left>
+                              <Height>0.45183cm</Height>
+                              <Width>2.9445cm</Width>
+                              <ZIndex>11</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1108,7 +1173,7 @@ FROM
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>Time</Value>
+                                      <Value>Net Weight</Value>
                                       <Style>
                                         <FontSize>8pt</FontSize>
                                         <FontWeight>Bold</FontWeight>
@@ -1119,11 +1184,11 @@ FROM
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox121</rd:DefaultName>
-                              <Top>3.71689cm</Top>
-                              <Left>0.56244cm</Left>
+                              <Top>4.62107cm</Top>
+                              <Left>0.56733cm</Left>
                               <Height>0.45183cm</Height>
                               <Width>2.9445cm</Width>
-                              <ZIndex>10</ZIndex>
+                              <ZIndex>12</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1134,17 +1199,16 @@ FROM
                                 <PaddingBottom>2pt</PaddingBottom>
                               </Style>
                             </Textbox>
-                            <Textbox Name="Textbox147">
+                            <Textbox Name="Textbox141">
                               <CanGrow>true</CanGrow>
                               <KeepTogether>true</KeepTogether>
                               <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
-                                      <Value>=Fields!Time.Value</Value>
+                                      <Value>=Fields!NetWeight.Value</Value>
                                       <Style>
                                         <FontSize>8pt</FontSize>
-                                        <FontWeight>Normal</FontWeight>
                                       </Style>
                                     </TextRun>
                                   </TextRuns>
@@ -1152,11 +1216,11 @@ FROM
                                 </Paragraph>
                               </Paragraphs>
                               <rd:DefaultName>Textbox121</rd:DefaultName>
-                              <Top>3.71689cm</Top>
-                              <Left>3.81073cm</Left>
+                              <Top>4.62107cm</Top>
+                              <Left>3.77408cm</Left>
                               <Height>0.45183cm</Height>
                               <Width>2.9445cm</Width>
-                              <ZIndex>11</ZIndex>
+                              <ZIndex>13</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1194,9 +1258,9 @@ FROM
               </TablixMembers>
             </TablixRowHierarchy>
             <DataSetName>DataSet1</DataSetName>
-            <Top>30.43565mm</Top>
+            <Top>27.26065mm</Top>
             <Left>4.36033mm</Left>
-            <Height>43.77469mm</Height>
+            <Height>52.4896mm</Height>
             <Width>73.17663mm</Width>
             <ZIndex>4</ZIndex>
             <Style>
@@ -1210,7 +1274,7 @@ FROM
             <Value>=First(Fields!Image1Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>7.85591cm</Top>
+            <Top>8.80841cm</Top>
             <Left>0.4577cm</Left>
             <Height>3.61667cm</Height>
             <Width>3.913cm</Width>
@@ -1227,7 +1291,7 @@ FROM
             <Value>=First(Fields!Image2Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>7.85591cm</Top>
+            <Top>8.80841cm</Top>
             <Left>5.24137cm</Left>
             <Height>3.61667cm</Height>
             <Width>4.06117cm</Width>
@@ -1244,7 +1308,7 @@ FROM
             <Value>=First(Fields!Image3Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>7.85591cm</Top>
+            <Top>8.80841cm</Top>
             <Left>10.40604cm</Left>
             <Height>3.61667cm</Height>
             <Width>3.80096cm</Width>
@@ -1261,7 +1325,7 @@ FROM
             <Value>=First(Fields!Image4Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>11.89874cm</Top>
+            <Top>13.16874cm</Top>
             <Left>0.43603cm</Left>
             <Height>3.61667cm</Height>
             <Width>3.913cm</Width>
@@ -1278,7 +1342,7 @@ FROM
             <Value>=First(Fields!Image5Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>11.89874cm</Top>
+            <Top>13.16874cm</Top>
             <Left>5.2197cm</Left>
             <Height>3.61667cm</Height>
             <Width>4.06117cm</Width>
@@ -1295,7 +1359,7 @@ FROM
             <Value>=First(Fields!Image6Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>Fit</Sizing>
-            <Top>11.89874cm</Top>
+            <Top>13.16874cm</Top>
             <Left>10.40604cm</Left>
             <Height>3.61667cm</Height>
             <Width>3.80096cm</Width>
@@ -1308,7 +1372,7 @@ FROM
             </Style>
           </Image>
         </ReportItems>
-        <Height>155.1541mm</Height>
+        <Height>184.52286mm</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -1321,7 +1385,7 @@ FROM
           </BackgroundImage>
         </Style>
       </Body>
-      <Width>154.3495mm</Width>
+      <Width>154.08492mm</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>

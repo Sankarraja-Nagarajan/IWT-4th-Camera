@@ -25,6 +25,8 @@ using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Reflection;
 using System.Text;
@@ -39,6 +41,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using TcpClientService;
+using PdfSharp.Drawing;
+using Microsoft.ReportingServices.Interfaces;
 
 namespace IWT
 {
@@ -70,8 +74,11 @@ namespace IWT
         DispatcherTimer MailSMSRetryTimer;
         public static string SystemId;
         Setting_DBCall db = new Setting_DBCall();
+        public static Transaction_DBCall transaction_DBCall = new Transaction_DBCall();
         public string HardwareProfile { get; set; }
-        public bool VPSEnable { get; set; } = false;
+        public bool VPSEnable { get; set; }
+        public static bool isSAPBased { get; set; }
+        public static string multiTrans { get; set; }
 
 
         public static event EventHandler<SelectTicketEventArgs> onSecondTransactionTicketSelection = delegate { };
@@ -83,7 +90,8 @@ namespace IWT
         {
             InitializeComponent();
             SystemId = ConfigurationManager.AppSettings["SystemId"];
-            this.HardwareProfile = "Admin";
+            //this.HardwareProfile = "Admin";
+            this.HardwareProfile = GetHardwareProfileDetails();
             _dbContext = new AdminDBCall();
             toastViewModel = new ToastViewModel();
             var version = Assembly.GetExecutingAssembly().GetName().Version;
@@ -93,6 +101,19 @@ namespace IWT
             DataContext = new MainWindowViewModel();
             _dataContext = DataContext as MainWindowViewModel;
             CurrentTransaction = "Single";
+        }
+
+        public string GetHardwareProfileDetails()
+        {
+            systemConfig = commonFunction.GetSystemConfiguration(SystemId);
+            if (systemConfig == null)
+            {
+                systemConfig = new SystemConfigurations()
+                {
+                    HardwareProfile = "Admin"
+                };
+            }
+            return systemConfig.HardwareProfile;
         }
 
         private void InitializeSystem()
@@ -127,7 +148,10 @@ namespace IWT
                 InitializeWeighCommunication();
             if (userHardwareProfile != null && userHardwareProfile.CameraAccess)
             {
+                GetCCTVSettings();
                 IntializeCamera();
+                //StartImageFetchTimer();
+                //StartCamera2Timer();
             }
             InitializeRfid();
             if (userHardwareProfile != null && userHardwareProfile.PLC)
@@ -221,7 +245,13 @@ namespace IWT
                 _mjpeg3.StopStream();
                 _mjpeg3 = null;
             }
-
+            if (_mjpeg4 != null)
+            {
+                _mjpeg4.FrameReady -= _mjpeg4_FrameReady;
+                _mjpeg4.Error -= _mjpeg4_Error;
+                _mjpeg4.StopStream();
+                _mjpeg4 = null;
+            }
             IntializeCamera();
         }
 
@@ -451,6 +481,12 @@ namespace IWT
                     _mjpeg3.FrameReady -= _mjpeg3_FrameReady;
                     _mjpeg3.Error -= _mjpeg3_Error;
                     _mjpeg3.StopStream();
+                }
+                if (_mjpeg4 != null)
+                {
+                    _mjpeg4.FrameReady -= _mjpeg4_FrameReady;
+                    _mjpeg4.Error -= _mjpeg4_Error;
+                    _mjpeg4.StopStream();
                 }
 
             }
@@ -741,6 +777,7 @@ namespace IWT
             }
         }
         public static double CurrentTicketNumber { get; set; }
+        public static int currentTransactionTicketNumber { get; set; }
         public void GetNextTicketNumber()
         {
             try
@@ -757,7 +794,8 @@ namespace IWT
                         Dispatcher.Invoke(DispatcherPriority.Background, new Action(() =>
                         {
                             TicketLabel.Content = CurrentTicketNo + 1;
-                            CurrentTicketNumber = CurrentTicketNo;
+                            currentTransactionTicketNumber =(int) CurrentTicketNo + 1;
+                            CurrentTicketNumber = CurrentTicketNo + 1;
                         }));
                     }
                 }
@@ -1150,20 +1188,28 @@ namespace IWT
         public static event EventHandler<CameraEventArgs> onImage1Recieved = delegate { };
         public static event EventHandler<CameraEventArgs> onImage2Recieved = delegate { };
         public static event EventHandler<CameraEventArgs> onImage3Recieved = delegate { };
+        public static event EventHandler<CameraEventArgs> onImage4Recieved = delegate { };
+
+        public static event EventHandler<CameraEventArgs> cam2Img = delegate { };
+        public static event EventHandler<CameraEventArgs> cam4Img = delegate { };
+
         DispatcherTimer CameraTimer;
         DispatcherTimer CameraRetryTimer;
         List<CCTVSettings> cCTVSettings = new List<CCTVSettings>();
         private MjpegDecoder _mjpeg1;
         private MjpegDecoder _mjpeg2;
         private MjpegDecoder _mjpeg3;
-        private List<bool> _cameraStatus = new List<bool> { true, true, true };
-        private List<DateTime> _frameTime = new List<DateTime> { DateTime.Now, DateTime.Now, DateTime.Now };
-        private List<CancellationTokenSource> cts = new List<CancellationTokenSource> { new CancellationTokenSource(), new CancellationTokenSource(), new CancellationTokenSource() };
+        private MjpegDecoder _mjpeg4;
+        private List<bool> _cameraStatus = new List<bool> { true, true, true, true };
+        private List<DateTime> _frameTime = new List<DateTime> { DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now };
+        private List<CancellationTokenSource> cts = new List<CancellationTokenSource> { new CancellationTokenSource(), new CancellationTokenSource(), new CancellationTokenSource(), new CancellationTokenSource() };
+        private DispatcherTimer _timer;
+        private List<Page> _openPages;
 
         public void IntializeCamera()
         {
-            _cameraStatus = new List<bool> { true, true, true };
-            _frameTime = new List<DateTime> { DateTime.Now, DateTime.Now, DateTime.Now };
+            _cameraStatus = new List<bool> { true, true, true, true };
+            _frameTime = new List<DateTime> { DateTime.Now, DateTime.Now, DateTime.Now, DateTime.Now };
             //WriteLog.WriteToFile("MainWindow/IntializeCamera called");
             CameraTimer = new DispatcherTimer
             {
@@ -1179,18 +1225,53 @@ namespace IWT
             _mjpeg1 = new MjpegDecoder();
             _mjpeg2 = new MjpegDecoder();
             _mjpeg3 = new MjpegDecoder();
+            _mjpeg4 = new MjpegDecoder();
             _mjpeg1.FrameReady += _mjpeg1_FrameReady;
             _mjpeg2.FrameReady += _mjpeg2_FrameReady;
             _mjpeg3.FrameReady += _mjpeg3_FrameReady;
+            _mjpeg4.FrameReady += _mjpeg4_FrameReady;
             _mjpeg1.Error += _mjpeg1_Error;
             _mjpeg2.Error += _mjpeg2_Error;
             _mjpeg3.Error += _mjpeg3_Error;
+            _mjpeg4.Error += _mjpeg4_Error;
             GetCCTVSettings();
+        }
+
+        private void _mjpeg4_Error(object sender, MjpegProcessor.ErrorEventArgs e)
+        {
+            _cameraStatus[3] = false;
+            int width = 128;
+            int height = width;
+            int stride = width / 8;
+            byte[] pixels = new byte[height * stride];
+            List<System.Windows.Media.Color> colors = new List<System.Windows.Media.Color>();
+            colors.Add(System.Windows.Media.Colors.Azure);
+            BitmapPalette myPalette = new BitmapPalette(colors);
+            BitmapSource img = BitmapSource.Create(
+                                     width, height,
+                                     96, 96,
+                                     PixelFormats.Indexed1,
+                                     myPalette,
+                                     pixels,
+                                     stride);
+            onImage4Recieved.Invoke(sender, new CameraEventArgs(img));
+            CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Camera 4 is offline!!");
+            _mjpeg4.StopStream(); throw new NotImplementedException();
+        }
+
+        private void _mjpeg4_FrameReady(object sender, FrameReadyEventArgs e)
+        {
+            var imgBytes = e.FrameBuffer;
+            MemoryStream memstream = new MemoryStream(imgBytes);
+            System.Drawing.Bitmap img = (System.Drawing.Bitmap)System.Drawing.Bitmap.FromStream(memstream);
+            onImage4Recieved.Invoke(sender, new CameraEventArgs(Bitmap2BitmapImage(img)));
+            _cameraStatus[3] = true;
+            _frameTime[3] = DateTime.Now;
         }
 
         private void CameraRetryTimer_Tick(object sender, EventArgs e)
         {
-            //RetryCameraStream();
+            RetryCameraStream();
         }
 
         private void _mjpeg3_Error(object sender, MjpegProcessor.ErrorEventArgs e)
@@ -1265,9 +1346,18 @@ namespace IWT
             {
                 if (cCTVSettings[i].CameraType == "Hikvision Camera" && cCTVSettings[i].Enable)
                 {
+                    if (cCTVSettings[i].RecordID == 4)
+                    {
+                        await FetchAndUpdate4thCam();
+                    }
+                    if (cCTVSettings[i].RecordID == 2)
+                    {
+                        await FetchAndUpdate2ndCam();
+                    }
                     await CaptureSnap(cCTVSettings[i], cts[i].Token);
                     cts[i].CancelAfter(5000);
                 }
+
             }
         }
 
@@ -1338,7 +1428,7 @@ namespace IWT
                     Uri myUri = new Uri(url);
                     var ip = Dns.GetHostAddresses(myUri.Host)[0];
                     Ping pingSender = new Ping();
-                    var reply = await pingSender.SendPingAsync(ip, 100);
+                    var reply = await pingSender.SendPingAsync(ip, 2000);
 
                     if (reply.Status == IPStatus.Success)
                     {
@@ -1396,6 +1486,11 @@ namespace IWT
                         _mjpeg3.ParseStream(new Uri(settings.IPAddress), settings.CameraUserName, settings.CameraPassword);
                         WriteLog.WriteToFile($"MainWindow/StartCameraStreaming/Cam{settings.RecordID}:-stream started");
                     }
+                    else if (settings.RecordID == 4 && settings.Enable)
+                    {
+                        _mjpeg4.ParseStream(new Uri(settings.IPAddress), settings.CameraUserName, settings.CameraPassword);
+                        WriteLog.WriteToFile($"MainWindow/StartCameraStreaming/Cam{settings.RecordID}:-stream started");
+                    }
 
                 }
             }
@@ -1436,6 +1531,10 @@ namespace IWT
                     {
                         onImage3Recieved.Invoke("MainWindow", new CameraEventArgs(Bitmap2BitmapImage(img)));
                     }
+                    else if (ccTV.RecordID == 4)
+                    {
+                        onImage4Recieved.Invoke("MainWindow", new CameraEventArgs(Bitmap2BitmapImage(img)));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -1448,8 +1547,10 @@ namespace IWT
                     cts[0] = new CancellationTokenSource();
                 else if (ccTV.RecordID == 2)
                     cts[1] = new CancellationTokenSource();
-                else
+                else if(ccTV.RecordID == 3)
                     cts[2] = new CancellationTokenSource();
+                else
+                    cts[3] = new CancellationTokenSource();
                 SetEmptyImage(ccTV);
             }
             catch (Exception ex)
@@ -1487,6 +1588,10 @@ namespace IWT
             {
                 onImage3Recieved.Invoke("MainWindow", new CameraEventArgs(img));
             }
+            else if (ccTV.RecordID == 4)
+            {
+                onImage4Recieved.Invoke("MainWindow", new CameraEventArgs(img));
+            }
         }
 
         public async void RetryCameraStream()
@@ -1504,21 +1609,54 @@ namespace IWT
                 {
                     CameraTimer.Start();
                 }
+
+                //if (cCTVSettings[i].RecordID == 4)
+                //{
+                //    await FetchAndUpdate4thCam();
+                //}
+                //if (cCTVSettings[i].RecordID == 2)
+                //{
+                //    await FetchAndUpdate2ndCam();
+                //}
             }
             if (!_cameraStatus[0] && cCTVSettings[0].Enable && await PingIP(cCTVSettings[0].IPAddress) == IPStatus.Success)
             {
                 _mjpeg1.ParseStream(new Uri(cCTVSettings[0].IPAddress), cCTVSettings[0].CameraUserName, cCTVSettings[0].CameraPassword);
                 WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[0].RecordID}:-stream started");
             }
+            else
+            {
+                WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[0].RecordID}:-stream not started");
+            }
+
             if (!_cameraStatus[1] && cCTVSettings[1].Enable && await PingIP(cCTVSettings[1].IPAddress) == IPStatus.Success)
             {
                 _mjpeg2.ParseStream(new Uri(cCTVSettings[1].IPAddress), cCTVSettings[1].CameraUserName, cCTVSettings[1].CameraPassword);
                 WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[1].RecordID}:-stream started");
             }
+            else
+            {
+                WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[1].RecordID}:-stream not started");
+            }
+
             if (!_cameraStatus[2] && cCTVSettings[2].Enable && await PingIP(cCTVSettings[2].IPAddress) == IPStatus.Success)
             {
                 _mjpeg3.ParseStream(new Uri(cCTVSettings[2].IPAddress), cCTVSettings[2].CameraUserName, cCTVSettings[2].CameraPassword);
                 WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[2].RecordID}:-stream started");
+            }
+            else
+            {
+                //WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[2].RecordID}:-stream not started");
+            }
+
+            if (!_cameraStatus[3] && cCTVSettings[3].Enable && await PingIP(cCTVSettings[3].IPAddress) == IPStatus.Success)
+            {
+                _mjpeg4.ParseStream(new Uri(cCTVSettings[3].IPAddress), cCTVSettings[3].CameraUserName, cCTVSettings[3].CameraPassword);
+                WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[3].RecordID}:-stream started");
+            }
+            else
+            {
+                //WriteLog.WriteToFile($"MainWindow/RetryCameraStream/Cam{cCTVSettings[3].RecordID}:-stream not started");
             }
         }
 
@@ -1562,6 +1700,204 @@ namespace IWT
             Ping pingSender = new Ping();
             var reply = await pingSender.SendPingAsync(ip);
             return reply.Status;
+        }
+
+        //private void StartImageFetchTimer()
+        //{
+        //    CCTVSettings cam4 = cCTVSettings.FirstOrDefault(x => x.RecordID == 4);
+        //    WriteLog.WriteToFile("Mainwindow/4th Camera Enable :- " + cam4.Enable);
+        //    if (cam4.Enable && cam4.CameraType == "Hikvision Camera")
+        //    {
+        //        WriteLog.WriteToFile("4th Camera StartImageFetchTimer");
+        //        _timer = new DispatcherTimer();
+        //        _timer.Interval = TimeSpan.FromSeconds(2);
+        //        _timer.Tick += async (sender, e) => await FetchAndUpdate4thCam();
+        //        _timer.Start();
+        //    }
+        //    else
+        //    {
+        //        BitmapImage i = new BitmapImage();
+        //        Update2ndImageSource(i);
+        //        Update4thImageSource(i);
+        //    }
+        //}
+
+        //private void StartCamera2Timer()
+        //{
+        //    CCTVSettings cam2 = cCTVSettings.FirstOrDefault(x=> x.RecordID == 2);
+        //    WriteLog.WriteToFile("Mainwindow/2nd Camera Enable :- " + cam2.Enable);
+        //    if (cam2.Enable && cam2.CameraType == "Hikvision Camera")
+        //    {
+        //        WriteLog.WriteToFile("2nd Camera StartImageFetchTimer");
+        //        _timer = new DispatcherTimer();
+        //        _timer.Interval = TimeSpan.FromSeconds(2);
+        //        _timer.Tick += async (sender, e) => await FetchAndUpdate2ndCam();
+        //        _timer.Start();
+        //    }
+        //    else
+        //    {
+        //        BitmapImage i = new BitmapImage();
+        //        Update2ndImageSource(i);
+        //        Update4thImageSource(i);
+        //    }
+        //}
+
+        private async Task FetchAndUpdate4thCam()
+        {
+            //BitmapImage i = new BitmapImage();
+            //Update4thImageSource(i);
+            try
+            {
+                CCTVSettings cam4 = cCTVSettings.FirstOrDefault(x => x.RecordID == 4);
+                WriteLog.WriteToFile("Mainwindow/FetchAndUpdate4thCam 4th Camera Enable :- " + cam4.Enable);
+                if (cam4.CameraType == "Hikvision Camera" && cam4.Enable)
+                {
+                    WriteLog.WriteToFile("4th Camera FetchAndUpdate4thCam starts");
+                    var camStatus = await PingIP(cam4.CaptureURL);
+                    if (camStatus == IPStatus.Success)
+                    {
+                        WriteLog.WriteToFile("Mainwindow/FetchAndUpdate4thCam/Ping Camera Status IF :- " + camStatus);
+                        HttpWebRequest req = (HttpWebRequest)WebRequest.Create(cam4.CaptureURL);
+                        req.Credentials = new NetworkCredential(cam4.CameraUserName, cam4.CameraPassword);
+                        WebResponse resp = await req.GetResponseAsync();
+                        WriteLog.WriteToFile("Cam4 Response :- " + JsonConvert.SerializeObject(resp));
+                        Stream stream = resp.GetResponseStream();
+
+                        BitmapImage bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.StreamSource = stream;
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.EndInit();
+
+                        cam4Img.Invoke("Mainwindow", new CameraEventArgs(bitmapImage));
+                        //Update4thImageSource(bitmapImage);
+
+                        //using (WebResponse resp = await req.GetResponseAsync())
+                        //using (Stream stream = resp.GetResponseStream())
+                        //{
+                        //    BitmapImage bitmapImage = new BitmapImage();
+                        //    bitmapImage.BeginInit();
+                        //    bitmapImage.StreamSource = stream;
+                        //    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        //    bitmapImage.EndInit();
+                        //    stream.Close();
+
+                        //    cam4Img?.Invoke(this, new CameraEventArgs(bitmapImage));
+                        //}
+                    }
+                    else
+                    {
+                        WriteLog.WriteToFile("Mainwindow/FetchAndUpdate4thCam/Ping Camera Status Else :- " + camStatus);
+                    }
+                }
+                else
+                {
+                    BitmapImage i = new BitmapImage();
+                    Update2ndImageSource(i);
+                    Update4thImageSource(i);
+                }
+            }
+            catch(Exception ex)
+            {
+                WriteLog.WriteToFile("Mainwindow/FetchAndUpdate4thCam/Exception :- " + ex.Message);
+            }
+        }
+
+        private async Task FetchAndUpdate2ndCam()
+        {
+            //BitmapImage i = new BitmapImage();
+            //Update4thImageSource(i);
+            try
+            {
+                CCTVSettings cam2 = cCTVSettings.FirstOrDefault(x => x.RecordID == 2);
+                WriteLog.WriteToFile("Mainwindow/FetchAndUpdate2ndCam 2nd Camera Enable :- " + cam2.Enable);
+                if (cam2.CameraType == "Hikvision Camera" && cam2.Enable)
+                {
+                    WriteLog.WriteToFile("2nd Camera FetchAndUpdate2ndCam starts");
+                    var camStatus = await PingIP(cam2.CaptureURL);
+                    if (camStatus == IPStatus.Success)
+                    {
+                        WriteLog.WriteToFile("Mainwindow/FetchAndUpdate2ndCam/Ping Camera Status IF :- " + camStatus);
+                        HttpWebRequest req = (HttpWebRequest)WebRequest.Create(cam2.CaptureURL);
+                        req.Credentials = new NetworkCredential(cam2.CameraUserName, cam2.CameraPassword);
+                        WebResponse resp = await req.GetResponseAsync();
+                        WriteLog.WriteToFile("Cam2 Response :- " + JsonConvert.SerializeObject(resp));
+                        Stream stream = resp.GetResponseStream();
+
+                        BitmapImage bitmapImage = new BitmapImage();
+                        bitmapImage.BeginInit();
+                        bitmapImage.StreamSource = stream;
+                        bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmapImage.EndInit();
+
+                        cam2Img.Invoke("Mainwindow", new CameraEventArgs(bitmapImage));
+                        //Update2ndImageSource(bitmapImage);
+                        //using (WebResponse resp = await req.GetResponseAsync())
+                        //using (Stream stream = resp.GetResponseStream())
+                        //{
+                        //    BitmapImage bitmapImage = new BitmapImage();
+                        //    bitmapImage.BeginInit();
+                        //    bitmapImage.StreamSource = stream;
+                        //    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                        //    bitmapImage.EndInit();
+                        //    stream.Close();
+
+                        //    cam4Img?.Invoke(this, new CameraEventArgs(bitmapImage));
+                        //}
+                    }
+                    else
+                    {
+                        WriteLog.WriteToFile("Mainwindow/FetchAndUpdate2ndCam/Ping Camera Status Else :- " + camStatus);
+                    }
+                }
+                else
+                {
+                    BitmapImage i = new BitmapImage();
+                    Update2ndImageSource(i);
+                    Update4thImageSource(i);
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("Mainwindow/FetchAndUpdate2ndCam/Exception :- " + ex.Message);
+            }
+        }
+
+        private void Update4thImageSource(BitmapImage bitmapImage)
+        {
+            //bitmapImage = (BitmapImage)ConvertPathToImageSource();
+            FirstTransaction.Camera4Source = bitmapImage;
+            SecondTransaction.Camera4Source = bitmapImage;
+            SingleTransaction.Camera4Source = bitmapImage;
+            FirstMulti.Camera4Source = bitmapImage;
+            SecondMulti.Camera4Source = bitmapImage;
+        }
+        private void Update2ndImageSource(BitmapImage bitmapImage)
+        {
+            //bitmapImage = (BitmapImage)ConvertPathToImageSource();
+            FirstTransaction.Camera2Source = bitmapImage;
+            SecondTransaction.Camera2Source = bitmapImage;
+        }
+
+        public ImageSource ConvertPathToImageSource()
+        {
+            string filePath = @"C:\Users\Administrator\Pictures\mufasa-simba.jpg";
+            try
+            {
+                BitmapImage image = new BitmapImage();
+                image.BeginInit();
+                image.UriSource = new Uri(filePath, UriKind.Absolute);
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.EndInit();
+                image.Freeze();
+
+                return image;
+            }
+            catch (Exception ex)
+            {
+                WriteLog.WriteToFile("Error loading image: " + ex.Message);
+                return null;
+            }
         }
         #endregion
 
@@ -1781,13 +2117,22 @@ namespace IWT
                     authResult = await auth.authenticateUser(userName, passWord);
                     if (authResult.Status)
                     {
+                        CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, authResult.Message);
+                        Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                        configuration.AppSettings.Settings["SystemId"].Value = commonFunction.GetSystemConfigurationNameByHardwareProfile(authResult.HardwareProfileName).ToString();
+                        configuration.Save(ConfigurationSaveMode.Modified, true);
+                        ConfigurationManager.RefreshSection("appSettings");
+
                         TouchKeyboardEnableCheck();
                         List<RolePriviliege> rolePrivilieges = GetRolesAndPreviledgesByRole(authResult.Role);
                         List<UserHardwareProfile> userHardwareProfiles = GetUserHardwareProfileByProfile(authResult.HardwareProfileName);
+                        _dbContext.InsertSystemConfig(authResult.HardwareProfileName);
                         if (rolePrivilieges != null && rolePrivilieges.Count > 0)
                         {
                             rolePriviliege = rolePrivilieges[0];
                             userHardwareProfile = (userHardwareProfiles != null && userHardwareProfiles.Count > 0) ? userHardwareProfiles[0] : null;
+                            HardwareProfile = userHardwareProfile.HardwareProfileName;
+                            systemConfig = commonFunction.GetSystemConfigurationByHardwareProfile(HardwareProfile);
                             WriteLog.WriteToFile("LoginWindow:- Logged in successfully!!");
                             username.Text = "";
                             password.Password = "";
@@ -1813,6 +2158,11 @@ namespace IWT
                             }
                             GetRoleData(authResult, GotoScreen);
                             GetShiftMasters();
+                            //commonFunction.RemoveDuplicateMaterials();
+                            //commonFunction.RemoveDuplicateSuppliers();
+                            //commonFunction.GetMaterialMasters();
+                            //commonFunction.GetSupplierMasters();
+                            //transaction_DBCall.ReSendCloudSync();
                         }
                     }
                     else
@@ -1922,7 +2272,7 @@ namespace IWT
             {
                 if (string.IsNullOrEmpty(SystemId))
                 {
-                    await OpenFactorySetupDialogs("system");
+                    await OpenFactorySetupDialogs("database");
                 }
             }
             catch (Exception ex)
@@ -1960,6 +2310,10 @@ namespace IWT
             else if (dialog == "system")
             {
                 view = new SystemConfigureDialog();
+            }
+            else if (dialog == "database")
+            {
+                view = new DataBaseDetailsDialog();
             }
             var result = await DialogHost.Show(view, "RootDialog", ClosingEventHandler);
             if (result != null && (string)result != "completed")
@@ -2234,6 +2588,8 @@ namespace IWT
         #region PLC
         public static TcpClient plcClient;
         public static event EventHandler<PlcEventArgs> onPlcReceived = delegate { };
+        public static bool isPlcConnected { get; set; }
+
         public void InitializePlc()
         {
             try
@@ -2256,15 +2612,18 @@ namespace IWT
                 WriteLog.WriteToFile("MainWindow/InitializePlc/Exception:- " + ex.Message, ex);
             }
         }
-
         private void PlcClient_OnConnected(object sender, TcpClient.TcpEventArgs e)
         {
+            //SingleTransaction.isplc = true;
+            isPlcConnected = true;
             this.Dispatcher.Invoke(() => PLCIndicator.Background = (Brush)_bc.ConvertFrom("#FF83F528"), DispatcherPriority.Render);
             //WriteLog.WriteAWSLog($"PLC Connected!!!");
         }
 
         private void PlcClient_OnDisconnected(object sender, TcpClient.TcpEventArgs e)
         {
+            //SingleTransaction.isplc = false;
+            isPlcConnected = false;
             this.Dispatcher.Invoke(() => PLCIndicator.Background = (Brush)_bc.ConvertFrom("#FFE1E4DF"), DispatcherPriority.Render);
             //WriteLog.WriteAWSLog($"PLC Disconnected!!!");
         }

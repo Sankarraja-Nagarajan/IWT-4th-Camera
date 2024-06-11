@@ -35,7 +35,7 @@ namespace IWT.Setting_Pages
         CloudAppConfig selectedCloudAppConfig = new CloudAppConfig();
         AdminDBCall adminDBCall = new AdminDBCall();
         MasterDBCall masterDBCall = new MasterDBCall();
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         public Other_setting()
         {

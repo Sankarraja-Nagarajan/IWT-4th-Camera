@@ -289,6 +289,8 @@ FROM
           ,ImageSourcePath.Image5Path
           ,ImageSourcePath.Image6Path
           ,ImageSourcePath.WaterMarkImagePath
+          ,ImageSourcePath.Img4Path
+          ,ImageSourcePath.Img4Path2
           FROM
           ImageSourcePath
         </CommandText>
@@ -339,6 +341,14 @@ FROM
         <Field Name="WaterMarkImagePath">
           <DataField>WaterMarkImagePath</DataField>
           <rd:TypeName>System.Byte[]</rd:TypeName>
+        </Field>
+        <Field Name="Img4Path">
+          <DataField>Img4Path</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
+        </Field>
+        <Field Name="Img4Path2">
+          <DataField>Img4Path2</DataField>
+          <rd:UserDefined>true</rd:UserDefined>
         </Field>
       </Fields>
     </DataSet>
@@ -1129,7 +1139,7 @@ FROM
             <Value>=First(Fields!Image1Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>85.2844mm</Top>
+            <Top>88.4594mm</Top>
             <Left>10.90812mm</Left>
             <Height>29.29467mm</Height>
             <Width>44.45mm</Width>
@@ -1145,7 +1155,7 @@ FROM
             <Value>=First(Fields!Image2Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>85.2844mm</Top>
+            <Top>88.4594mm</Top>
             <Left>57.12201mm</Left>
             <Height>29.29467mm</Height>
             <Width>44.45mm</Width>
@@ -1161,7 +1171,7 @@ FROM
             <Value>=First(Fields!Image3Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>85.2844mm</Top>
+            <Top>88.4594mm</Top>
             <Left>102.98312mm</Left>
             <Height>29.29467mm</Height>
             <Width>44.45mm</Width>
@@ -1177,7 +1187,7 @@ FROM
             <Value>=First(Fields!Image4Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>117.50006mm</Top>
+            <Top>120.67506mm</Top>
             <Left>10.63981mm</Left>
             <Height>29.29467mm</Height>
             <Width>44.45mm</Width>
@@ -1193,7 +1203,7 @@ FROM
             <Value>=First(Fields!Image6Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>117.14728mm</Top>
+            <Top>120.32228mm</Top>
             <Left>102.98312mm</Left>
             <Height>29.29467mm</Height>
             <Width>44.45mm</Width>
@@ -1209,7 +1219,7 @@ FROM
             <Value>=First(Fields!Image5Path.Value, "DataSet3")</Value>
             <MIMEType>image/jpeg</MIMEType>
             <Sizing>FitProportional</Sizing>
-            <Top>117.14728mm</Top>
+            <Top>120.32228mm</Top>
             <Left>56.8537mm</Left>
             <Height>29.29467mm</Height>
             <Width>44.45mm</Width>
@@ -1294,8 +1304,40 @@ FROM
               <PaddingBottom>2pt</PaddingBottom>
             </Style>
           </Textbox>
+          <Image Name="Image7">
+            <Source>Database</Source>
+            <Value>=First(Fields!Img4Path.Value, "DataSet3")</Value>
+            <MIMEType>image/jpeg</MIMEType>
+            <Sizing>FitProportional</Sizing>
+            <Top>154.00003mm</Top>
+            <Left>11.7475mm</Left>
+            <Height>29.29467mm</Height>
+            <Width>44.45mm</Width>
+            <ZIndex>9</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+          <Image Name="Image8">
+            <Source>Database</Source>
+            <Value>=First(Fields!Img4Path2.Value, "DataSet3")</Value>
+            <MIMEType>image/jpeg</MIMEType>
+            <Sizing>FitProportional</Sizing>
+            <Top>154.00003mm</Top>
+            <Left>57.96139mm</Left>
+            <Height>29.29467mm</Height>
+            <Width>44.45mm</Width>
+            <ZIndex>10</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
         </ReportItems>
-        <Height>156.31156mm</Height>
+        <Height>202.3447mm</Height>
         <Style>
           <Border>
             <Style>None</Style>

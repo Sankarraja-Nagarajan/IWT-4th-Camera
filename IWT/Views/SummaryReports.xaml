@@ -106,7 +106,7 @@
                                         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="10" Height="80">
                                             <Image Source="/Assets/Icons/calendar_80.png" HorizontalAlignment="Right" VerticalAlignment="Center" />
                                             <TextBlock x:Name="ToDateTextBlock" VerticalAlignment="Center">To Date</TextBlock>
-                                            <DatePicker x:Name="ToDatePicker" materialDesign:HintAssist.Hint="From Date" Style="{DynamicResource MaterialDesignOutlinedDatePicker}"
+                                            <DatePicker x:Name="ToDatePicker" materialDesign:HintAssist.Hint="To Date" Style="{DynamicResource MaterialDesignOutlinedDatePicker}"
                                       HorizontalAlignment="Left" VerticalAlignment="Center" Width="200" Foreground="Gray" Visibility="Collapsed" Margin="-15 0 0 0"/>
                                         </StackPanel>
                                     </Border>

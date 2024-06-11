@@ -34,7 +34,8 @@ namespace IWT.FactorySetupPages
         private CCTVSettings _cctvSettings1 = new CCTVSettings();
         private CCTVSettings _cctvSettings2 = new CCTVSettings();
         private CCTVSettings _cctvSettings3 = new CCTVSettings();
-        public MainWindow mainWindow = (MainWindow)Application.Current.MainWindow;
+        private CCTVSettings _cctvSettings4 = new CCTVSettings();
+        public MainWindow mainWindow = new MainWindow();
         string hardwareProfile;
         public CCTVSettingsDialog()
         {
@@ -61,6 +62,7 @@ namespace IWT.FactorySetupPages
                     var cctv1 = result.FirstOrDefault(t => t.RecordID == 1);
                     var cctv2 = result.FirstOrDefault(t => t.RecordID == 2);
                     var cctv3 = result.FirstOrDefault(t => t.RecordID == 3);
+                    var cctv4 = result.FirstOrDefault(t => t.RecordID == 4);
                     if (cctv1 != null)
                     {
                         _cctvSettings1 = cctv1;
@@ -75,6 +77,11 @@ namespace IWT.FactorySetupPages
                     {
                         _cctvSettings3 = cctv3;
                         SetCCTVConfig3();
+                    }
+                    if (cctv4 != null)
+                    {
+                        _cctvSettings4 = cctv4;
+                        SetCCTVConfig4();
                     }
                 }
                 else
@@ -117,6 +124,16 @@ namespace IWT.FactorySetupPages
             cameraPassword3.Password = _cctvSettings1.CameraPassword;
             logFilePath3.Text = _cctvSettings1.LogFolder;
             cameraEnable3.IsChecked = _cctvSettings1.Enable;
+        }
+        public void SetCCTVConfig4()
+        {
+            captureUrl4.Text = _cctvSettings4.CaptureURL;
+            cameraType4.Text = _cctvSettings4.CameraType;
+            streamUrl4.Text = _cctvSettings4.IPAddress;
+            cameraUsername4.Text = _cctvSettings4.CameraUserName;
+            cameraPassword4.Password = _cctvSettings4.CameraPassword;
+            logFilePath4.Text = _cctvSettings4.LogFolder;
+            cameraEnable4.IsChecked = _cctvSettings4.Enable;
         }
         private void Previous_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -211,6 +228,27 @@ namespace IWT.FactorySetupPages
             }
         }
 
+        private void SaveButton4_Click(object sender, RoutedEventArgs e)
+        {
+            _cctvSettings4.RecordID = 4;
+            _cctvSettings4.CaptureURL = captureUrl4.Text;
+            _cctvSettings4.CameraType = cameraType4.Text;
+            _cctvSettings4.IPAddress = streamUrl4.Text;
+            _cctvSettings4.CameraUserName = cameraUsername4.Text;
+            _cctvSettings4.CameraPassword = cameraPassword4.Password;
+            _cctvSettings4.LogFolder = logFilePath4.Text;
+            _cctvSettings4.Enable = (bool)cameraEnable4.IsChecked;
+            var res = dbCall.ExecuteQuery(GetSaveQuery(_cctvSettings4));
+            if (res)
+            {
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "CCTV4 configuration saved successfully !!");
+            }
+            else
+            {
+                CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowError, "Something went wrong !!");
+            }
+        }
+
         private void ChooseFolder1_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             logFilePath1.Text = GetFolderLocation();
@@ -223,6 +261,11 @@ namespace IWT.FactorySetupPages
         {
             logFilePath3.Text = GetFolderLocation();
         }
+        private void ChooseFolder4_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            logFilePath4.Text = GetFolderLocation();
+        }
+
         public string GetFolderLocation()
         {
             var browseFolder = new Ookii.Dialogs.Wpf.VistaFolderBrowserDialog();

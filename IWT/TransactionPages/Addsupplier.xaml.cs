@@ -66,7 +66,7 @@ namespace IWT.TransactionPages
             supplierMaster.SupplierName = materialName;
             if (materialCode != "" && materialName != "")
             {
-                var previousValue = AllSuppliers.FirstOrDefault(t => t.SupplierCode == supplierMaster.SupplierCode || t.SupplierName == supplierMaster.SupplierName);
+                var previousValue = AllSuppliers.FirstOrDefault(t => t.SupplierCode == supplierMaster.SupplierCode || t.SupplierName.ToLower() == supplierMaster.SupplierName.ToLower());
                 if (previousValue == null)
                 {
                     bool res = _dbContext.ExecuteQuery($"INSERT INTO [Supplier_Master] (SupplierCode,SupplierName,IsDeleted) VALUES ('{materialCode}','{materialName}','False')");

@@ -64,7 +64,7 @@ namespace IWT.FactorySetupPages
                     ConfigurationManager.RefreshSection("appSettings");
 
                     CustomNotificationWPF.ShowMessage(CustomNotificationWPF.ShowSuccess, "Database details added successfully!!");
-                    DialogHost.CloseDialogCommand.Execute(null, null);
+                    DialogHost.CloseDialogCommand.Execute("system", null);
                 }
             }
             catch (Exception ex)

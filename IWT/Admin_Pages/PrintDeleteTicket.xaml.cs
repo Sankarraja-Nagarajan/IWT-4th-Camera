@@ -426,15 +426,38 @@ namespace IWT.Admin_Pages
             AdminDBCall db = new AdminDBCall();
             DataTable dt = db.GetAllData("select * from [Transaction] where TicketNo = " + SelectedTransaction.TicketNo);
             DataTable dt1 = new DataTable();
+            DataTable top = new DataTable();
+            DataTable LoadStatus = new DataTable();
+            int EmptyWeight = 0;
+            int LoadWeight = 0;
             if (SelectedTransaction.TransactionType == "SecondMulti")
             {
                 dt1 = db.GetAllData("select * from [Transaction_Details] where TicketNo = " + SelectedTransaction.TicketNo);
+                top = db.GetAllData("select top(1) * from [Transaction_Details] where TicketNo = " + SelectedTransaction.TicketNo);
+                LoadStatus = db.GetAllData("select * from [Transaction] where TicketNo = " + SelectedTransaction.TicketNo);
+                var x = LoadStatus.Rows[0]["LoadStatus"];
+                if ((string)x == "Loaded")
+                {
+                    EmptyWeight = (int)top.Rows[0]["TDEmptyWeight"];
+                    LoadWeight = (int)dt.Rows[0]["LoadWeight"];
+                    dt.Rows[0]["EmptyWeight"] = EmptyWeight;
+                }
+                if ((string)x == "Empty")
+                {
+                    LoadWeight = (int)top.Rows[0]["TDLoadWeight"];
+                    EmptyWeight = (int)dt.Rows[0]["EmptyWeight"];
+                    dt.Rows[0]["LoadWeight"] = LoadWeight;
+                }
+                int NetWeight = LoadWeight - EmptyWeight;
+                dt.Rows[0]["NetWeight"] = NetWeight;
             }
             GetCapturedImages();
 
 
             var Path = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images", "Duplicate.gif");
+            WriteLog.WriteToFile("Path:- " + Path.ToString());
             var bytes1 = File.Exists(Path) ? File.ReadAllBytes(Path) : null;
+            WriteLog.WriteToFile("bytes:- " + bytes1);
 
             if (CurrentTransactionImageSourcePath.Count > 0)
             {
@@ -498,7 +521,7 @@ namespace IWT.Admin_Pages
                         if (fi != null)
                         {
                             var bytes = File.ReadAllBytes(fi.FullName);
-                            if (i == 1)
+                            if (ccTV.RecordID == 1)
                             {
                                 if (j == 1)
                                 {
@@ -510,7 +533,7 @@ namespace IWT.Admin_Pages
                                     imageSourcePath.Image1Path = bytes;
                                 }
                             }
-                            if (i == 2)
+                            if (ccTV.RecordID == 2)
                             {
                                 if (j == 1)
                                 {
@@ -522,7 +545,7 @@ namespace IWT.Admin_Pages
                                     imageSourcePath.Image2Path = bytes;
                                 }
                             }
-                            if (i == 3)
+                            if (ccTV.RecordID == 3)
                             {
                                 if (j == 1)
                                 {
@@ -532,6 +555,18 @@ namespace IWT.Admin_Pages
                                 {
                                     imageSourcePath.Image6Path = imageSourcePath.Image3Path;
                                     imageSourcePath.Image3Path = bytes;
+                                }
+                            }
+                            if (ccTV.RecordID == 4)
+                            {
+                                if (j == 1)
+                                {
+                                    imageSourcePath.Img4Path = bytes;
+                                }
+                                if (j == 2)
+                                {
+                                    imageSourcePath.Img4Path2 = imageSourcePath.Img4Path;
+                                    imageSourcePath.Img4Path = bytes;
                                 }
                             }
                             //if (i == 4)

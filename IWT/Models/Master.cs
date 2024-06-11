@@ -350,4 +350,12 @@ namespace IWT.Models
         public int EmptyWeight { get; set; }
     }
 
+    public enum MatchKind
+    {
+        StartsWith,
+        Contains,
+        EndsWith,
+        Exact,
+    }
+
 }

@@ -72,7 +72,7 @@ namespace IWT.TransactionPages
             materialMaster.MaterialName = materialName;
             if (materialCode != "" && materialName != "")
             {
-                var previousValue = AllMaterials.FirstOrDefault(t => t.MaterialCode == materialMaster.MaterialCode || t.MaterialName == materialMaster.MaterialName);
+                var previousValue = AllMaterials.FirstOrDefault(t => t.MaterialCode == materialMaster.MaterialCode || t.MaterialName.ToLower() == materialMaster.MaterialName.ToLower());
                 if (previousValue == null)
                 {
                     bool res = _dbContext.ExecuteQuery($"INSERT INTO [Material_Master] (MaterialCode,MaterialName,IsDeleted) VALUES ('{materialCode}','{materialName}','False')");

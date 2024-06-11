@@ -14,6 +14,10 @@ using static IWT.TransactionPages.Addsupplier;
 using static IWT.TransactionPages.FirstVehicle;
 
 using static IWT.Saved_Template.CreateTemplate;
+using Microsoft.ReportingServices.Diagnostics.Internal;
+using System.Transactions;
+using PdfSharp.Pdf.Content.Objects;
+using System.Data.Entity.Infrastructure;
 
 namespace IWT.DBCall
 {
@@ -113,7 +117,7 @@ namespace IWT.DBCall
             try
             {
                 DataTable dt = new DataTable();
-                SqlConnection con = new SqlConnection(ConnectionString);
+                SqlConnection con = new SqlConnection(GetDecryptedConnectionStringDB());
                 SqlCommand cmd = new SqlCommand(SQL);
                 cmd.Connection = con;
                 using (SqlDataAdapter da = new SqlDataAdapter(cmd))
@@ -286,6 +290,131 @@ namespace IWT.DBCall
             {
                 WriteLog.WriteToFile("ExecuteQuery : " + ex.Message);
                 return false;
+            }
+        }
+
+        //Insert Transaction SystemID into System table
+        public void InsertDataToSystemTable(string SystemID)
+        {
+            try
+            {
+                int res = CheckTableExist();
+                if(res == 0)
+                {
+                    using (SqlConnection connection1 = new SqlConnection(ConnectionString))
+                    {
+                        connection1.Open();
+                        using (SqlCommand command1 = new SqlCommand(
+                        "CREATE TABLE [System] (Id INT PRIMARY KEY IDENTITY(1,1), SystemID nvarchar(max))", connection1))
+                        {
+                            command1.ExecuteNonQuery();
+                        }
+                        connection1.Close();
+                    }
+                }
+                int existingId = GetExistingNameId(SystemID);
+                if (existingId > 0)
+                {
+                    UpdateDataInTransaction(existingId.ToString(), SystemID);                   
+                }
+                else
+                {
+                    int generatedId = 0;
+                    SqlConnection con = new SqlConnection(ConnectionString);
+                    con.Open();
+                    string InsertIntoSystemTable = $"INSERT INTO [System] (SystemID) VALUES ('{SystemID}')";
+                    new SqlCommand(InsertIntoSystemTable, con).ExecuteNonQuery();
+                    con.Close();
+
+                    con.Open();
+                    string GetIdBySystemID = $"SELECT Id FROM [System] WHERE [System].[SystemID] = @SystemID";
+                    using (SqlConnection connection = new SqlConnection(ConnectionString))
+                    {
+                        SqlCommand command = new SqlCommand(GetIdBySystemID, connection);
+                        command.Parameters.AddWithValue("@SystemID", SystemID);
+
+                        try
+                        {
+                            connection.Open();
+                            SqlDataReader reader = command.ExecuteReader();
+
+                            if (reader.HasRows)
+                            {
+                                reader.Read();
+                                generatedId = Convert.ToInt32(reader["Id"]);
+                            }
+
+                            reader.Close();
+                            connection.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            WriteLog.WriteToFile(ex.Message);
+                        }
+                        UpdateDataInTransaction(generatedId.ToString(), SystemID);
+                        
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Update SystemID In Transaction by System ID
+        public void UpdateDataInTransaction(string Id, string SystemID)
+        {
+            SqlConnection con = new SqlConnection(ConnectionString);
+            con.Open();
+            string InsertIntoTransactionQuery = $" UPDATE [Transaction] SET SystemID = ('{Id}') WHERE [Transaction].[SystemID] = '{SystemID}'";
+            new SqlCommand(InsertIntoTransactionQuery, con).ExecuteNonQuery();
+            con.Close();
+        }
+
+        //Existing
+        public int CheckTableExist()
+        {
+            string tableName = "System";
+            string query = $"IF OBJECT_ID('{tableName}', 'U') IS NOT NULL SELECT 1 ELSE SELECT 0";
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    int result = (int)command.ExecuteScalar();
+                    return result;
+                }
+            }
+        }
+
+
+        private int GetExistingNameId(string SystemID)
+        {
+            int id = 0;
+            string query = $"SELECT Id FROM [System] WHERE SystemID = @SystemID";
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@SystemID", SystemID);
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+
+                    if (reader.HasRows)
+                    {
+                        reader.Read();
+                        id = Convert.ToInt32(reader["Id"]);
+                    }
+                    reader.Close();
+                    connection.Close();
+                }
+                catch (Exception ex)
+                {
+                     WriteLog.WriteToFile(ex.Message);
+                }
+                return id;
             }
         }
 
@@ -821,7 +950,7 @@ namespace IWT.DBCall
                 WriteLog.WriteToFile("DeleteUserManageData : " + ex.Message);
             }
         }
-        public void DeletetticketData(List<Transaction> transactions)
+        public void DeletetticketData(List<Models.Transaction> transactions)
         {
             try
             {
